@@ -1,1 +1,42 @@
-
+<!DOCTYPE html>
+<html>
+    <title>Random Math Question Generator</title>
+    <head>
+        <meta charset="UTF-8">
+        <script src="script.js"></script>
+        <style>
+            body{
+                word-wrap: break-word;
+                font-family: tahoma;
+            }
+            #main-div{
+                margin: auto;
+                text-align: center;
+                border: 3px solid #000;
+                background-color: #32A5E4;
+                width: 50%;
+                border-radius: 15px;
+            }
+            input,select{
+                font-family: tahoma;
+                display: block;
+                margin: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="main-div">
+            <h1>Random Math Question Generator</h1>
+            <select id="gen-type">
+                <option value="" disabled selected>Please select an option</option>
+                <option value="addition">Addition (+)</option>
+                <option value="subtrt">Subtraction (-)</option>
+                <option value="mult">Multiplication (*)</option>
+                <option value="divid">Divison (/)</option>
+                <option value="sqrt">Square Root (&Sqrt;)</option>
+            </select>
+            <p id="questionArea"></p>
+            <input type="number" placeholder="Enter your answer here">
+        </div>
+    </body>
+</html>
