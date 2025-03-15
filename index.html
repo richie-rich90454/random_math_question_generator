@@ -32,19 +32,15 @@
                 border-radius: .44rem;
                 font-size: 1.1rem;
                 box-sizing: border-box;
-                border: 1px dotted #DE0000;
+                border: 1px solid #DE0000;
             }
             #genQ{
                 border-radius: .44rem;
                 font-size: 1.1rem;
                 box-sizing: border-box;
-                border: 1px dotted #DE0000;
+                border: 1px solid #DE0000;
                 padding: 5px 10px;
                 margin-top: 10px;
-                cursor: pointer;
-            }
-            #genQ:hover{
-                transform: scale(1.1);
             }
             sub{
                 font-size: 0.8rem;
@@ -62,6 +58,21 @@
                 box-sizing: border-box;
                 font-family: "Noto Sans SC";
                 resize: none;
+            }
+            #check-answer{
+                margin-bottom: 1rem;
+                padding: 1rem;
+                border-radius: .776rem;
+                border: 2px solid #DE0000;
+            }
+            input[type="button"]:hover{
+                transform: scale(1.1);
+                cursor: pointer;
+            }
+            #answer-results{
+                font-size: 1.1rem;
+                color: #DE0000;
+                min-height: 10rem;
             }
             @media (max-width: 768px){
                 #main-div{
@@ -106,8 +117,10 @@
                 <option value="comb">Combination (C)</option>
             </select>
             <input type="button" id="genQ" value="generate question">
-            <p id="questionArea"></p>
-            <textarea id="answer-box" cols="60" rows="20" placeholder="Enter your answer here"></textarea>
+            <p id="question-area"></p>
+            <textarea id="answer-box" cols="30" rows="10" placeholder="Enter your answer here"></textarea>
+            <input type="button" id="check-answer" value="Check my answer">
+            <div id="answer-results"></div>
         </div>
         <script src="script.js"></script>
     </body>
