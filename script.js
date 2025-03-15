@@ -29,6 +29,67 @@ document.addEventListener('DOMContentLoaded', ()=>{
 function generateQuestion(){
     let question=questionType.value;
     switch(question){
-        
+        case "add":
+            generateAddition();
+            break;
+        case "subtrt":
+            generateSubtraction();
+            break;
+        case "mult":
+            generateMultiplication();
+            break;
+        case "divid":
+            generateDivision();
+            break;
+        case "root":
+            generateRoot();
+            break;
+        case "deri":
+            generateDerivative();
+            break;
+        case "inte":
+            generateIntegral();
+            break;
+        case "mtrx":
+            generateMatrix();
+            break;
+        case "vctr":
+            generateVector();
+            break;
+        case "sin":
+            generateSin();
+            break;
+        case "cos":
+            generateCosine();
+            break;
+        case "tan":
+            generateTangent();
+            break;
+        case "cosec":
+            generateCosecant();
+            break;
+        case "sec":
+            generateSecant();
+            break;
+        case "cot":
+            generateCotangent();
+            break;
+        case "log":
+            generateLogarithm();
+            break;
+        case "exp":
+            generateExponent();
+            break;
+        case "fact":
+            generateFactorial();
+            break;
+        case "perm":
+            generatePermutation();
+            break;
+        case "comb":
+            generateCombination();
+            break;
+        default:
+            questionArea.innerHTML=`Please select a type of question to generate before hitting the "Generate Question" button`
     }
 }
