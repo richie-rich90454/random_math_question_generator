@@ -32,6 +32,19 @@
                 border-radius: .44rem;
                 font-size: 1.1rem;
                 box-sizing: border-box;
+                border: 1px dotted #DE0000;
+            }
+            #genQ{
+                border-radius: .44rem;
+                font-size: 1.1rem;
+                box-sizing: border-box;
+                border: 1px dotted #DE0000;
+                padding: 5px 10px;
+                margin-top: 10px;
+                cursor: pointer;
+            }
+            #genQ:hover{
+                transform: scale(1.2);
             }
         </style>
     </head>
@@ -45,6 +58,7 @@
                 <option value="mult">Multiplication (*)</option>
                 <option value="divid">Divison (/)</option>
                 <option value="sqrt">Square Root (&Sqrt;)</option>
+                <!-- <option value="deri">Derivative (&)</option> -->
             </select>
             <input type="button" id="genQ" value="generate question">
             <p id="questionArea"></p>
