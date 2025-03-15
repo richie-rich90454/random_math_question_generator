@@ -9,7 +9,7 @@
         <style>
             body{
                 word-wrap: break-word;
-                font-family: "Noto Sans SC", sans-serif;;
+                font-family: "Noto Sans SC";
             }
             #main-div{
                 margin: auto;
@@ -24,7 +24,7 @@
                 flex-direction: column;
             }
             input,select{
-                font-family: "Noto Sans SC", sans-serif;
+                font-family: "Noto Sans SC";
                 display: block;
                 margin: auto;
             }
@@ -55,6 +55,13 @@
                 font-size: 0.8rem;
                 vertical-align: super;
                 color: #DE0000;
+            }
+            textarea{
+                margin-bottom: 1rem;
+                border-radius: .44rem;
+                box-sizing: border-box;
+                font-family: "Noto Sans SC";
+                resize: none;
             }
             @media (max-width: 768px){
                 #main-div{
@@ -100,7 +107,7 @@
             </select>
             <input type="button" id="genQ" value="generate question">
             <p id="questionArea"></p>
-            <input type="number" placeholder="Enter your answer here">
+            <textarea id="answer-box" cols="60" rows="20" placeholder="Enter your answer here"></textarea>
         </div>
         <script src="script.js"></script>
     </body>
