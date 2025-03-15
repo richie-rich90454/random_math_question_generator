@@ -3,6 +3,10 @@ let authorsArray=[];
 let questionArea=document.getElementById("question-area");
 let questionType=document.getElementById("gen-type")
 let generateQuestionButton=document.getElementById("genQ");
+let userAnswer=document.getElementById("answer-box");
+let answerResults=document.getElementById("answer-results");
+
+let correctAnswer=0;
 function generateQuestion(){
     let question=questionType.value;
     switch(question){
@@ -70,6 +74,20 @@ function generateQuestion(){
             questionArea.innerHTML=`Please select a type of question to generate before hitting the "Generate Question" button`
     }
 }
+function generateAddition() {
+    let num1=parseFloat(((Math.random()*1500)-1000).toFixed(3));
+    let num2=parseFloat(((Math.random()*1500)-1000).toFixed(3));
+    questionArea.innerHTML=`${num1}+${num2}=`;
+    correctAnswer=num1+num2;
+}
+function checkAnswer(correctAnswer){
+    if (parseFloat(userAnswer.value.trim())==correctAnswer){
+        answerResults.innerHTML=`Correct! The answer is indeed ${correctAnswer}!`;
+    }
+    else{
+        answerResults.innerHTML=`Incorrect, please rethink your process!`;
+    }
+}
 document.addEventListener('DOMContentLoaded', ()=>{
     fetch("/quotes_of_the_day.txt")
         .then(response=>{
@@ -94,4 +112,4 @@ document.addEventListener('DOMContentLoaded', ()=>{
         })
         .catch(error=>console.error('Error:', error));
 });
-generateQuestionButton.addEventListener("click", generateQuestion)
+generateQuestionButton.addEventListener("click", generateQuestion);
