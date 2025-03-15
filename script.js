@@ -5,7 +5,7 @@ let questionType=document.getElementById("gen-type")
 let generateQuestionButton=document.getElementById("genQ");
 let userAnswer=document.getElementById("answer-box");
 let answerResults=document.getElementById("answer-results");
-
+let checkAnswerButton=document.getElementById("check-answer");
 let correctAnswer=0;
 function generateQuestion(){
     let question=questionType.value;
@@ -80,7 +80,7 @@ function generateAddition() {
     questionArea.innerHTML=`${num1}+${num2}=`;
     correctAnswer=num1+num2;
 }
-function checkAnswer(correctAnswer){
+function checkAnswer(){
     if (parseFloat(userAnswer.value.trim())==correctAnswer){
         answerResults.innerHTML=`Correct! The answer is indeed ${correctAnswer}!`;
     }
@@ -113,3 +113,4 @@ document.addEventListener('DOMContentLoaded', ()=>{
         .catch(error=>console.error('Error:', error));
 });
 generateQuestionButton.addEventListener("click", generateQuestion);
+checkAnswerButton.addEventListener("click", checkAnswer);
