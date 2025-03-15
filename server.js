@@ -7,6 +7,9 @@ const server=http.createServer((req, res)=>{
     if (filePath=="./"){
         filePath="./index.html";
     }
+    if (filePath=="./quotes_of_the_day.txt"){
+        filePath="./quotes_of_the_day.txt";
+    }
     const extname=path.extname(filePath).toLowerCase();
     const mimeTypes={
         ".html": "text/html; charset=utf-8",
