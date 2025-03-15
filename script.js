@@ -76,7 +76,7 @@ function generateQuestion(){
 }
 function generateAddition() {
     let num1=parseFloat(((Math.random()*1500)-1000).toFixed(3));
-    let num2=parseFloat(((Math.random()*1500)-1000).toFixed(3));
+    let num2=parseFloat((Math.random()*1500).toFixed(3));
     questionArea.innerHTML=`${num1}+${num2}=`;
     correctAnswer=num1+num2;
 }
