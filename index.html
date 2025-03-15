@@ -9,7 +9,7 @@
         <style>
             body{
                 word-wrap: break-word;
-                font-family: "Noto Sans SC", sans-serif;
+                font-family: "Noto Sans SC", sans-serif;;
             }
             #main-div{
                 margin: auto;
@@ -44,7 +44,7 @@
                 cursor: pointer;
             }
             #genQ:hover{
-                transform: scale(1.2);
+                transform: scale(1.1);
             }
             sub{
                 font-size: 0.8rem;
@@ -55,6 +55,20 @@
                 font-size: 0.8rem;
                 vertical-align: super;
                 color: #DE0000;
+            }
+            @media (max-width: 768px){
+                #main-div{
+                    width: 90%;
+                    padding: 1.1rem;
+                }
+                input, select{
+                    font-size: 0.9rem;
+                    padding: .7rem;
+                }
+                #genQ{
+                    font-size: 1rem;
+                    padding: .5rem 1rem;
+                }
             }
         </style>
     </head>
