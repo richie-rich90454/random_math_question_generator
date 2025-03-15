@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             });
             const randomIndex=Math.floor(Math.random() * quotesArray.length);
             document.getElementById('new-quote').textContent=quotesArray[randomIndex];
-            document.getElementById('author').querySelector('b').textContent=`- ${authorsArray[randomIndex]}`;
+            document.getElementById('author').textContent=`- ${authorsArray[randomIndex]}`;
         })
         .catch(error=>console.error('Error:', error));
 });
