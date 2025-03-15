@@ -1,5 +1,7 @@
 let quotesArray=[];
 let authorsArray=[];
+let questionArea=document.getElementById("question-area");
+let questionType=document.getElementById("gen-type")
 document.addEventListener('DOMContentLoaded', ()=>{
     fetch("/quotes_of_the_day.txt")
         .then(response=>{
@@ -24,3 +26,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
         })
         .catch(error=>console.error('Error:', error));
 });
+function generateQuestion(){
+    let question=questionType.value;
+    switch(question){
+        
+    }
+}
