@@ -7,10 +7,10 @@ let userAnswer=document.getElementById("answer-box");
 let answerResults=document.getElementById("answer-results");
 let checkAnswerButton=document.getElementById("check-answer");
 let answerInstructions=document.getElementById("answer-instructions");
-const CANVAS_WIDTH=400;
-const CANVAS_HEIGHT=80;
-const FONT_SIZE=24;
-const SUBSCRIPT_FONT_SIZE=16;
+let CANVAS_WIDTH=400;
+let CANVAS_HEIGHT=80;
+let FONT_SIZE=24;
+let SUBSCRIPT_FONT_SIZE=16;
 let correctAnswer=0;
 function generateQuestion(){
     let question=questionType.value;
@@ -103,6 +103,35 @@ function generateDivision(){
     questionArea.innerHTML=`${num1}/${num2}=<br>Round your answer to two decimal places`;
     correctAnswer=Math.round((num1/num2)*100)/100;
 }
+function generateDerivative() {
+    questionArea.innerHTML='';
+    let canvas=document.createElement('canvas');
+    canvas.width=500;
+    canvas.height=100;
+    let ctx=canvas.getContext('2d');
+    let a=Math.floor(Math.random() * 3)+1;
+    let b=Math.floor(Math.random() * 3)+1;
+    let c=Math.floor(Math.random() * 3)+1;
+    ctx.font="24px 'STIX Two Math'";
+    ctx.fillStyle="#000";
+    let startX=20;
+    let startY=50;
+    ctx.save();
+    ctx.font="20px 'STIX Two Math'";
+    ctx.fillText("d", startX, startY-10);
+    let fractionLineY=startY;
+    ctx.beginPath();
+    ctx.moveTo(startX, fractionLineY);
+    ctx.lineTo(startX+30, fractionLineY);
+    ctx.stroke();
+    ctx.fillText("dx", startX-5, startY+20);
+    ctx.restore();
+    ctx.fillText(`(${a}x²+${b}x+${c})`, startX+40, startY);
+    let funcWidth=ctx.measureText(`(${a}x²+${b}x+${c})`).width;
+    ctx.fillText("= ?", startX+40+funcWidth+10, startY);
+    correctAnswer=`${2*a}x+${b}`.replace(/\s+/g, '');
+    questionArea.appendChild(canvas);
+}
 function generateFactorial(){
     let num=Math.floor((Math.random()*8)+2);
     questionArea.innerHTML=`${num}!=`;
@@ -126,18 +155,18 @@ document.addEventListener('DOMContentLoaded', ()=>{
             return response.text();
         })
         .then(data=>{
-            const lines=data.split('\n').map(line=>line.trim()).filter(line=>line.length > 0);
+            let lines=data.split('\n').map(line=>line.trim()).filter(line=>line.length > 0);
             lines.forEach((line)=>{
-                const parts=line.split('-');
+                let parts=line.split('-');
                 if (parts.length < 2){
                     return
                 };
-                const quote=parts.slice(0, -1).join('-').trim();
-                const author=parts.slice(-1)[0].trim();
+                let quote=parts.slice(0, -1).join('-').trim();
+                let author=parts.slice(-1)[0].trim();
                 quotesArray.push(quote);
                 authorsArray.push(author);
             });
-            const randomIndex=Math.floor(Math.random()*quotesArray.length);
+            let randomIndex=Math.floor(Math.random()*quotesArray.length);
             document.getElementById('new-quote').textContent=quotesArray[randomIndex];
             document.getElementById('author').textContent=`- ${authorsArray[randomIndex]}`;
         })

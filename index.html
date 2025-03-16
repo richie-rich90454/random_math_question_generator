@@ -75,10 +75,9 @@
                 cursor: pointer;
             }
             #answer-results{
-                font-family: "STIX Two Math";
                 font-size: 1rem;
                 color: #DE0000;
-                min-height: 5rem;
+                min-height: 2rem;
             }
             #question-area{
                 font-family: "STIX Two Math";
@@ -106,7 +105,7 @@
     </head>
     <body>
         <div id="main-div">
-            <h1>Random Math Question Generator</h1>
+            <h1>Math Practice</h1>
             <select id="gen-type">
                 <option value="" disabled selected>Please select a type of question for you to practice and excel at!</option>
                 <option value="add">Addition (+)</option>
@@ -132,7 +131,7 @@
             </select>
             <input type="button" id="genQ" value="generate question">
             <div id="question-area"></div>
-            <div id="answer-instructions">For derivatives, use caret notation (e.g., x^2). For integrals, enter numerical values.</div>
+            <div id="answer-instructions">For derivatives, use caret notation (e.g., x^2).</div>
             <textarea id="answer-box" cols="30" rows="10" placeholder="Enter your answer here"></textarea>
             <input type="button" id="check-answer" value="Check my answer">
             <div id="answer-results"></div>
