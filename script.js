@@ -112,6 +112,12 @@ function generateDerivative() {
     let a=Math.floor(Math.random() * 3)+1;
     let b=Math.floor(Math.random() * 3)+1;
     let c=Math.floor(Math.random() * 3)+1;
+    let verifySimpleDerivative=()=>{
+        return (2*a)%1==0&&b%1==0;
+    }
+    if (!verifySimpleDerivative()){
+        return generateDerivative();
+    }
     ctx.font="24px 'STIX Two Math'";
     ctx.fillStyle="#000";
     let startX=20;
@@ -129,7 +135,10 @@ function generateDerivative() {
     ctx.fillText(`(${a}x²+${b}x+${c})`, startX+40, startY);
     let funcWidth=ctx.measureText(`(${a}x²+${b}x+${c})`).width;
     ctx.fillText("= ?", startX+40+funcWidth+10, startY);
-    correctAnswer=`${2*a}x+${b}`.replace(/\s+/g, '');
+    correctAnswer={
+        correct: `${2*a}x+${b}`,
+        alternate: `${2*a}x^1+${b}`
+    }
     questionArea.appendChild(canvas);
 }
 function generateFactorial(){
@@ -141,12 +150,23 @@ function generateFactorial(){
     }
 }
 function checkAnswer(){
-    if (parseFloat(userAnswer.value.trim())==correctAnswer){
-        answerResults.innerHTML=`Correct! The answer is indeed ${correctAnswer}.`;
+    let userInput=userAnswer.value.trim().toLowerCase();
+    let isCorrect=false;
+    const format=(str)=>{
+        return str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1"); 
+    };
+    if (questionType.value=="deri"||questionType.value=="mtrx"||questionType.value=="vctr"){
+        isCorrect=[correctAnswer.correct, correctAnswer.alternate].map(format).includes(format(userInput));
+    }
+    else if (questionType.value=="inte"){
+        let userValue=parseFloat(userInput);
+        isCorrect=!isNaN(userValue)&&Math.abs(userValue-correctAnswer)<0.01;
     }
     else{
-        answerResults.innerHTML=`Incorrect, please rethink your process.`;
+        isCorrect=parseFloat(userInput)==correctAnswer;
     }
+    answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`
+    : `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
 }
 document.addEventListener('DOMContentLoaded', ()=>{
     fetch("/quotes_of_the_day.txt")
