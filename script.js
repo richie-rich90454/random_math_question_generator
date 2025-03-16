@@ -157,16 +157,17 @@ function checkAnswer(){
     };
     if (questionType.value=="deri"||questionType.value=="mtrx"||questionType.value=="vctr"){
         isCorrect=[correctAnswer.correct, correctAnswer.alternate].map(format).includes(format(userInput));
+        answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`: `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
     }
     else if (questionType.value=="inte"){
         let userValue=parseFloat(userInput);
         isCorrect=!isNaN(userValue)&&Math.abs(userValue-correctAnswer)<0.01;
+        answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`: `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
     }
     else{
         isCorrect=parseFloat(userInput)==correctAnswer;
+        answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer}.`: `Incorrect. The correct answer should be ${correctAnswer}.`;
     }
-    answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`
-    : `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
 }
 document.addEventListener('DOMContentLoaded', ()=>{
     fetch("/quotes_of_the_day.txt")
