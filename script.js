@@ -6,6 +6,11 @@ let generateQuestionButton=document.getElementById("genQ");
 let userAnswer=document.getElementById("answer-box");
 let answerResults=document.getElementById("answer-results");
 let checkAnswerButton=document.getElementById("check-answer");
+let answerInstructions=document.getElementById("answer-instructions");
+const CANVAS_WIDTH=400;
+const CANVAS_HEIGHT=80;
+const FONT_SIZE=24;
+const SUBSCRIPT_FONT_SIZE=16;
 let correctAnswer=0;
 function generateQuestion(){
     let question=questionType.value;
@@ -98,12 +103,20 @@ function generateDivision(){
     questionArea.innerHTML=`${num1}/${num2}=<br>Round your answer to two decimal places`;
     correctAnswer=Math.round((num1/num2)*100)/100;
 }
+function generateFactorial(){
+    let num=Math.floor((Math.random()*8)+2);
+    questionArea.innerHTML=`${num}!=`;
+    correctAnswer=1;
+    for (let i=2;i<=num;i++){
+        correctAnswer*=i;
+    }
+}
 function checkAnswer(){
     if (parseFloat(userAnswer.value.trim())==correctAnswer){
-        answerResults.innerHTML=`Correct! The answer is indeed ${correctAnswer}!`;
+        answerResults.innerHTML=`Correct! The answer is indeed ${correctAnswer}.`;
     }
     else{
-        answerResults.innerHTML=`Incorrect, please rethink your process!`;
+        answerResults.innerHTML=`Incorrect, please rethink your process.`;
     }
 }
 document.addEventListener('DOMContentLoaded', ()=>{
