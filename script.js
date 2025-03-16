@@ -86,6 +86,18 @@ function generateSubtraction(){
     questionArea.innerHTML=`${num1}-${num2}=`;
     correctAnswer=num1-num2;
 }
+function generateMultiplication(){
+    let num1=parseFloat(((Math.random()*1500)-1000).toFixed(2));
+    let num2=parseFloat((Math.random()*1500).toFixed(2));
+    questionArea.innerHTML=`${num1}*${num2}=<br>Round your answer to the nearest integer`;
+    correctAnswer=Math.round((num1*num2)*100)/100;
+}
+function generateDivision(){
+    let num1=parseFloat(((Math.random()*1500)-1000).toFixed(2));
+    let num2=parseFloat((Math.random()*1500).toFixed(2));
+    questionArea.innerHTML=`${num1}/${num2}=<br>Round your answer to the nearest integer`;
+    correctAnswer=Math.round((num1/num2)*100)/100;
+}
 function checkAnswer(){
     if (parseFloat(userAnswer.value.trim())==correctAnswer){
         answerResults.innerHTML=`Correct! The answer is indeed ${correctAnswer}!`;
