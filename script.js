@@ -120,6 +120,9 @@ function generateDivision(){
     questionArea.innerHTML=`${num1}/${num2}=<br>Round your answer to two decimal places`;
     correctAnswer=Math.round((num1/num2)*100)/100;
 }
+function generateRoot(){
+    
+}
 function generateDerivative(){
     answerInstructions.style.display="block";
     questionArea.innerHTML="";
@@ -129,7 +132,7 @@ function generateDerivative(){
         let exponent=Math.floor(Math.random()*11);
         exponents.add(exponent);
     }
-    exponents=Array.from(exponents).sort((a, b)=>b - a);
+    exponents=Array.from(exponents).sort((a, b)=>b-a);
     let coefficients=[];
     for (let exponent of exponents){
         let coeff;
@@ -167,10 +170,10 @@ function generateDerivative(){
         let coeff=coefficients[i];
         if (exponent==0) continue;
         let newCoeff=coeff*exponent;
-        let newExponent=exponent - 1;
+        let newExponent=exponent-1;
         derivativeTerms.push({coeff: newCoeff, exponent: newExponent});
     }
-    derivativeTerms.sort((a, b)=>b.exponent - a.exponent);
+    derivativeTerms.sort((a, b)=>b.exponent-a.exponent);
     let derivativeParts=[];
     let alternateParts=[];
     for (let term of derivativeTerms){
@@ -200,6 +203,73 @@ function generateDerivative(){
     correctAnswer={
         correct: correctDerivative.replace(/{|}/g, ""),
         alternate: alternateDerivative.replace(/{|}/g, "")
+    };
+}
+function generateIntegral(){
+    answerInstructions.style.display="block";
+    questionArea.innerHTML="";
+    let numTerms=Math.floor(Math.random() * 4)+2;
+    let exponents=new Set();
+    while (exponents.size<numTerms){
+        let exponent=Math.floor(Math.random() * 11);
+        exponents.add(exponent);
+    }
+    exponents=Array.from(exponents).sort((a, b) => b-a);
+    let coefficients=[];
+    for (let exponent of exponents){
+        let coeff;
+        if (exponent==0){
+            coeff=Math.floor(Math.random() * 100)+1;
+        }
+        else if (exponent==1){
+            coeff=Math.floor(Math.random() * 20)+1;
+        }
+        else{
+            coeff=Math.floor(Math.random() * 30)+1;
+        }
+        coefficients.push(coeff);
+    }
+    let terms=[];
+    for (let i=0;i<exponents.length;i++){
+        let exponent=exponents[i];
+        let coeff=coefficients[i];
+        let term;
+        if (exponent==0){
+            term=coeff.toString();
+        }
+        else if (exponent==1){
+            term=`${coeff}x`;
+        }
+        else{
+            term=`${coeff}x^{${exponent}}`;
+        }
+        terms.push(term);
+    }
+    let polynomial=`(${terms.join("+")})`;
+    let integralTerms=[];
+    let alternateTerms=[];
+    for (let i=0;i<exponents.length;i++){
+        let exponent=exponents[i];
+        let coeff=coefficients[i];
+        let newExponent=exponent+1;
+        let newCoeff=(coeff/newExponent).toFixed(2);
+        let integralTerm=`${newCoeff}x^{${newExponent}}`;
+        let alternateTerm=`${newCoeff}x^${newExponent}`;
+        integralTerms.push(integralTerm);
+        alternateTerms.push(alternateTerm);
+    }
+    integralTerms.push("C");
+    alternateTerms.push("C");
+    let correctIntegral=integralTerms.join("+");
+    let alternateIntegral=alternateTerms.join("+");
+    let mathExpression=`\\[ \\int ${polynomial} \\,dx=? \\]`;
+    let mathContainer=document.createElement("div");
+    mathContainer.innerHTML=mathExpression;
+    questionArea.appendChild(mathContainer);
+    MathJax.typesetPromise([mathContainer]);
+    correctAnswer={
+        correct: correctIntegral.replace(/{|}/g, ""),
+        alternate: alternateIntegral.replace(/{|}/g, "")
     };
 }
 function generateFactorial(){
