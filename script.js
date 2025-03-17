@@ -76,6 +76,7 @@ function generateQuestion(){
         default:
             questionArea.innerHTML=`Please select a type of question to generate before hitting the "Generate Question" button`
     }
+    MathJax.typeset();
 }
 function generateAddition(){
     let num1=parseFloat(((Math.random()*1500)-1000).toFixed(3));
@@ -103,24 +104,13 @@ function generateDivision(){
 }
 function generateDerivative(){
     questionArea.innerHTML="";
-    let canvas=document.createElement("canvas");
-    canvas.width=500;
-    canvas.height=100;
-    let ctx=canvas.getContext("2d");
-    const toSuperscript=(number)=>{
-        const superscriptMap={
-            '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴',
-            '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹'
-        };
-        return number.toString().split('').map(d=>superscriptMap[d]||d).join("");
-    };
     let numTerms=Math.floor(Math.random()*4)+2;
     let exponents=new Set();
     while (exponents.size<numTerms){
         let exponent=Math.floor(Math.random()*11);
         exponents.add(exponent);
     }
-    exponents=Array.from(exponents).sort((a, b)=>b-a);
+    exponents=Array.from(exponents).sort((a, b)=>b - a);
     let coefficients=[];
     for (let exponent of exponents){
         let coeff;
@@ -136,7 +126,7 @@ function generateDerivative(){
         coefficients.push(coeff);
     }
     let terms=[];
-    for (let i=0; i<exponents.length; i++){
+    for (let i=0;i<exponents.length;i++){
         let exponent=exponents[i];
         let coeff=coefficients[i];
         let term;
@@ -147,21 +137,21 @@ function generateDerivative(){
             term=`${coeff}x`;
         }
         else{
-            term=`${coeff}x${toSuperscript(exponent)}`;
+            term=`${coeff}x^{${exponent}}`;
         }
         terms.push(term);
     }
     let polynomial=`(${terms.join('+')})`;
     let derivativeTerms=[];
-    for (let i=0; i<exponents.length; i++){
+    for (let i=0;i<exponents.length;i++){
         let exponent=exponents[i];
         let coeff=coefficients[i];
         if (exponent==0) continue;
         let newCoeff=coeff*exponent;
-        let newExponent=exponent-1;
-        derivativeTerms.push({ coeff: newCoeff, exponent: newExponent });
+        let newExponent=exponent - 1;
+        derivativeTerms.push({coeff: newCoeff, exponent: newExponent});
     }
-    derivativeTerms.sort((a, b)=>b.exponent-a.exponent);
+    derivativeTerms.sort((a, b)=>b.exponent - a.exponent);
     let derivativeParts=[];
     let alternateParts=[];
     for (let term of derivativeTerms){
@@ -175,36 +165,23 @@ function generateDerivative(){
             altPart=`${term.coeff}x^1`;
         }
         else{
-            part=`${term.coeff}x^${term.exponent}`;
-            altPart=part;
+            part=`${term.coeff}x^{${term.exponent}}`;
+            altPart=`${term.coeff}x^${term.exponent}`;
         }
         derivativeParts.push(part);
         alternateParts.push(altPart);
     }
-    let correctDerivative=derivativeParts.join('+');
-    let alternateDerivative=alternateParts.join('+');
-    ctx.font="1rem 'STIX Two Math'";
-    ctx.fillStyle="#000";
-    let startX=20;
-    let startY=50;
-    ctx.save();
-    ctx.font="20px 'STIX Two Math'";
-    ctx.fillText("d", startX, startY-10);
-    let fractionLineY=startY;
-    ctx.beginPath();
-    ctx.moveTo(startX, fractionLineY);
-    ctx.lineTo(startX+30, fractionLineY);
-    ctx.stroke();
-    ctx.fillText("dx", startX-5, startY+20);
-    ctx.restore();
-    ctx.fillText(polynomial, startX+40, startY);
-    let funcWidth=ctx.measureText(polynomial).width;
-    ctx.fillText("= ?", startX+40+funcWidth+10, startY);
+    let correctDerivative=derivativeParts.join("+");
+    let alternateDerivative=alternateParts.join("+");
+    let mathExpression=`\\[ \\frac{d}{dx} ${polynomial}=? \\]`;
+    let mathContainer=document.createElement("div");
+    mathContainer.innerHTML=mathExpression;
+    questionArea.appendChild(mathContainer);
+    MathJax.typesetPromise([mathContainer]);
     correctAnswer={
-        correct: correctDerivative,
-        alternate: alternateDerivative
+        correct: correctDerivative.replace(/{|}/g, ""),
+        alternate: alternateDerivative.replace(/{|}/g, "")
     };
-    questionArea.appendChild(canvas);
 }
 function generateFactorial(){
     let num=Math.floor((Math.random()*8)+2);
