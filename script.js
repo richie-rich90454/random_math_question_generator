@@ -121,6 +121,7 @@ function generateDivision(){
     correctAnswer=Math.round((num1/num2)*100)/100;
 }
 function generateDerivative(){
+    answerInstructions.style.display="block";
     questionArea.innerHTML="";
     let numTerms=Math.floor(Math.random()*4)+2;
     let exponents=new Set();
