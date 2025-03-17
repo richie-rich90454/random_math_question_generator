@@ -7,8 +7,6 @@ let userAnswer=document.getElementById("answer-box");
 let answerResults=document.getElementById("answer-results");
 let checkAnswerButton=document.getElementById("check-answer");
 let answerInstructions=document.getElementById("answer-instructions");
-let FONT_SIZE=24;
-let SUBSCRIPT_FONT_SIZE=16;
 let correctAnswer=0;
 function generateQuestion(){
     let question=questionType.value;
