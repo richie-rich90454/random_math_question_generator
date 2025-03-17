@@ -9,6 +9,7 @@ let checkAnswerButton=document.getElementById("check-answer");
 let answerInstructions=document.getElementById("answer-instructions");
 let correctAnswer=0;
 function generateQuestion(){
+    answerInstructions.style.display="none";
     let question=questionType.value;
     switch(question){
         case "add":
@@ -121,7 +122,26 @@ function generateDivision(){
     correctAnswer=Math.round((num1/num2)*100)/100;
 }
 function generateRoot(){
-    
+    questionArea.innerHTML="";
+    let root=Math.floor((Math.random()*4))+2;
+    let base=Math.floor((Math.random()*10))+1;
+    let radicand=Math.pow(base, root);
+    let rootExpression="";
+    if (root==2){
+        rootExpression=`\\[ \\sqrt{${radicand}}=? \\]`;
+    }
+    else{
+        rootExpression=`\\[ \\sqrt[${root}]{${radicand}}=? \\]`;
+    }
+    let correctRoot=base.toString();
+    let mathContainer=document.createElement("div");
+    mathContainer.innerHTML=rootExpression;
+    questionArea.appendChild(mathContainer);
+    MathJax.typesetPromise([mathContainer]);
+    correctAnswer={
+        correct: correctRoot,
+        alternate: correctRoot
+    };
 }
 function generateDerivative(){
     answerInstructions.style.display="block";
@@ -286,7 +306,7 @@ function checkAnswer(){
     const format=(str)=>{
         return str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1"); 
     };
-    if (questionType.value=="deri"||questionType.value=="mtrx"||questionType.value=="vctr"){
+    if (questionType.value=="deri"||questionType.value=="mtrx"||questionType.value=="vctr"||questionType.value=="inte"||questionType.value=="root"){
         isCorrect=[correctAnswer.correct, correctAnswer.alternate].map(format).includes(format(userInput));
         answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`: `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
     }
