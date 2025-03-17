@@ -15,63 +15,83 @@ function generateQuestion(){
     switch(question){
         case "add":
             generateAddition();
+            checkAnswerButton.disabled=false;
             break;
         case "subtrt":
             generateSubtraction();
+            checkAnswerButton.disabled=false;
             break;
         case "mult":
             generateMultiplication();
+            checkAnswerButton.disabled=false;
             break;
         case "divid":
             generateDivision();
+            checkAnswerButton.disabled=false;
             break;
         case "root":
             generateRoot();
+            checkAnswerButton.disabled=false;
             break;
         case "deri":
             generateDerivative();
+            checkAnswerButton.disabled=false;
             break;
         case "inte":
             generateIntegral();
+            checkAnswerButton.disabled=false;
             break;
         case "mtrx":
             generateMatrix();
+            checkAnswerButton.disabled=false;
             break;
         case "vctr":
             generateVector();
+            checkAnswerButton.disabled=false;
             break;
         case "sin":
             generateSin();
+            checkAnswerButton.disabled=false;
             break;
         case "cos":
             generateCosine();
+            checkAnswerButton.disabled=false;
             break;
         case "tan":
             generateTangent();
+            checkAnswerButton.disabled=false;
             break;
         case "cosec":
             generateCosecant();
+            checkAnswerButton.disabled=false;
             break;
         case "sec":
             generateSecant();
+            checkAnswerButton.disabled=false;
             break;
         case "cot":
             generateCotangent();
+            checkAnswerButton.disabled=false;
             break;
         case "log":
             generateLogarithm();
+            checkAnswerButton.disabled=false;
             break;
         case "exp":
             generateExponent();
+            checkAnswerButton.disabled=false;
             break;
         case "fact":
             generateFactorial();
+            checkAnswerButton.disabled=false;
             break;
         case "perm":
             generatePermutation();
+            checkAnswerButton.disabled=false;
             break;
         case "comb":
             generateCombination();
+            checkAnswerButton.disabled=false;
             break;
         default:
             questionArea.innerHTML=`Please select a type of question to generate before hitting the "Generate Question" button`
@@ -212,6 +232,7 @@ function checkAnswer(){
     }
 }
 document.addEventListener('DOMContentLoaded', ()=>{
+
     fetch("/quotes_of_the_day.txt")
         .then(response=>{
             if (!response.ok) throw new Error('Network error');
