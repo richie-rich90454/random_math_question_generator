@@ -109,9 +109,9 @@ function generateDerivative() {
     canvas.width=500;
     canvas.height=100;
     let ctx=canvas.getContext('2d');
-    let a=Math.floor(Math.random() * 3)+1;
-    let b=Math.floor(Math.random() * 3)+1;
-    let c=Math.floor(Math.random() * 3)+1;
+    let a=Math.floor(Math.random()*30)+1;
+    let b=Math.floor(Math.random()*20)+1;
+    let c=Math.floor(Math.random()*100)+1;
     let verifySimpleDerivative=()=>{
         return (2*a)%1==0&&b%1==0;
     }
