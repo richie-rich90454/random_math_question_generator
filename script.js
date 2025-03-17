@@ -7,8 +7,6 @@ let userAnswer=document.getElementById("answer-box");
 let answerResults=document.getElementById("answer-results");
 let checkAnswerButton=document.getElementById("check-answer");
 let answerInstructions=document.getElementById("answer-instructions");
-let CANVAS_WIDTH=400;
-let CANVAS_HEIGHT=80;
 let FONT_SIZE=24;
 let SUBSCRIPT_FONT_SIZE=16;
 let correctAnswer=0;
@@ -103,22 +101,89 @@ function generateDivision(){
     questionArea.innerHTML=`${num1}/${num2}=<br>Round your answer to two decimal places`;
     correctAnswer=Math.round((num1/num2)*100)/100;
 }
-function generateDerivative() {
-    questionArea.innerHTML='';
-    let canvas=document.createElement('canvas');
+function generateDerivative(){
+    questionArea.innerHTML="";
+    let canvas=document.createElement("canvas");
     canvas.width=500;
     canvas.height=100;
-    let ctx=canvas.getContext('2d');
-    let a=Math.floor(Math.random()*30)+1;
-    let b=Math.floor(Math.random()*20)+1;
-    let c=Math.floor(Math.random()*100)+1;
-    let verifySimpleDerivative=()=>{
-        return (2*a)%1==0&&b%1==0;
+    let ctx=canvas.getContext("2d");
+    const toSuperscript=(number)=>{
+        const superscriptMap={
+            '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴',
+            '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹'
+        };
+        return number.toString().split('').map(d=>superscriptMap[d]||d).join("");
+    };
+    let numTerms=Math.floor(Math.random()*4)+2;
+    let exponents=new Set();
+    while (exponents.size<numTerms){
+        let exponent=Math.floor(Math.random()*11);
+        exponents.add(exponent);
     }
-    if (!verifySimpleDerivative()){
-        return generateDerivative();
+    exponents=Array.from(exponents).sort((a, b)=>b-a);
+    let coefficients=[];
+    for (let exponent of exponents){
+        let coeff;
+        if (exponent==0){
+            coeff=Math.floor(Math.random()*100)+1;
+        }
+        else if (exponent==1){
+            coeff=Math.floor(Math.random()*20)+1;
+        }
+        else{
+            coeff=Math.floor(Math.random()*30)+1;
+        }
+        coefficients.push(coeff);
     }
-    ctx.font="24px 'STIX Two Math'";
+    let terms=[];
+    for (let i=0; i<exponents.length; i++){
+        let exponent=exponents[i];
+        let coeff=coefficients[i];
+        let term;
+        if (exponent==0){
+            term=coeff.toString();
+        }
+        else if (exponent==1){
+            term=`${coeff}x`;
+        }
+        else{
+            term=`${coeff}x${toSuperscript(exponent)}`;
+        }
+        terms.push(term);
+    }
+    let polynomial=`(${terms.join('+')})`;
+    let derivativeTerms=[];
+    for (let i=0; i<exponents.length; i++){
+        let exponent=exponents[i];
+        let coeff=coefficients[i];
+        if (exponent==0) continue;
+        let newCoeff=coeff*exponent;
+        let newExponent=exponent-1;
+        derivativeTerms.push({ coeff: newCoeff, exponent: newExponent });
+    }
+    derivativeTerms.sort((a, b)=>b.exponent-a.exponent);
+    let derivativeParts=[];
+    let alternateParts=[];
+    for (let term of derivativeTerms){
+        let part, altPart;
+        if (term.exponent==0){
+            part=term.coeff.toString();
+            altPart=part;
+        }
+        else if (term.exponent==1){
+            part=`${term.coeff}x`;
+            altPart=`${term.coeff}x^1`;
+        }
+        else{
+            part=`${term.coeff}x^${term.exponent}`;
+            altPart=part;
+        }
+        derivativeParts.push(part);
+        alternateParts.push(altPart);
+    }
+    let correctDerivative=derivativeParts.join('+');
+    let alternateDerivative=alternateParts.join('+');
+    ctx.font="1rem 'STIX Two Math'";
     ctx.fillStyle="#000";
     let startX=20;
     let startY=50;
@@ -132,13 +197,13 @@ function generateDerivative() {
     ctx.stroke();
     ctx.fillText("dx", startX-5, startY+20);
     ctx.restore();
-    ctx.fillText(`(${a}x²+${b}x+${c})`, startX+40, startY);
-    let funcWidth=ctx.measureText(`(${a}x²+${b}x+${c})`).width;
+    ctx.fillText(polynomial, startX+40, startY);
+    let funcWidth=ctx.measureText(polynomial).width;
     ctx.fillText("= ?", startX+40+funcWidth+10, startY);
     correctAnswer={
-        correct: `${2*a}x+${b}`,
-        alternate: `${2*a}x^1+${b}`
-    }
+        correct: correctDerivative,
+        alternate: alternateDerivative
+    };
     questionArea.appendChild(canvas);
 }
 function generateFactorial(){
@@ -179,7 +244,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             let lines=data.split('\n').map(line=>line.trim()).filter(line=>line.length > 0);
             lines.forEach((line)=>{
                 let parts=line.split('-');
-                if (parts.length < 2){
+                if (parts.length<2){
                     return
                 };
                 let quote=parts.slice(0, -1).join('-').trim();
