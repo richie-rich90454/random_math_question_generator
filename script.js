@@ -228,24 +228,24 @@ function generateDerivative(){
 function generateIntegral(){
     answerInstructions.style.display="block";
     questionArea.innerHTML="";
-    let numTerms=Math.floor(Math.random() * 4)+2;
+    let numTerms=Math.floor(Math.random()*4)+2;
     let exponents=new Set();
     while (exponents.size<numTerms){
-        let exponent=Math.floor(Math.random() * 11);
+        let exponent=Math.floor(Math.random()*11);
         exponents.add(exponent);
     }
-    exponents=Array.from(exponents).sort((a, b) => b-a);
+    exponents=Array.from(exponents).sort((a, b)=>b-a);
     let coefficients=[];
     for (let exponent of exponents){
         let coeff;
         if (exponent==0){
-            coeff=Math.floor(Math.random() * 100)+1;
+            coeff=Math.floor(Math.random()*100)+1;
         }
         else if (exponent==1){
-            coeff=Math.floor(Math.random() * 20)+1;
+            coeff=Math.floor(Math.random()*20)+1;
         }
         else{
-            coeff=Math.floor(Math.random() * 30)+1;
+            coeff=Math.floor(Math.random()*30)+1;
         }
         coefficients.push(coeff);
     }
@@ -300,24 +300,201 @@ function generateFactorial(){
         correctAnswer*=i;
     }
 }
-function checkAnswer(){
-    let userInput=userAnswer.value.trim().toLowerCase();
-    let isCorrect=false;
-    const format=(str)=>{
-        return str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1"); 
+function generateVector(){
+    answerInstructions.style.display="block";
+    questionArea.innerHTML="";
+    let types=['magnitude', 'direction', 'unit', 'dot', 'angle', 'projection','parametric', 'polar_convert', 'cartesian_convert', 'polar_graph','motion', 'de_moivre', 'add', 'subtract', 'parametric_to_cartesian'];
+    let type=types[Math.floor(Math.random()*types.length)];
+    let generateNonZeroVector=()=>{
+        let x, y;
+        do{
+            x=Math.random()*10-5;
+            y=Math.random()*10-5;
+        }while (Math.abs(x) < 0.1 && Math.abs(y) < 0.1);
+        return{x,y};
     };
-    if (questionType.value=="deri"||questionType.value=="mtrx"||questionType.value=="vctr"||questionType.value=="root"){
-        isCorrect=[correctAnswer.correct, correctAnswer.alternate].map(format).includes(format(userInput));
-        answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`: `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
+    switch(type){
+        case 'magnitude':{
+            let {x,y}=generateNonZeroVector();
+            let mag=Math.sqrt(x**2+y**2).toFixed(2);
+            questionArea.innerHTML=`Find the magnitude of \$\\langle${x.toFixed(1)}, ${y.toFixed(1)}\\rangle\$`;
+            correctAnswer={correct: mag, alternate: mag};
+            break;
+        }
+        case 'direction':{
+            let {x,y}=generateNonZeroVector();
+            let angle=(Math.atan2(y, x)*180/Math.PI).toFixed(1);
+            questionArea.innerHTML=`Find the direction angle (degrees) of \$\\langle${x.toFixed(1)}, ${y.toFixed(1)}\\rangle\$`;
+            correctAnswer={correct: angle, alternate: angle};
+            break;
+        }
+        case 'unit':{
+            let {x,y}=generateNonZeroVector();
+            let mag=Math.sqrt(x**2+y**2);
+            let ux=(x/mag).toFixed(2);
+            let uy=(y/mag).toFixed(2);
+            questionArea.innerHTML=`Find the unit vector for \$\\langle${x.toFixed(1)}, ${y.toFixed(1)}\\rangle\$`;
+            correctAnswer={correct: `\\left\\langle${ux}, ${uy}\\right\\rangle`,alternate: `⟨${ux},${uy}⟩`};
+            break;
+        }
+        case 'dot':{
+            let v1=generateNonZeroVector();
+            let v2=generateNonZeroVector();
+            let product=(v1.x*v2.x+v1.y*v2.y).toFixed(2);
+            questionArea.innerHTML=`Calculate \$\\langle${v1.x.toFixed(1)}, ${v1.y.toFixed(1)}\\rangle \\cdot \\langle${v2.x.toFixed(1)}, ${v2.y.toFixed(1)}\\rangle\$`;
+            correctAnswer={ correct: product, alternate: product };
+            break;
+        }
+        case 'angle':{
+            let v1=generateNonZeroVector();
+            let v2=generateNonZeroVector();
+            let dot=v1.x*v2.x+v1.y*v2.y;
+            let mag1=Math.sqrt(v1.x**2+v1.y**2);
+            let mag2=Math.sqrt(v2.x**2+v2.y**2);
+            let angle=(Math.acos(dot/(mag1*mag2))*180/Math.PI).toFixed(1);
+            questionArea.innerHTML=`Find the angle between \$\\langle${v1.x.toFixed(1)}, ${v1.y.toFixed(1)}\\rangle\$ and \$\\langle${v2.x.toFixed(1)}, ${v2.y.toFixed(1)}\\rangle\$`;
+            correctAnswer={ correct: angle, alternate: angle };
+            break;
+        }
+        case 'polar_convert':{
+            let r=(Math.random()*10).toFixed(1);
+            let θ=(Math.random()*360-180).toFixed(0);
+            let x=(parseFloat(r)*Math.cos(θ*Math.PI/180)).toFixed(2);
+            let y=(parseFloat(r)*Math.sin(θ*Math.PI/180)).toFixed(2);
+            questionArea.innerHTML=`Convert polar (\$${r}, ${θ}°\$) to Cartesian`;
+            correctAnswer={
+                correct: `(${x}, ${y})`,
+                alternate: `⟨${x},${y}⟩`
+            };
+            break;
+        }
+        case 'de_moivre':{
+            let r=(Math.random()*5+1).toFixed(1);
+            let θ=Math.floor(Math.random()*360);
+            let n=Math.floor(Math.random()*3+2);
+            let newR=(r**n).toFixed(2);
+            let newθ=(θ*n) % 360;
+            questionArea.innerHTML=`Compute \$(${r}(\\cos${θ}°+i\\sin${θ}°))^{${n}}\$ using De Moivre's`;
+            correctAnswer={
+                correct: `${newR}(\\cos${newθ}°+i\\sin${newθ}°)`,
+                alternate: `${newR} cis ${newθ}°`
+            };
+            break;
+        }
     }
-    else if (questionType.value=="inte"){
-        let userValue=parseFloat(userInput);
-        isCorrect=!isNaN(userValue)&&Math.abs(userValue-correctAnswer)<0.01;
-        answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`: `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
+    MathJax.typeset();
+}
+
+function generateMatrix(){
+    answerInstructions.style.display="block";
+    questionArea.innerHTML="";
+    let types=['add', 'subtract', 'multiply', 'determinant', 'inverse', 'system'];
+    let type=types[Math.floor(Math.random()*types.length)];
+    let generate2x2=()=>({
+        a: Math.random()*10-5,
+        b: Math.random()*10-5,
+        c: Math.random()*10-5,
+        d: Math.random()*10-5
+    });
+    let matrixToString=(m, style='bmatrix')=>{
+        return `\\begin{${style}} ${m.a.toFixed(1)} & ${m.b.toFixed(1)} \\\\ ${m.c.toFixed(1)} & ${m.d.toFixed(1)} \\end{${style}}`;
+    };
+    switch(type){
+        case 'add':{
+            let A=generate2x2();
+            let B=generate2x2();
+            let result={a: A.a+B.a,b: A.b+B.b,c: A.c+B.c,d: A.d+B.d};
+            questionArea.innerHTML=`Add: \$${matrixToString(A)}+${matrixToString(B)}\$`;
+            correctAnswer={correct: matrixToString(result),alternate: matrixToString(result, 'pmatrix')};
+            break;
+        }
+        case 'multiply':{
+            let A=generate2x2();
+            let B=generate2x2();
+            let result={
+                a: (A.a*B.a+A.b*B.c).toFixed(2),
+                b: (A.a*B.b+A.b*B.d).toFixed(2),
+                c: (A.c*B.a+A.d*B.c).toFixed(2),
+                d: (A.c*B.b+A.d*B.d).toFixed(2)
+            };
+            questionArea.innerHTML=`Multiply: \$${matrixToString(A)} \\times ${matrixToString(B)}\$`;
+            correctAnswer={correct: `\\begin{bmatrix} ${result.a} & ${result.b} \\\\ ${result.c} & ${result.d} \\end{bmatrix}`,alternate: `(${result.a},${result.b};${result.c},${result.d})`};
+            break;
+        }
+        case 'inverse':{
+            let A, det;
+            do{
+                A=generate2x2();
+                det=A.a*A.d-A.b*A.c;
+            } while (Math.abs(det) < 0.1);
+            let invDet=1/det;
+            let inv={a: (A.d*invDet).toFixed(2),b: (-A.b*invDet).toFixed(2),c: (-A.c*invDet).toFixed(2),d: (A.a*invDet).toFixed(2)};
+            questionArea.innerHTML=`Find inverse of \$${matrixToString(A)}\$`;
+            correctAnswer={
+                correct: `\\begin{bmatrix} ${inv.a} & ${inv.b} \\\\ ${inv.c} & ${inv.d} \\end{bmatrix}`,
+                alternate: `(${inv.a},${inv.b};${inv.c},${inv.d})`
+            };
+            break;
+        }
+        case 'system':{
+            let A=generate2x2();
+            let x=(Math.random()*5+1).toFixed(1);
+            let y=(Math.random()*5+1).toFixed(1);
+            let B={
+                a: (A.a*x+A.b*y).toFixed(2),
+                b: (A.c*x+A.d*y).toFixed(2)
+            };
+            questionArea.innerHTML=`Solve:<br>
+                \$${A.a.toFixed(1)}x+${A.b.toFixed(1)}y=${B.a}\$<br>
+                \$${A.c.toFixed(1)}x+${A.d.toFixed(1)}y=${B.b}\$`;
+            correctAnswer={
+                correct: `x=${x}, y=${y}`,
+                alternate: `(${x},${y})`
+            };
+            break;
+        }
+    }
+    MathJax.typeset();
+}
+// function checkAnswer(){
+//     let userInput=userAnswer.value.trim().toLowerCase();
+//     let isCorrect=false;
+//     let format=(str)=>{
+//         return str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1"); 
+//     };
+//     if (questionType.value=="deri"||questionType.value=="mtrx"||questionType.value=="vctr"||questionType.value=="root"){
+//         isCorrect=[correctAnswer.correct, correctAnswer.alternate].map(format).includes(format(userInput));
+//         answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`: `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
+//     }
+//     else if (questionType.value=="inte"){
+//         let userValue=parseFloat(userInput);
+//         isCorrect=!isNaN(userValue)&&Math.abs(userValue-correctAnswer)<0.01;
+//         answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`: `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
+//     }
+//     else{
+//         isCorrect=parseFloat(userInput)==correctAnswer;
+//         answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer}.`: `Incorrect. The correct answer should be ${correctAnswer}.`;
+//     }
+// }
+function checkAnswer(){
+    let normalize=(str)=>{
+        return str.toLowerCase().replace(/[⟨⟩(){}[\]\\]/g, '').replace(/\s+/g, '').replace(/,+/g, ',').replace(/(\D)\./g, '$10.').replace(/(\d)\.(?=\D|$)/g, '$1.0').replace(/\.?0+$/, '').replace(/(\.\d+?)0+/, '$1');
+    };
+    let userInput=normalize(userAnswer.value.trim());
+    let isCorrect=false;
+    if (typeof correctAnswer=='object'){
+        let correct=normalize(correctAnswer.correct);
+        let alternate=normalize(correctAnswer.alternate);
+        isCorrect=[correct, alternate].includes(userInput);
+        answerResults.innerHTML=isCorrect 
+            ? `Correct! The answer is ${correctAnswer.correct}`
+            : `Incorrect. Correct answer: ${correctAnswer.correct}`;
     }
     else{
-        isCorrect=parseFloat(userInput)==correctAnswer;
-        answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer}.`: `Incorrect. The correct answer should be ${correctAnswer}.`;
+        let correctNum=parseFloat(correctAnswer).toFixed(2);
+        let userNum=parseFloat(userInput).toFixed(2);
+        isCorrect=correctNum==userNum;
+        answerResults.innerHTML=isCorrect ? `Correct! The answer is ${correctAnswer}`: `Incorrect. Correct answer: ${correctAnswer}`;
     }
 }
 document.addEventListener('DOMContentLoaded', ()=>{
