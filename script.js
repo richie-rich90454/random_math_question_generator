@@ -321,7 +321,6 @@ function checkAnswer(){
     }
 }
 document.addEventListener('DOMContentLoaded', ()=>{
-
     fetch("/quotes_of_the_day.txt")
         .then(response=>{
             if (!response.ok) throw new Error('Network error');
@@ -332,7 +331,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             lines.forEach((line)=>{
                 let parts=line.split('-');
                 if (parts.length<2){
-                    return
+                    return;
                 };
                 let quote=parts.slice(0, -1).join('-').trim();
                 let author=parts.slice(-1)[0].trim();
