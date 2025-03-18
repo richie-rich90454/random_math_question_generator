@@ -294,7 +294,7 @@ function generateIntegral(){
 }
 function generateFactorial(){
     let num=Math.floor((Math.random()*8)+2);
-    questionArea.innerHTML=`${num}!=`;
+    questionArea.innerHTML=`\\(${num}!=\\)`;
     correctAnswer=1;
     for (let i=2;i<=num;i++){
         correctAnswer*=i;
