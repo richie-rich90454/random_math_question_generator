@@ -100,25 +100,25 @@ function generateQuestion(){
 function generateAddition(){
     let num1=parseFloat(((Math.random()*1500)-1000).toFixed(3));
     let num2=parseFloat((Math.random()*1500).toFixed(3));
-    questionArea.innerHTML=`${num1}+${num2}=`;
+    questionArea.innerHTML=`\$${num1}+${num2}=\$`;
     correctAnswer=num1+num2;
 }
 function generateSubtraction(){
     let num1=parseFloat(((Math.random()*1500)-1000).toFixed(3));
     let num2=parseFloat((Math.random()*1500).toFixed(3));
-    questionArea.innerHTML=`${num1}-${num2}=`;
+    questionArea.innerHTML=`\$${num1}-${num2}=\$`;
     correctAnswer=num1-num2;
 }
 function generateMultiplication(){
     let num1=parseFloat(((Math.random()*1500)-1000).toFixed(2));
     let num2=parseFloat((Math.random()*1500).toFixed(2));
-    questionArea.innerHTML=`${num1}*${num2}=<br>Round your answer to two decimal places`;
+    questionArea.innerHTML=`\$${num1} \\times ${num2}=\$<br>Round your answer to two decimal places`;
     correctAnswer=Math.round((num1*num2)*100)/100;
 }
 function generateDivision(){
     let num1=parseFloat(((Math.random()*1500)-1000).toFixed(2));
     let num2=parseFloat((Math.random()*1500).toFixed(2));
-    questionArea.innerHTML=`${num1}/${num2}=<br>Round your answer to two decimal places`;
+    questionArea.innerHTML=`\$${num1} \\div ${num2}=\$<br>Round your answer to two decimal places`;
     correctAnswer=Math.round((num1/num2)*100)/100;
 }
 function generateRoot(){
