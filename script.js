@@ -384,7 +384,6 @@ function generateVector(){
     }
     MathJax.typeset();
 }
-
 function generateMatrix(){
     answerInstructions.style.display="block";
     questionArea.innerHTML="";
@@ -456,45 +455,24 @@ function generateMatrix(){
     }
     MathJax.typeset();
 }
-// function checkAnswer(){
-//     let userInput=userAnswer.value.trim().toLowerCase();
-//     let isCorrect=false;
-//     let format=(str)=>{
-//         return str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1"); 
-//     };
-//     if (questionType.value=="deri"||questionType.value=="mtrx"||questionType.value=="vctr"||questionType.value=="root"){
-//         isCorrect=[correctAnswer.correct, correctAnswer.alternate].map(format).includes(format(userInput));
-//         answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`: `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
-//     }
-//     else if (questionType.value=="inte"){
-//         let userValue=parseFloat(userInput);
-//         isCorrect=!isNaN(userValue)&&Math.abs(userValue-correctAnswer)<0.01;
-//         answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`: `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
-//     }
-//     else{
-//         isCorrect=parseFloat(userInput)==correctAnswer;
-//         answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer}.`: `Incorrect. The correct answer should be ${correctAnswer}.`;
-//     }
-// }
 function checkAnswer(){
-    let normalize=(str)=>{
-        return str.toLowerCase().replace(/[⟨⟩(){}[\]\\]/g, '').replace(/\s+/g, '').replace(/,+/g, ',').replace(/(\D)\./g, '$10.').replace(/(\d)\.(?=\D|$)/g, '$1.0').replace(/\.?0+$/, '').replace(/(\.\d+?)0+/, '$1');
-    };
-    let userInput=normalize(userAnswer.value.trim());
+    let userInput=userAnswer.value.trim().toLowerCase();
     let isCorrect=false;
-    if (typeof correctAnswer=='object'){
-        let correct=normalize(correctAnswer.correct);
-        let alternate=normalize(correctAnswer.alternate);
-        isCorrect=[correct, alternate].includes(userInput);
-        answerResults.innerHTML=isCorrect 
-            ? `Correct! The answer is ${correctAnswer.correct}`
-            : `Incorrect. Correct answer: ${correctAnswer.correct}`;
+    let format=(str)=>{
+        return str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1"); 
+    };
+    if (questionType.value=="deri"||questionType.value=="mtrx"||questionType.value=="vctr"||questionType.value=="root"){
+        isCorrect=[correctAnswer.correct, correctAnswer.alternate].map(format).includes(format(userInput));
+        answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`: `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
+    }
+    else if (questionType.value=="inte"){
+        let userValue=parseFloat(userInput);
+        isCorrect=!isNaN(userValue)&&Math.abs(userValue-correctAnswer)<0.01;
+        answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`: `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
     }
     else{
-        let correctNum=parseFloat(correctAnswer).toFixed(2);
-        let userNum=parseFloat(userInput).toFixed(2);
-        isCorrect=correctNum==userNum;
-        answerResults.innerHTML=isCorrect ? `Correct! The answer is ${correctAnswer}`: `Incorrect. Correct answer: ${correctAnswer}`;
+        isCorrect=parseFloat(userInput)==correctAnswer;
+        answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer}.`: `Incorrect. The correct answer should be ${correctAnswer}.`;
     }
 }
 document.addEventListener('DOMContentLoaded', ()=>{
