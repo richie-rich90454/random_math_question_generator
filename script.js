@@ -571,8 +571,8 @@ function generateMatrix(){
             const det=+(A.a*A.d-A.b*A.c).toFixed(2);
             questionArea.innerHTML=`Find determinant of \$${matrixToString(A)}\$`;
             correctAnswer={
-                correct: det,
-                alternate: `D=${det}`,
+                correct: `D=${det}`,
+                alternate: det,
             };
             break;
         }
@@ -644,8 +644,8 @@ function generateMatrix(){
             const trace=+(A.a+A.d).toFixed(2);
             questionArea.innerHTML=`Find trace of \$${matrixToString(A)}\$`;
             correctAnswer={
-                correct: trace,
-                alternate: `Tr=${trace}`,
+                correct: `Tr=${trace}`,
+                alternate: trace,
             };
             break;
         }
@@ -687,8 +687,8 @@ function generateMatrix(){
             const rank=Math.abs(det)>0.1?2:(A.a**2+A.b**2+A.c**2+A.d**2<0.1?0:1);
             questionArea.innerHTML=`Determine rank of \$${matrixToString(A)}\$`;
             correctAnswer={
-                correct: rank,
-                alternate: `rank=${rank}`,
+                correct: `rank=${rank}`,
+                alternate: rank,
             };
             break;
         }
