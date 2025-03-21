@@ -310,7 +310,7 @@ function generateVector(){
         do{
             x=Math.random()*10-5;
             y=Math.random()*10-5;
-        }while (Math.abs(x) < 0.1 && Math.abs(y) < 0.1);
+        }while (Math.abs(x)<0.1 && Math.abs(y)<0.1);
         return{x,y};
     };
     switch(type){
@@ -425,7 +425,7 @@ function generateMatrix(){
             do{
                 A=generate2x2();
                 det=A.a*A.d-A.b*A.c;
-            } while (Math.abs(det) < 0.1);
+            } while (Math.abs(det)<0.1);
             let invDet=1/det;
             let inv={a: (A.d*invDet).toFixed(2),b: (-A.b*invDet).toFixed(2),c: (-A.c*invDet).toFixed(2),d: (A.a*invDet).toFixed(2)};
             questionArea.innerHTML=`Find inverse of \$${matrixToString(A)}\$`;
