@@ -449,7 +449,7 @@ function generateVector(){
             let posX=(Math.random()*10-5).toFixed(1);
             let posY=(Math.random()*10-5).toFixed(1);
             let v=generateNonZeroVector();
-            questionArea.innerHTML=`A particle starts at \\((${posX}, ${posY})\\) and moves with constant velocity \\(\\langle ${v.x.toFixed(1)}, ${v.y.toFixed(1)} \\rangle\\). Write the position vector as a function of time \\(t\\).`;
+            questionArea.innerHTML=`A particle starts at \\((${posX}, ${posY})\\) and moves with letant velocity \\(\\langle ${v.x.toFixed(1)}, ${v.y.toFixed(1)} \\rangle\\). Write the position vector as a function of time \\(t\\).`;
             correctAnswer={
                 correct: `<${posX}+${v.x.toFixed(1)}t, ${posY}+${v.y.toFixed(1)}t>`,
                 alternate: `\\langle ${posX}+${v.x.toFixed(1)}t, ${posY}+${v.y.toFixed(1)}t \\rangle`,
@@ -513,15 +513,15 @@ function generateVector(){
 }
 function generateMatrix(){
     questionArea.innerHTML="";
-    const types=['add', 'subtract', 'multiply', 'determinant', 'inverse', 'system', 'transpose', 'scalar_mult', 'trace', 'power', 'row_echelon', 'rank'];
-    const type=types[Math.floor(Math.random()*types.length)];
-    const generate2x2=()=>({a: +(Math.random()*10-5).toFixed(2),b: +(Math.random()*10-5).toFixed(2),c: +(Math.random()*10-5).toFixed(2),d: +(Math.random()*10-5).toFixed(2)});
-    const matrixToString=(m, style='bmatrix')=>`\\begin{${style}} ${m.a} & ${m.b} \\\\ ${m.c} & ${m.d} \\end{${style}}`;
+    let types=['add', 'subtract', 'multiply', 'inverse', 'system', 'transpose', 'scalar_mult', 'power', 'row_echelon'];
+    let type=types[Math.floor(Math.random()*types.length)];
+    let generate2x2=()=>({a: +(Math.random()*10-5).toFixed(2),b: +(Math.random()*10-5).toFixed(2),c: +(Math.random()*10-5).toFixed(2),d: +(Math.random()*10-5).toFixed(2)});
+    let matrixToString=(m, style='bmatrix')=>`\\begin{${style}} ${m.a} & ${m.b} \\\\ ${m.c} & ${m.d} \\end{${style}}`;
     switch(type){
         case 'add':{
-            const A=generate2x2();
-            const B=generate2x2();
-            const result={
+            let A=generate2x2();
+            let B=generate2x2();
+            let result={
                 a: +(A.a+B.a).toFixed(2),
                 b: +(A.b+B.b).toFixed(2),
                 c: +(A.c+B.c).toFixed(2),
@@ -535,9 +535,9 @@ function generateMatrix(){
             break;
         }
         case 'subtract':{
-            const A=generate2x2();
-            const B=generate2x2();
-            const result={
+            let A=generate2x2();
+            let B=generate2x2();
+            let result={
                 a: +(A.a-B.a).toFixed(2),
                 b: +(A.b-B.b).toFixed(2),
                 c: +(A.c-B.c).toFixed(2),
@@ -551,9 +551,9 @@ function generateMatrix(){
             break;
         }
         case 'multiply':{
-            const A=generate2x2();
-            const B=generate2x2();
-            const result={
+            let A=generate2x2();
+            let B=generate2x2();
+            let result={
                 a: +(A.a*B.a+A.b*B.c).toFixed(2),
                 b: +(A.a*B.b+A.b*B.d).toFixed(2),
                 c: +(A.c*B.a+A.d*B.c).toFixed(2),
@@ -566,24 +566,14 @@ function generateMatrix(){
             };
             break;
         }
-        case 'determinant':{
-            const A=generate2x2();
-            const det=+(A.a*A.d-A.b*A.c).toFixed(2);
-            questionArea.innerHTML=`Find determinant of \$${matrixToString(A)}\$`;
-            correctAnswer={
-                correct: `D=${det}`,
-                alternate: det,
-            };
-            break;
-        }
         case 'inverse':{
             let A, det;
             do{
                 A=generate2x2();
                 det=A.a*A.d-A.b*A.c;
             } while (Math.abs(det)<0.1);
-            const invDet=1/det;
-            const inv={
+            let invDet=1/det;
+            let inv={
                 a: +(A.d*invDet).toFixed(2),
                 b: +(-A.b*invDet).toFixed(2),
                 c: +(-A.c*invDet).toFixed(2),
@@ -597,10 +587,10 @@ function generateMatrix(){
             break;
         }
         case 'system':{
-            const A=generate2x2();
-            const x=+(Math.random()*5+1).toFixed(2);
-            const y=+(Math.random()*5+1).toFixed(2);
-            const B={
+            let A=generate2x2();
+            let x=+(Math.random()*5+1).toFixed(2);
+            let y=+(Math.random()*5+1).toFixed(2);
+            let B={
                 a: +(A.a*x+A.b*y).toFixed(2),
                 b: +(A.c*x+A.d*y).toFixed(2)
             };
@@ -614,8 +604,8 @@ function generateMatrix(){
             break;
         }
         case 'transpose':{
-            const A=generate2x2();
-            const result={a: A.a, b: A.c, c: A.b, d: A.d};
+            let A=generate2x2();
+            let result={a: A.a, b: A.c, c: A.b, d: A.d};
             questionArea.innerHTML=`Find transpose of \$${matrixToString(A)}\$`;
             correctAnswer={
                 correct: `tr(${result.a},${result.b},${result.c},${result.d})`,
@@ -624,9 +614,9 @@ function generateMatrix(){
             break;
         }
         case 'scalar_mult':{
-            const A=generate2x2();
-            const k=+(Math.random()*10-5).toFixed(1);
-            const result={
+            let A=generate2x2();
+            let k=+(Math.random()*10-5).toFixed(1);
+            let result={
                 a: +(k*A.a).toFixed(2),
                 b: +(k*A.b).toFixed(2),
                 c: +(k*A.c).toFixed(2),
@@ -639,19 +629,9 @@ function generateMatrix(){
             };
             break;
         }
-        case 'trace':{
-            const A=generate2x2();
-            const trace=+(A.a+A.d).toFixed(2);
-            questionArea.innerHTML=`Find trace of \$${matrixToString(A)}\$`;
-            correctAnswer={
-                correct: `Tr=${trace}`,
-                alternate: trace,
-            };
-            break;
-        }
         case 'power':{
-            const A=generate2x2();
-            const result={
+            let A=generate2x2();
+            let result={
                 a: +(A.a*A.a+A.b*A.c).toFixed(2),
                 b: +(A.a*A.b+A.b*A.d).toFixed(2),
                 c: +(A.c*A.a+A.d*A.c).toFixed(2),
@@ -667,8 +647,8 @@ function generateMatrix(){
         case 'row_echelon':{
             let A;
             do{ A=generate2x2(); } while (Math.abs(A.a)<0.1);
-            const factor=+(A.c/A.a).toFixed(2);
-            const result={
+            let factor=+(A.c/A.a).toFixed(2);
+            let result={
                 a: A.a,
                 b: A.b,
                 c: 0,
@@ -678,17 +658,6 @@ function generateMatrix(){
             correctAnswer={
                 correct: `ref(${result.a},${result.b},${result.c},${result.d})`,
                 alternate: matrixToString(result),
-            };
-            break;
-        }
-        case 'rank':{
-            const A=generate2x2();
-            const det=A.a*A.d-A.b*A.c;
-            const rank=Math.abs(det)>0.1?2:(A.a**2+A.b**2+A.c**2+A.d**2<0.1?0:1);
-            questionArea.innerHTML=`Determine rank of \$${matrixToString(A)}\$`;
-            correctAnswer={
-                correct: `rank=${rank}`,
-                alternate: rank,
             };
             break;
         }
