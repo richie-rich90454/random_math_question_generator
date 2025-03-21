@@ -512,39 +512,68 @@ function generateVector(){
     MathJax.typeset();
 }
 function generateMatrix(){
-    answerInstructions.style.display="block";
     questionArea.innerHTML="";
-    let types=['add', 'subtract', 'multiply', 'determinant', 'inverse', 'system'];
-    let type=types[Math.floor(Math.random()*types.length)];
-    let generate2x2=()=>({
-        a: Math.random()*10-5,
-        b: Math.random()*10-5,
-        c: Math.random()*10-5,
-        d: Math.random()*10-5
-    });
-    let matrixToString=(m, style='bmatrix')=>{
-        return `\\begin{${style}} ${m.a.toFixed(1)} & ${m.b.toFixed(1)} \\\\ ${m.c.toFixed(1)} & ${m.d.toFixed(1)} \\end{${style}}`;
-    };
+    const types=['add', 'subtract', 'multiply', 'determinant', 'inverse', 'system', 'transpose', 'scalar_mult', 'trace', 'power', 'row_echelon', 'rank'];
+    const type=types[Math.floor(Math.random()*types.length)];
+    const generate2x2=()=>({a: +(Math.random()*10-5).toFixed(2),b: +(Math.random()*10-5).toFixed(2),c: +(Math.random()*10-5).toFixed(2),d: +(Math.random()*10-5).toFixed(2)});
+    const matrixToString=(m, style='bmatrix')=>`\\begin{${style}} ${m.a} & ${m.b} \\\\ ${m.c} & ${m.d} \\end{${style}}`;
     switch(type){
         case 'add':{
-            let A=generate2x2();
-            let B=generate2x2();
-            let result={a: A.a+B.a,b: A.b+B.b,c: A.c+B.c,d: A.d+B.d};
+            const A=generate2x2();
+            const B=generate2x2();
+            const result={
+                a: +(A.a+B.a).toFixed(2),
+                b: +(A.b+B.b).toFixed(2),
+                c: +(A.c+B.c).toFixed(2),
+                d: +(A.d+B.d).toFixed(2)
+            };
             questionArea.innerHTML=`Add: \$${matrixToString(A)}+${matrixToString(B)}\$`;
-            correctAnswer={correct: matrixToString(result),alternate: matrixToString(result, 'pmatrix')};
+            correctAnswer={
+                correct: `[${result.a},${result.b};${result.c},${result.d}]`,
+                alternate: matrixToString(result),
+            };
+            break;
+        }
+        case 'subtract':{
+            const A=generate2x2();
+            const B=generate2x2();
+            const result={
+                a: +(A.a-B.a).toFixed(2),
+                b: +(A.b-B.b).toFixed(2),
+                c: +(A.c-B.c).toFixed(2),
+                d: +(A.d-B.d).toFixed(2)
+            };
+            questionArea.innerHTML=`Subtract: \$${matrixToString(A)}-${matrixToString(B)}\$`;
+            correctAnswer={
+                correct: `(${result.a},${result.b}|${result.c},${result.d})`,
+                alternate: matrixToString(result),
+            };
             break;
         }
         case 'multiply':{
-            let A=generate2x2();
-            let B=generate2x2();
-            let result={
-                a: (A.a*B.a+A.b*B.c).toFixed(2),
-                b: (A.a*B.b+A.b*B.d).toFixed(2),
-                c: (A.c*B.a+A.d*B.c).toFixed(2),
-                d: (A.c*B.b+A.d*B.d).toFixed(2)
+            const A=generate2x2();
+            const B=generate2x2();
+            const result={
+                a: +(A.a*B.a+A.b*B.c).toFixed(2),
+                b: +(A.a*B.b+A.b*B.d).toFixed(2),
+                c: +(A.c*B.a+A.d*B.c).toFixed(2),
+                d: +(A.c*B.b+A.d*B.d).toFixed(2)
             };
             questionArea.innerHTML=`Multiply: \$${matrixToString(A)} \\times ${matrixToString(B)}\$`;
-            correctAnswer={correct: `\\begin{bmatrix} ${result.a} & ${result.b} \\\\ ${result.c} & ${result.d} \\end{bmatrix}`,alternate: `(${result.a},${result.b};${result.c},${result.d})`};
+            correctAnswer={
+                correct: `${result.a} ${result.b} ${result.c} ${result.d}`,
+                alternate: matrixToString(result),
+            };
+            break;
+        }
+        case 'determinant':{
+            const A=generate2x2();
+            const det=+(A.a*A.d-A.b*A.c).toFixed(2);
+            questionArea.innerHTML=`Find determinant of \$${matrixToString(A)}\$`;
+            correctAnswer={
+                correct: det,
+                alternate: `D=${det}`,
+            };
             break;
         }
         case 'inverse':{
@@ -553,29 +582,113 @@ function generateMatrix(){
                 A=generate2x2();
                 det=A.a*A.d-A.b*A.c;
             } while (Math.abs(det)<0.1);
-            let invDet=1/det;
-            let inv={a: (A.d*invDet).toFixed(2),b: (-A.b*invDet).toFixed(2),c: (-A.c*invDet).toFixed(2),d: (A.a*invDet).toFixed(2)};
+            const invDet=1/det;
+            const inv={
+                a: +(A.d*invDet).toFixed(2),
+                b: +(-A.b*invDet).toFixed(2),
+                c: +(-A.c*invDet).toFixed(2),
+                d: +(A.a*invDet).toFixed(2)
+            };
             questionArea.innerHTML=`Find inverse of \$${matrixToString(A)}\$`;
             correctAnswer={
-                correct: `\\begin{bmatrix} ${inv.a} & ${inv.b} \\\\ ${inv.c} & ${inv.d} \\end{bmatrix}`,
-                alternate: `(${inv.a},${inv.b};${inv.c},${inv.d})`
+                correct: `inv(${inv.a},${inv.b},${inv.c},${inv.d})`,
+                alternate: matrixToString(inv),
             };
             break;
         }
         case 'system':{
-            let A=generate2x2();
-            let x=(Math.random()*5+1).toFixed(1);
-            let y=(Math.random()*5+1).toFixed(1);
-            let B={
-                a: (A.a*x+A.b*y).toFixed(2),
-                b: (A.c*x+A.d*y).toFixed(2)
+            const A=generate2x2();
+            const x=+(Math.random()*5+1).toFixed(2);
+            const y=+(Math.random()*5+1).toFixed(2);
+            const B={
+                a: +(A.a*x+A.b*y).toFixed(2),
+                b: +(A.c*x+A.d*y).toFixed(2)
             };
             questionArea.innerHTML=`Solve:<br>
-                \$${A.a.toFixed(1)}x+${A.b.toFixed(1)}y=${B.a}\$<br>
-                \$${A.c.toFixed(1)}x+${A.d.toFixed(1)}y=${B.b}\$`;
+                \$${A.a}x+${A.b}y=${B.a}\$<br>
+                \$${A.c}x+${A.d}y=${B.b}\$`;
             correctAnswer={
                 correct: `x=${x}, y=${y}`,
-                alternate: `(${x},${y})`
+                alternate: `(${x},${y})`,
+            };
+            break;
+        }
+        case 'transpose':{
+            const A=generate2x2();
+            const result={a: A.a, b: A.c, c: A.b, d: A.d};
+            questionArea.innerHTML=`Find transpose of \$${matrixToString(A)}\$`;
+            correctAnswer={
+                correct: `tr(${result.a},${result.b},${result.c},${result.d})`,
+                alternate: matrixToString(result),
+            };
+            break;
+        }
+        case 'scalar_mult':{
+            const A=generate2x2();
+            const k=+(Math.random()*10-5).toFixed(1);
+            const result={
+                a: +(k*A.a).toFixed(2),
+                b: +(k*A.b).toFixed(2),
+                c: +(k*A.c).toFixed(2),
+                d: +(k*A.d).toFixed(2)
+            };
+            questionArea.innerHTML=`Multiply \$${matrixToString(A)}\$ by ${k}`;
+            correctAnswer={
+                correct: `scl(${result.a},${result.b},${result.c},${result.d})`,
+                alternate: matrixToString(result),
+            };
+            break;
+        }
+        case 'trace':{
+            const A=generate2x2();
+            const trace=+(A.a+A.d).toFixed(2);
+            questionArea.innerHTML=`Find trace of \$${matrixToString(A)}\$`;
+            correctAnswer={
+                correct: trace,
+                alternate: `Tr=${trace}`,
+            };
+            break;
+        }
+        case 'power':{
+            const A=generate2x2();
+            const result={
+                a: +(A.a*A.a+A.b*A.c).toFixed(2),
+                b: +(A.a*A.b+A.b*A.d).toFixed(2),
+                c: +(A.c*A.a+A.d*A.c).toFixed(2),
+                d: +(A.c*A.b+A.d*A.d).toFixed(2)
+            };
+            questionArea.innerHTML=`Compute \$${matrixToString(A)}^2\$`;
+            correctAnswer={
+                correct: `pow(${result.a},${result.b},${result.c},${result.d})`,
+                alternate: matrixToString(result),
+            };
+            break;
+        }
+        case 'row_echelon':{
+            let A;
+            do{ A=generate2x2(); } while (Math.abs(A.a)<0.1);
+            const factor=+(A.c/A.a).toFixed(2);
+            const result={
+                a: A.a,
+                b: A.b,
+                c: 0,
+                d: +(A.d-factor*A.b).toFixed(2)
+            };
+            questionArea.innerHTML=`Find row-echelon form of \$${matrixToString(A)}\$`;
+            correctAnswer={
+                correct: `ref(${result.a},${result.b},${result.c},${result.d})`,
+                alternate: matrixToString(result),
+            };
+            break;
+        }
+        case 'rank':{
+            const A=generate2x2();
+            const det=A.a*A.d-A.b*A.c;
+            const rank=Math.abs(det)>0.1?2:(A.a**2+A.b**2+A.c**2+A.d**2<0.1?0:1);
+            questionArea.innerHTML=`Determine rank of \$${matrixToString(A)}\$`;
+            correctAnswer={
+                correct: rank,
+                alternate: `rank=${rank}`,
             };
             break;
         }
@@ -609,7 +722,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             return response.text();
         })
         .then(data=>{
-            let lines=data.split('\n').map(line=>line.trim()).filter(line=>line.length > 0);
+            let lines=data.split('\n').map(line=>line.trim()).filter(line=>line.length>0);
             lines.forEach((line)=>{
                 let parts=line.split('-');
                 if (parts.length<2){
