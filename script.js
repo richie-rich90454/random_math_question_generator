@@ -309,7 +309,7 @@ function generateVector(){
         do{
             x=Math.random()*10-5;
             y=Math.random()*10-5;
-        }while (Math.abs(x)<0.1 && Math.abs(y)<0.1);
+        }while (Math.abs(x)<0.1&&Math.abs(y)<0.1);
         return{x,y};
     };
     let generateNonZeroXVector=()=>{
