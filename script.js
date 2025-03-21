@@ -303,7 +303,7 @@ function generateFactorial(){
 function generateVector(){
     answerInstructions.style.display="block";
     questionArea.innerHTML="";
-    let types=['magnitude', 'direction', 'unit', 'dot', 'angle', 'projection','parametric', 'polar_convert', 'cartesian_convert', 'polar_graph','motion', 'de_moivre', 'add', 'subtract', 'parametric_to_cartesian'];
+    let types=['magnitude', 'direction', 'unit', 'dot', 'angle', 'projection', 'parametric', 'polar_convert', 'cartesian_convert', 'polar_graph', 'motion', 'de_moivre', 'add', 'subtract', 'parametric_to_cartesian'];
     let type=types[Math.floor(Math.random()*types.length)];
     let generateNonZeroVector=()=>{
         let x, y;
@@ -313,36 +313,55 @@ function generateVector(){
         }while (Math.abs(x)<0.1 && Math.abs(y)<0.1);
         return{x,y};
     };
-    switch(type){
+    let generateNonZeroXVector=()=>{
+        let vec;
+        do{
+            vec=generateNonZeroVector();
+        } while (Math.abs(vec.x)<0.1);
+        return vec;
+    };
+    switch (type){
         case 'magnitude':{
-            let {x,y}=generateNonZeroVector();
+            let{x,y}=generateNonZeroVector();
             let mag=Math.sqrt(x**2+y**2).toFixed(2);
-            questionArea.innerHTML=`Find the magnitude of \$\\langle${x.toFixed(1)}, ${y.toFixed(1)}\\rangle\$`;
-            correctAnswer={correct: mag, alternate: mag};
+            questionArea.innerHTML=`Find the magnitude of \\(\\langle ${x.toFixed(1)}, ${y.toFixed(1)} \\rangle\\).`;
+            correctAnswer={
+                correct: mag,
+                alternate: mag,
+            };
             break;
         }
         case 'direction':{
-            let {x,y}=generateNonZeroVector();
+            let{x,y}=generateNonZeroVector();
             let angle=(Math.atan2(y, x)*180/Math.PI).toFixed(1);
-            questionArea.innerHTML=`Find the direction angle (degrees) of \$\\langle${x.toFixed(1)}, ${y.toFixed(1)}\\rangle\$`;
-            correctAnswer={correct: angle, alternate: angle};
+            questionArea.innerHTML=`Find the direction angle (in degrees) of \\(\\langle ${x.toFixed(1)}, ${y.toFixed(1)} \\rangle\\).`;
+            correctAnswer={
+                correct: angle,
+                alternate: angle,
+            };
             break;
         }
         case 'unit':{
-            let {x,y}=generateNonZeroVector();
+            let{x,y}=generateNonZeroVector();
             let mag=Math.sqrt(x**2+y**2);
             let ux=(x/mag).toFixed(2);
             let uy=(y/mag).toFixed(2);
-            questionArea.innerHTML=`Find the unit vector for \$\\langle${x.toFixed(1)}, ${y.toFixed(1)}\\rangle\$`;
-            correctAnswer={correct: `\\left\\langle${ux}, ${uy}\\right\\rangle`,alternate: `⟨${ux},${uy}⟩`};
+            questionArea.innerHTML=`Find the unit vector in the direction of \\(\\langle ${x.toFixed(1)}, ${y.toFixed(1)} \\rangle\\).`;
+            correctAnswer={
+                correct: `<${ux}, ${uy}>`,
+                alternate: `\\langle ${ux}, ${uy} \\rangle`,
+            };
             break;
         }
         case 'dot':{
             let v1=generateNonZeroVector();
             let v2=generateNonZeroVector();
             let product=(v1.x*v2.x+v1.y*v2.y).toFixed(2);
-            questionArea.innerHTML=`Calculate \$\\langle${v1.x.toFixed(1)}, ${v1.y.toFixed(1)}\\rangle \\cdot \\langle${v2.x.toFixed(1)}, ${v2.y.toFixed(1)}\\rangle\$`;
-            correctAnswer={ correct: product, alternate: product };
+            questionArea.innerHTML=`Calculate \\(\\langle ${v1.x.toFixed(1)}, ${v1.y.toFixed(1)} \\rangle \\cdot \\langle ${v2.x.toFixed(1)}, ${v2.y.toFixed(1)} \\rangle\\).`;
+            correctAnswer={
+                correct: product,
+                alternate: product,
+            };
             break;
         }
         case 'angle':{
@@ -352,35 +371,144 @@ function generateVector(){
             let mag1=Math.sqrt(v1.x**2+v1.y**2);
             let mag2=Math.sqrt(v2.x**2+v2.y**2);
             let angle=(Math.acos(dot/(mag1*mag2))*180/Math.PI).toFixed(1);
-            questionArea.innerHTML=`Find the angle between \$\\langle${v1.x.toFixed(1)}, ${v1.y.toFixed(1)}\\rangle\$ and \$\\langle${v2.x.toFixed(1)}, ${v2.y.toFixed(1)}\\rangle\$`;
-            correctAnswer={ correct: angle, alternate: angle };
+            questionArea.innerHTML=`Find the angle (in degrees) between \\(\\langle ${v1.x.toFixed(1)}, ${v1.y.toFixed(1)} \\rangle\\) and \\(\\langle ${v2.x.toFixed(1)}, ${v2.y.toFixed(1)} \\rangle\\).`;
+            correctAnswer={
+                correct: angle,
+                alternate: angle,
+            };
+            break;
+        }
+        case 'projection':{
+            let v1=generateNonZeroVector();
+            let v2=generateNonZeroVector();
+            let dot=v1.x*v2.x+v1.y*v2.y;
+            let magV2Sq=v2.x**2+v2.y**2;
+            let projX=(dot/magV2Sq*v2.x).toFixed(2);
+            let projY=(dot/magV2Sq*v2.y).toFixed(2);
+            questionArea.innerHTML=`Find the projection of \\(\\langle ${v1.x.toFixed(1)}, ${v1.y.toFixed(1)} \\rangle\\) onto \\(\\langle ${v2.x.toFixed(1)}, ${v2.y.toFixed(1)} \\rangle\\).`;
+            correctAnswer={
+                correct: `<${projX}, ${projY}>`,
+                alternate: `\\langle ${projX}, ${projY} \\rangle`,
+            };
+            break;
+        }
+        case 'parametric':{
+            let pointX=(Math.random()*10-5).toFixed(1);
+            let pointY=(Math.random()*10-5).toFixed(1);
+            let dir=generateNonZeroVector();
+            questionArea.innerHTML=`Write the parametric equations for the line that passes through \\((${pointX}, ${pointY})\\) and has direction vector \\(\\langle ${dir.x.toFixed(1)}, ${dir.y.toFixed(1)} \\rangle\\).`;
+            correctAnswer={
+                correct: `x=${pointX}+${dir.x.toFixed(1)}t, y=${pointY}+${dir.y.toFixed(1)}t`,
+                alternate: `x=${pointX}+${dir.x.toFixed(1)}t, y=${pointY}+${dir.y.toFixed(1)}t`,
+            };
             break;
         }
         case 'polar_convert':{
             let r=(Math.random()*10).toFixed(1);
-            let θ=(Math.random()*360-180).toFixed(0);
-            let x=(parseFloat(r)*Math.cos(θ*Math.PI/180)).toFixed(2);
-            let y=(parseFloat(r)*Math.sin(θ*Math.PI/180)).toFixed(2);
-            questionArea.innerHTML=`Convert polar (\$${r}, ${θ}°\$) to Cartesian`;
+            let theta=(Math.random()*360-180).toFixed(0);
+            let x=(parseFloat(r)*Math.cos(parseFloat(theta)*Math.PI/180).toFixed(2));
+            let y=(parseFloat(r)*Math.sin(parseFloat(theta)*Math.PI/180).toFixed(2));
+            questionArea.innerHTML=`Convert the polar coordinate \\((${r}, ${theta}^{\\circ})\\) to Cartesian coordinates.`;
             correctAnswer={
                 correct: `(${x}, ${y})`,
-                alternate: `⟨${x},${y}⟩`
+                alternate: `(${x}, ${y})`,
+            };
+            break;
+        }
+        case 'cartesian_convert':{
+            let{x,y}=generateNonZeroVector();
+            let r=Math.sqrt(x**2+y**2).toFixed(2);
+            let theta=(Math.atan2(y, x)*180/Math.PI).toFixed(1);
+            questionArea.innerHTML=`Convert the Cartesian coordinate \\((${x.toFixed(1)}, ${y.toFixed(1)})\\) to polar coordinates. Answer with (r, degrees), no need to add °.`;
+            correctAnswer={
+                correct: `(${r}, ${theta})`,
+                alternate: `(${r}, ${theta}^{\\circ})`,
+            };
+            break;
+        }
+        case 'polar_graph':{
+            let a=(Math.random()*4+1).toFixed(1);
+            let useSin=Math.random()<0.5;
+            if (useSin){
+                questionArea.innerHTML=`Describe the graph of the polar equation \\(r=${a}\\sin\\theta\\). Use the format \" A circle with center at (x, y) and radius (radius). \"`;
+                let center=(a/2).toFixed(2);
+                correctAnswer={
+                    correct: `A circle with center at (0, ${center}) and radius ${center}`,
+                    alternate: `Circle: center (0, ${center}), radius ${center}`,
+                };
+            } else{
+                questionArea.innerHTML=`Describe the graph of the polar equation \\(r=${a}\\cos\\theta\\). Use the format \" A circle with center at (x, y) and radius (radius).`;
+                let center=(a/2).toFixed(2);
+                correctAnswer={
+                    correct: `A circle with center at (${center}, 0) and radius ${center}`,
+                    alternate: `Circle: center (${center}, 0), radius ${center}`,
+                };
+            }
+            break;
+        }
+        case 'motion':{
+            let posX=(Math.random()*10-5).toFixed(1);
+            let posY=(Math.random()*10-5).toFixed(1);
+            let v=generateNonZeroVector();
+            questionArea.innerHTML=`A particle starts at \\((${posX}, ${posY})\\) and moves with constant velocity \\(\\langle ${v.x.toFixed(1)}, ${v.y.toFixed(1)} \\rangle\\). Write the position vector as a function of time \\(t\\).`;
+            correctAnswer={
+                correct: `<${posX}+${v.x.toFixed(1)}t, ${posY}+${v.y.toFixed(1)}t>`,
+                alternate: `\\langle ${posX}+${v.x.toFixed(1)}t, ${posY}+${v.y.toFixed(1)}t \\rangle`,
             };
             break;
         }
         case 'de_moivre':{
             let r=(Math.random()*5+1).toFixed(1);
-            let θ=Math.floor(Math.random()*360);
+            let theta=Math.floor(Math.random()*360);
             let n=Math.floor(Math.random()*3+2);
             let newR=(r**n).toFixed(2);
-            let newθ=(θ*n) % 360;
-            questionArea.innerHTML=`Compute \$(${r}(\\cos${θ}°+i\\sin${θ}°))^{${n}}\$ using De Moivre's`;
+            let newTheta=(theta*n) % 360;
+            questionArea.innerHTML=`Compute \\((${r}(\\cos ${theta}^{\\circ}+i\\sin ${theta}^{\\circ}))^{${n}}\\) using De Moivre's Theorem. Answer with degrees (no need to add °).`;
             correctAnswer={
-                correct: `${newR}(\\cos${newθ}°+i\\sin${newθ}°)`,
-                alternate: `${newR} cis ${newθ}°`
+                correct: `${newR} cis ${newTheta}`,
+                alternate: `${newR}(\\cos ${newTheta}^{\\circ}+i\\sin ${newTheta}^{\\circ})`,
             };
             break;
         }
+        case 'add':{
+            let v1=generateNonZeroVector();
+            let v2=generateNonZeroVector();
+            let sumX=(v1.x+v2.x).toFixed(2);
+            let sumY=(v1.y+v2.y).toFixed(2);
+            questionArea.innerHTML=`Find the sum of the vectors \\(\\langle ${v1.x.toFixed(1)}, ${v1.y.toFixed(1)} \\rangle\\) and \\(\\langle ${v2.x.toFixed(1)}, ${v2.y.toFixed(1)} \\rangle\\).`;
+            correctAnswer={
+                correct: `<${sumX}, ${sumY}>`,
+                alternate: `\\langle ${sumX}, ${sumY} \\rangle`,
+            };
+            break;
+        }
+        case 'subtract':{
+            let v1=generateNonZeroVector();
+            let v2=generateNonZeroVector();
+            let diffX=(v1.x-v2.x).toFixed(2);
+            let diffY=(v1.y-v2.y).toFixed(2);
+            questionArea.innerHTML=`Subtract \\(\\langle ${v2.x.toFixed(1)}, ${v2.y.toFixed(1)} \\rangle\\) from \\(\\langle ${v1.x.toFixed(1)}, ${v1.y.toFixed(1)} \\rangle\\).`;
+            correctAnswer={
+                correct: `<${diffX}, ${diffY}>`,
+                alternate: `\\langle ${diffX}, ${diffY} \\rangle`,
+            };
+            break;
+        }
+        case 'parametric_to_cartesian':{
+            let x0=(Math.random()*10-5).toFixed(1);
+            let y0=(Math.random()*10-5).toFixed(1);
+            let dir=generateNonZeroXVector();
+            let slope=(dir.y/dir.x).toFixed(2);
+            questionArea.innerHTML=`The line is given by the parametric equations \\(x=${x0}+${dir.x.toFixed(1)}t\\) and \\(y=${y0}+${dir.y.toFixed(1)}t\\). Convert these into a single Cartesian equation.`;
+            let yIntercept=(y0-slope*x0).toFixed(2);
+            correctAnswer={
+                correct: `y=${slope}(x-${x0})+${y0}`,
+                alternate: `y=${slope}x+${yIntercept}`,
+            };
+            break;
+        }
+        default:
+            questionArea.innerHTML="Unknown question type.";
     }
     MathJax.typeset();
 }
