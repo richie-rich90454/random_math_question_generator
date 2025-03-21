@@ -430,14 +430,14 @@ function generateVector(){
             let a=(Math.random()*4+1).toFixed(1);
             let useSin=Math.random()<0.5;
             if (useSin){
-                questionArea.innerHTML=`Describe the graph of the polar equation \\(r=${a}\\sin\\theta\\). Use the format \" A circle with center at (x, y) and radius (radius). \"`;
+                questionArea.innerHTML=`Describe the graph of the polar equation \\(r=${a}\\sin\\theta\\). Use the format \" A circle with center at (x, y) and radius (radius) \" Use two decimal places.`;
                 let center=(a/2).toFixed(2);
                 correctAnswer={
                     correct: `A circle with center at (0, ${center}) and radius ${center}`,
                     alternate: `Circle: center (0, ${center}), radius ${center}`,
                 };
             } else{
-                questionArea.innerHTML=`Describe the graph of the polar equation \\(r=${a}\\cos\\theta\\). Use the format \" A circle with center at (x, y) and radius (radius).`;
+                questionArea.innerHTML=`Describe the graph of the polar equation \\(r=${a}\\cos\\theta\\). Use the format \" A circle with center at (x, y) and radius (radius) \"  Use two decimal places.`;
                 let center=(a/2).toFixed(2);
                 correctAnswer={
                     correct: `A circle with center at (${center}, 0) and radius ${center}`,
@@ -502,8 +502,8 @@ function generateVector(){
             questionArea.innerHTML=`The line is given by the parametric equations \\(x=${x0}+${dir.x.toFixed(1)}t\\) and \\(y=${y0}+${dir.y.toFixed(1)}t\\). Convert these into a single Cartesian equation.`;
             let yIntercept=(y0-slope*x0).toFixed(2);
             correctAnswer={
-                correct: `y=${slope}(x-${x0})+${y0}`,
-                alternate: `y=${slope}x+${yIntercept}`,
+                correct: `y=${slope}x+${yIntercept}`,
+                alternate: `y=${slope}(x-${x0})+${y0}`,
             };
             break;
         }
@@ -587,7 +587,7 @@ function checkAnswer(){
     let userInput=userAnswer.value.trim().toLowerCase();
     let isCorrect=false;
     let format=(str)=>{
-        return str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1"); 
+        return str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1").trim().toLowerCase(); 
     };
     if (questionType.value=="deri"||questionType.value=="mtrx"||questionType.value=="vctr"||questionType.value=="root"){
         isCorrect=[correctAnswer.correct, correctAnswer.alternate].map(format).includes(format(userInput));
