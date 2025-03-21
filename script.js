@@ -301,7 +301,6 @@ function generateFactorial(){
     }
 }
 function generateVector(){
-    answerInstructions.style.display="block";
     questionArea.innerHTML="";
     let types=['magnitude', 'direction', 'unit', 'dot', 'angle', 'projection', 'parametric', 'polar_convert', 'cartesian_convert', 'polar_graph', 'motion', 'de_moivre', 'add', 'subtract', 'parametric_to_cartesian'];
     let type=types[Math.floor(Math.random()*types.length)];
