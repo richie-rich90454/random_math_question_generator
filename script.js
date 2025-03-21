@@ -680,22 +680,22 @@ function generateSin(){
             }
             else{
                 let radianAngles=[
-                   { value: 0, label: "0" },
-                   { value: Math.PI/6, label: "\\frac{\\pi}{6}" },
-                   { value: Math.PI/4, label: "\\frac{\\pi}{4}" },
-                   { value: Math.PI/3, label: "\\frac{\\pi}{3}" },
-                   { value: Math.PI/2, label: "\\frac{\\pi}{2}" },
-                   { value: 2*Math.PI/3, label: "\\frac{2\\pi}{3}" },
-                   { value: 3*Math.PI/4, label: "\\frac{3\\pi}{4}" },
-                   { value: 5*Math.PI/6, label: "\\frac{5\\pi}{6}" },
-                   { value: Math.PI, label: "\\pi" },
-                   { value: 7*Math.PI/6, label: "\\frac{7\\pi}{6}" },
-                   { value: 5*Math.PI/4, label: "\\frac{5\\pi}{4}" },
-                   { value: 4*Math.PI/3, label: "\\frac{4\\pi}{3}" },
-                   { value: 3*Math.PI/2, label: "\\frac{3\\pi}{2}" },
-                   { value: 5*Math.PI/3, label: "\\frac{5\\pi}{3}" },
-                   { value: 7*Math.PI/4, label: "\\frac{7\\pi}{4}" },
-                   { value: 11*Math.PI/6, label: "\\frac{11\\pi}{6}" }
+                  { value: 0, label: "0" },
+                  { value: Math.PI/6, label: "\\frac{\\pi}{6}" },
+                  { value: Math.PI/4, label: "\\frac{\\pi}{4}" },
+                  { value: Math.PI/3, label: "\\frac{\\pi}{3}" },
+                  { value: Math.PI/2, label: "\\frac{\\pi}{2}" },
+                  { value: 2*Math.PI/3, label: "\\frac{2\\pi}{3}" },
+                  { value: 3*Math.PI/4, label: "\\frac{3\\pi}{4}" },
+                  { value: 5*Math.PI/6, label: "\\frac{5\\pi}{6}" },
+                  { value: Math.PI, label: "\\pi" },
+                  { value: 7*Math.PI/6, label: "\\frac{7\\pi}{6}" },
+                  { value: 5*Math.PI/4, label: "\\frac{5\\pi}{4}" },
+                  { value: 4*Math.PI/3, label: "\\frac{4\\pi}{3}" },
+                  { value: 3*Math.PI/2, label: "\\frac{3\\pi}{2}" },
+                  { value: 5*Math.PI/3, label: "\\frac{5\\pi}{3}" },
+                  { value: 7*Math.PI/4, label: "\\frac{7\\pi}{4}" },
+                  { value: 11*Math.PI/6, label: "\\frac{11\\pi}{6}" }
                 ];
                 let obj=radianAngles[Math.floor(Math.random()*radianAngles.length)];
                 let value=Math.sin(obj.value).toFixed(2);
@@ -739,8 +739,8 @@ function generateSin(){
             let B=Math.floor(Math.random()*4+1);
             questionArea.innerHTML=`What is the period of \$y=\\sin(${B}x)\$?`;
             correctAnswer={ 
-                correct: `\\frac{2\\pi}{${B}}`, 
-                alternate: (2*Math.PI/B).toFixed(2)+" radians"
+                correct: (2*Math.PI/B).toFixed(2)+" radians", 
+                alternate: `\\frac{2\\pi}{${B}}`
             };
             break;
         }
@@ -802,14 +802,14 @@ function generateCosine(){
             }
             else{
                 let radianAngles=[
-                   { value: 0, label: "0" },
-                   { value: Math.PI/3, label: "\\frac{\\pi}{3}" },
-                   { value: Math.PI/2, label: "\\frac{\\pi}{2}" },
-                   { value: 2*Math.PI/3, label: "\\frac{2\\pi}{3}" },
-                   { value: Math.PI, label: "\\pi" },
-                   { value: 4*Math.PI/3, label: "\\frac{4\\pi}{3}" },
-                   { value: 3*Math.PI/2, label: "\\frac{3\\pi}{2}" },
-                   { value: 5*Math.PI/3, label: "\\frac{5\\pi}{3}" }
+                  { value: 0, label: "0" },
+                  { value: Math.PI/3, label: "\\frac{\\pi}{3}" },
+                  { value: Math.PI/2, label: "\\frac{\\pi}{2}" },
+                  { value: 2*Math.PI/3, label: "\\frac{2\\pi}{3}" },
+                  { value: Math.PI, label: "\\pi" },
+                  { value: 4*Math.PI/3, label: "\\frac{4\\pi}{3}" },
+                  { value: 3*Math.PI/2, label: "\\frac{3\\pi}{2}" },
+                  { value: 5*Math.PI/3, label: "\\frac{5\\pi}{3}" }
                 ];
                 let obj=radianAngles[Math.floor(Math.random()*radianAngles.length)];
                 let value=Math.cos(obj.value).toFixed(2);
@@ -853,8 +853,8 @@ function generateCosine(){
             let B=Math.floor(Math.random()*4+1);
             questionArea.innerHTML=`What is the period of \$y=\\cos(${B}x)\$?`;
             correctAnswer={ 
-                correct: `\\frac{2\\pi}{${B}}`, 
-                alternate: (2*Math.PI/B).toFixed(2)+" radians"
+                correct: (2*Math.PI/B).toFixed(2)+" radians", 
+                alternate: `\\frac{2\\pi}{${B}}`
             };
             break;
         }
@@ -923,8 +923,8 @@ function generateTangent(){
             let B=Math.floor(Math.random()*3+1);
             questionArea.innerHTML=`What is the period of \$y=\\tan(${B}x)\$?`;
             correctAnswer={ 
-                correct: `\\frac{\\pi}{${B}}`, 
-                alternate: (Math.PI/B).toFixed(2)+" radians"
+                correct: (Math.PI/B).toFixed(2)+" radians", 
+                alternate: `\\frac{\\pi}{${B}}`
             };
             break;
         }
@@ -1033,23 +1033,45 @@ function generateCotangent(){
 function checkAnswer(){
     let userInput=userAnswer.value.trim().toLowerCase();
     let isCorrect=false;
-    let format=(str)=>{
+    let format=(str) =>{
         return str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1").trim().toLowerCase(); 
     };
-    if (questionType.value=="deri"||questionType.value=="mtrx"||questionType.value=="vctr"||questionType.value=="root"){
+    if (questionType.value=="deri"||questionType.value=="mtrx"||questionType.value=="vctr"||questionType.value=="root"||questionType.value=="inte"){
         isCorrect=[correctAnswer.correct, correctAnswer.alternate].map(format).includes(format(userInput));
-        answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`: `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
-    }
-    else if (questionType.value=="inte"){
-        let userValue=parseFloat(userInput);
-        isCorrect=!isNaN(userValue)&&Math.abs(userValue-correctAnswer)<0.01;
-        answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`: `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
-    }
+        answerResults.innerHTML=isCorrect 
+            ? `Correct! The answer is ${correctAnswer.correct}.` 
+            : `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
+    } 
     else{
-        isCorrect=parseFloat(userInput)==correctAnswer;
-        answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer}.`: `Incorrect. The correct answer should be ${correctAnswer}.`;
+        let userValue=parseFloat(userInput);
+        let correctValue=parseFloat(correctAnswer.correct); 
+        isCorrect=!isNaN(userValue) && userValue==correctValue;
+        answerResults.innerHTML=isCorrect 
+            ? `Correct! The answer is ${correctAnswer.correct}.` 
+            : `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
     }
 }
+
+// function checkAnswer(){
+//     let userInput=userAnswer.value.trim().toLowerCase();
+//     let isCorrect=false;
+//     let format=(str)=>{
+//         return str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1").trim().toLowerCase(); 
+//     };
+//     if (questionType.value=="deri"||questionType.value=="mtrx"||questionType.value=="vctr"||questionType.value=="root"){
+//         isCorrect=[correctAnswer.correct, correctAnswer.alternate].map(format).includes(format(userInput));
+//         answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`: `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
+//     }
+//     else if (questionType.value=="inte"){
+//         let userValue=parseFloat(userInput);
+//         isCorrect=!isNaN(userValue)&&Math.abs(userValue-correctAnswer)<0.01;
+//         answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`: `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
+//     }
+//     else{
+//         isCorrect=parseFloat(userInput)==correctAnswer;
+//         answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer}.`: `Incorrect. The correct answer should be ${correctAnswer}.`;
+//     }
+// }
 document.addEventListener('DOMContentLoaded', ()=>{
     fetch("/quotes_of_the_day.txt")
         .then(response=>{
