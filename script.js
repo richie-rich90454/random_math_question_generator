@@ -1051,27 +1051,6 @@ function checkAnswer(){
             : `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
     }
 }
-
-// function checkAnswer(){
-//     let userInput=userAnswer.value.trim().toLowerCase();
-//     let isCorrect=false;
-//     let format=(str)=>{
-//         return str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1").trim().toLowerCase(); 
-//     };
-//     if (questionType.value=="deri"||questionType.value=="mtrx"||questionType.value=="vctr"||questionType.value=="root"){
-//         isCorrect=[correctAnswer.correct, correctAnswer.alternate].map(format).includes(format(userInput));
-//         answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`: `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
-//     }
-//     else if (questionType.value=="inte"){
-//         let userValue=parseFloat(userInput);
-//         isCorrect=!isNaN(userValue)&&Math.abs(userValue-correctAnswer)<0.01;
-//         answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer.correct}.`: `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
-//     }
-//     else{
-//         isCorrect=parseFloat(userInput)==correctAnswer;
-//         answerResults.innerHTML=isCorrect? `Correct! The answer is ${correctAnswer}.`: `Incorrect. The correct answer should be ${correctAnswer}.`;
-//     }
-// }
 document.addEventListener('DOMContentLoaded', ()=>{
     fetch("/quotes_of_the_day.txt")
         .then(response=>{
