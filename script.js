@@ -1039,27 +1039,6 @@ function generateCotangent(){
     }
     MathJax.typeset();
 }
-// function checkAnswer(){
-//     let userInput=userAnswer.value.trim().toLowerCase();
-//     let isCorrect=false;
-//     let format=(str) =>{
-//         return str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1").trim().toLowerCase(); 
-//     };
-//     if (questionType.value=="deri"||questionType.value=="mtrx"||questionType.value=="vctr"||questionType.value=="root"||questionType.value=="inte"){
-//         isCorrect=[correctAnswer.correct, correctAnswer.alternate].map(format).includes(format(userInput));
-//         answerResults.innerHTML=isCorrect 
-//             ? `Correct! The answer is ${correctAnswer.correct}.` 
-//             : `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
-//     } 
-//     else{
-//         let userValue=parseFloat(userInput);
-//         let correctValue=parseFloat(correctAnswer.correct); 
-//         isCorrect=!isNaN(userValue) && userValue==correctValue;
-//         answerResults.innerHTML=isCorrect 
-//             ? `Correct! The answer is ${correctAnswer.correct}.` 
-//             : `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
-//     }
-// }
 function checkAnswer() {
     let userInput=userAnswer.value.trim().toLowerCase();
     let isCorrect=false;
