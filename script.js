@@ -1043,7 +1043,7 @@ function checkAnswer() {
     let userInput=userAnswer.value.trim().toLowerCase();
     let isCorrect=false;
     const format=(str)=>str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1").trim().toLowerCase();
-    const formattedTypes=["deri", "mtrx", "vctr", "root", "inte"];
+    const formattedTypes=["deri", "mtrx", "vctr", "root", "inte", "sin", "cos", "tan", "cosec", "sec", "cot", "log"];
     if (formattedTypes.includes(questionType.value)) {
         isCorrect=[correctAnswer.correct, correctAnswer.alternate]
             .map(format)
