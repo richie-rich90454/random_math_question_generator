@@ -101,25 +101,33 @@ function generateAddition(){
     let num1=parseFloat(((Math.random()*1500)-1000).toFixed(3));
     let num2=parseFloat((Math.random()*1500).toFixed(3));
     questionArea.innerHTML=`\$${num1}+${num2}=\$`;
-    correctAnswer=num1+num2;
+    correctAnswer={correct: (num1+num2).toFixed(3)};
 }
 function generateSubtraction(){
     let num1=parseFloat(((Math.random()*1500)-1000).toFixed(3));
     let num2=parseFloat((Math.random()*1500).toFixed(3));
     questionArea.innerHTML=`\$${num1}-${num2}=\$`;
-    correctAnswer=num1-num2;
+    correctAnswer={correct: (num1-num2).toFixed(3)};
 }
 function generateMultiplication(){
     let num1=parseFloat(((Math.random()*1500)-1000).toFixed(2));
     let num2=parseFloat((Math.random()*1500).toFixed(2));
     questionArea.innerHTML=`\$${num1} \\times ${num2}=\$<br>Round your answer to two decimal places`;
-    correctAnswer=Math.round((num1*num2)*100)/100;
+    let actualAnswer=num1*num2;
+    correctAnswer={
+        correct: (Math.round(actualAnswer*100)/100).toFixed(2),
+        alternate: actualAnswer.toFixed(5)
+    };
 }
 function generateDivision(){
     let num1=parseFloat(((Math.random()*1500)-1000).toFixed(2));
     let num2=parseFloat((Math.random()*1500).toFixed(2));
     questionArea.innerHTML=`\$${num1} \\div ${num2}=\$<br>Round your answer to two decimal places`;
-    correctAnswer=Math.round((num1/num2)*100)/100;
+    let actualAnswer=num1/num2;
+    correctAnswer={ 
+        correct: (Math.round(actualAnswer*100)/100).toFixed(2),
+        alternate: actualAnswer.toFixed(5) 
+    };
 }
 function generateRoot(){
     questionArea.innerHTML="";
@@ -299,6 +307,7 @@ function generateFactorial(){
     for (let i=2;i<=num;i++){
         correctAnswer*=i;
     }
+    correctAnswer={correct: fact.toString()};
 }
 function generateVector(){
     questionArea.innerHTML="";
@@ -529,7 +538,7 @@ function generateMatrix(){
             };
             questionArea.innerHTML=`Add: \$${matrixToString(A)}+${matrixToString(B)}\$`;
             correctAnswer={
-                correct: `[${result.a},${result.b};${result.c},${result.d}]`,
+                correct: `[${result.a},${result.b},${result.c},${result.d}]`,
                 alternate: matrixToString(result),
             };
             break;
@@ -561,7 +570,7 @@ function generateMatrix(){
             };
             questionArea.innerHTML=`Multiply: \$${matrixToString(A)} \\times ${matrixToString(B)}\$`;
             correctAnswer={
-                correct: `${result.a} ${result.b} ${result.c} ${result.d}`,
+                correct: `[${result.a},${result.b},${result.c},${result.d}]`,
                 alternate: matrixToString(result),
             };
             break;
@@ -674,7 +683,7 @@ function generateSin(){
             if (isDegree){
                 let commonAngles=[0, 30, 45, 60, 90, 120, 135, 150, 180, 210, 225, 240, 270, 300, 315, 330];
                 let angle=commonAngles[Math.floor(Math.random()*commonAngles.length)];
-                let value=Math.sin(angle*Math.PI / 180).toFixed(2);
+                let value=Math.sin(angle*Math.PI/180).toFixed(2);
                 questionArea.innerHTML=`Evaluate \$\\sin(${angle}^\\circ)\$`;
                 correctAnswer={correct: value, alternate: value};
             }
@@ -759,7 +768,7 @@ function generateSin(){
             let angleA=Math.floor(Math.random()*50+30);
             let angleB=Math.floor(Math.random()*50+30);
             let sideA=Math.floor(Math.random()*10+5);
-            let sideB=(sideA*Math.sin(angleB*Math.PI/180) / Math.sin(angleA*Math.PI/180)).toFixed(1);
+            let sideB=(sideA*Math.sin(angleB*Math.PI/180)/Math.sin(angleA*Math.PI/180)).toFixed(1);
             
             questionArea.innerHTML=`Using the Law of Sines:<br>
                 In triangle ABC, ∠A=${angleA}deg, ∠B=${angleB}deg, and side a=${sideA}.<br>
@@ -1030,27 +1039,45 @@ function generateCotangent(){
     }
     MathJax.typeset();
 }
-function checkAnswer(){
+// function checkAnswer(){
+//     let userInput=userAnswer.value.trim().toLowerCase();
+//     let isCorrect=false;
+//     let format=(str) =>{
+//         return str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1").trim().toLowerCase(); 
+//     };
+//     if (questionType.value=="deri"||questionType.value=="mtrx"||questionType.value=="vctr"||questionType.value=="root"||questionType.value=="inte"){
+//         isCorrect=[correctAnswer.correct, correctAnswer.alternate].map(format).includes(format(userInput));
+//         answerResults.innerHTML=isCorrect 
+//             ? `Correct! The answer is ${correctAnswer.correct}.` 
+//             : `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
+//     } 
+//     else{
+//         let userValue=parseFloat(userInput);
+//         let correctValue=parseFloat(correctAnswer.correct); 
+//         isCorrect=!isNaN(userValue) && userValue==correctValue;
+//         answerResults.innerHTML=isCorrect 
+//             ? `Correct! The answer is ${correctAnswer.correct}.` 
+//             : `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
+//     }
+// }
+function checkAnswer() {
     let userInput=userAnswer.value.trim().toLowerCase();
     let isCorrect=false;
-    let format=(str) =>{
-        return str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1").trim().toLowerCase(); 
-    };
-    if (questionType.value=="deri"||questionType.value=="mtrx"||questionType.value=="vctr"||questionType.value=="root"||questionType.value=="inte"){
-        isCorrect=[correctAnswer.correct, correctAnswer.alternate].map(format).includes(format(userInput));
-        answerResults.innerHTML=isCorrect 
-            ? `Correct! The answer is ${correctAnswer.correct}.` 
-            : `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
-    } 
-    else{
-        let userValue=parseFloat(userInput);
-        let correctValue=parseFloat(correctAnswer.correct); 
-        isCorrect=!isNaN(userValue) && userValue==correctValue;
-        answerResults.innerHTML=isCorrect 
-            ? `Correct! The answer is ${correctAnswer.correct}.` 
-            : `Incorrect. The correct answer should be ${correctAnswer.correct}.`;
+    const format=(str)=>str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1").trim().toLowerCase();
+    const formattedTypes=["deri", "mtrx", "vctr", "root", "inte"];
+    if (formattedTypes.includes(questionType.value)) {
+        isCorrect=[correctAnswer.correct, correctAnswer.alternate]
+            .map(format)
+            .includes(format(userInput));
     }
+    else {
+        let userValue=parseFloat(userInput);
+        let correctValue=parseFloat(correctAnswer.correct);
+        isCorrect=!isNaN(userValue) && userValue==correctValue;
+    }
+    answerResults.innerHTML=isCorrect?`Correct! The answer is <strong>${correctAnswer.correct}</strong>.`: `Incorrect. The correct answer is <strong>${correctAnswer.correct}</strong>.`;
 }
+
 document.addEventListener('DOMContentLoaded', ()=>{
     fetch("/quotes_of_the_day.txt")
         .then(response=>{
