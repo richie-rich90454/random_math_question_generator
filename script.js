@@ -1110,6 +1110,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
 userAnswer.addEventListener("keyup", function(e){
     if (e.shiftKey&&e.key=="Enter"){
         checkAnswer();
+        userAnswer.value="";
+        userAnswer.focus();
     }
 });
 generateQuestionButton.addEventListener("click", generateQuestion);
