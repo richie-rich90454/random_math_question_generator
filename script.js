@@ -1039,29 +1039,6 @@ function generateCotangent(){
     }
     MathJax.typeset();
 }
-// function checkAnswer(){
-//     let userInput=userAnswer.value.trim().toLowerCase();
-//     let isCorrect=false;
-//     const format=(str)=>str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1").trim().toLowerCase();
-//     const removeTrailingZeros=(num)=>parseFloat(num).toString();
-//     const formattedTypes=["deri", "mtrx", "vctr", "root", "inte", "sin", "cos", "tan", "cosec", "sec", "cot", "log"];
-//     if (formattedTypes.includes(questionType.value)){
-//         let userEvaluated;
-//         try{
-//             userEvaluated=removeTrailingZeros(eval(userInput));
-//         }
-//         catch (e){
-//             userEvaluated=format(userInput);
-//         }
-//         isCorrect=[correctAnswer.correct, correctAnswer.alternate].some(ans=>removeTrailingZeros(eval(ans))==userEvaluated||format(ans)==userEvaluated);
-//     }
-//     else{
-//         let userValue=parseFloat(userInput);
-//         let correctValue=parseFloat(correctAnswer.correct);
-//         isCorrect=!isNaN(userValue)&&userValue==correctValue;
-//     }
-//     answerResults.innerHTML=isCorrect?`Correct! The answer is <strong>${correctAnswer.correct}</strong>.`:`Incorrect. The correct answer is <strong>${correctAnswer.correct}</strong>.`;
-// }
 function checkAnswer(){
     let userInput=userAnswer.value.trim().toLowerCase();
     let isCorrect=false;
