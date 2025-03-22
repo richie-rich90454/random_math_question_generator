@@ -1061,7 +1061,7 @@ function checkAnswer(){
         let correctValue=parseFloat(correctAnswer.correct);
         isCorrect=!isNaN(userValue)&&userValue==correctValue;
     }
-    answerResults.innerHTML=isCorrect?`Correct! The answer is <strong>${correctAnswer.correct}</strong>.`:`Incorrect. The correct answer is <strong>${correctAnswer.correct}</strong>.`;
+    answerResults.innerHTML=isCorrect?`Correct! The answer is <span class="answer">${correctAnswer.correct}</span>.`:`Incorrect. The correct answer is <span class="answer">${correctAnswer.correct}</span>.`;
 }
 
 document.addEventListener('DOMContentLoaded', ()=>{
