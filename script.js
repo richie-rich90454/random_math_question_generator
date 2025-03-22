@@ -1056,7 +1056,6 @@ function checkAnswer() {
     }
     answerResults.innerHTML=isCorrect?`Correct! The answer is <strong>${correctAnswer.correct}</strong>.`: `Incorrect. The correct answer is <strong>${correctAnswer.correct}</strong>.`;
 }
-
 document.addEventListener('DOMContentLoaded', ()=>{
     fetch("/quotes_of_the_day.txt")
         .then(response=>{
