@@ -1087,5 +1087,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
         })
         .catch(error=>console.error('Error:', error));
 });
+userAnswer.addEventListener("keyup", function(e){
+    if (e.shiftKey&&e.key=="Enter"){
+        checkAnswer();
+    }
+});
 generateQuestionButton.addEventListener("click", generateQuestion);
 checkAnswerButton.addEventListener("click", checkAnswer);
