@@ -689,22 +689,22 @@ function generateSin(){
             }
             else{
                 let radianAngles=[
-                  { value: 0, label: "0" },
-                  { value: Math.PI/6, label: "\\frac{\\pi}{6}" },
-                  { value: Math.PI/4, label: "\\frac{\\pi}{4}" },
-                  { value: Math.PI/3, label: "\\frac{\\pi}{3}" },
-                  { value: Math.PI/2, label: "\\frac{\\pi}{2}" },
-                  { value: 2*Math.PI/3, label: "\\frac{2\\pi}{3}" },
-                  { value: 3*Math.PI/4, label: "\\frac{3\\pi}{4}" },
-                  { value: 5*Math.PI/6, label: "\\frac{5\\pi}{6}" },
-                  { value: Math.PI, label: "\\pi" },
-                  { value: 7*Math.PI/6, label: "\\frac{7\\pi}{6}" },
-                  { value: 5*Math.PI/4, label: "\\frac{5\\pi}{4}" },
-                  { value: 4*Math.PI/3, label: "\\frac{4\\pi}{3}" },
-                  { value: 3*Math.PI/2, label: "\\frac{3\\pi}{2}" },
-                  { value: 5*Math.PI/3, label: "\\frac{5\\pi}{3}" },
-                  { value: 7*Math.PI/4, label: "\\frac{7\\pi}{4}" },
-                  { value: 11*Math.PI/6, label: "\\frac{11\\pi}{6}" }
+                 { value: 0, label: "0" },
+                 { value: Math.PI/6, label: "\\frac{\\pi}{6}" },
+                 { value: Math.PI/4, label: "\\frac{\\pi}{4}" },
+                 { value: Math.PI/3, label: "\\frac{\\pi}{3}" },
+                 { value: Math.PI/2, label: "\\frac{\\pi}{2}" },
+                 { value: 2*Math.PI/3, label: "\\frac{2\\pi}{3}" },
+                 { value: 3*Math.PI/4, label: "\\frac{3\\pi}{4}" },
+                 { value: 5*Math.PI/6, label: "\\frac{5\\pi}{6}" },
+                 { value: Math.PI, label: "\\pi" },
+                 { value: 7*Math.PI/6, label: "\\frac{7\\pi}{6}" },
+                 { value: 5*Math.PI/4, label: "\\frac{5\\pi}{4}" },
+                 { value: 4*Math.PI/3, label: "\\frac{4\\pi}{3}" },
+                 { value: 3*Math.PI/2, label: "\\frac{3\\pi}{2}" },
+                 { value: 5*Math.PI/3, label: "\\frac{5\\pi}{3}" },
+                 { value: 7*Math.PI/4, label: "\\frac{7\\pi}{4}" },
+                 { value: 11*Math.PI/6, label: "\\frac{11\\pi}{6}" }
                 ];
                 let obj=radianAngles[Math.floor(Math.random()*radianAngles.length)];
                 let value=Math.sin(obj.value).toFixed(2);
@@ -811,14 +811,14 @@ function generateCosine(){
             }
             else{
                 let radianAngles=[
-                  { value: 0, label: "0" },
-                  { value: Math.PI/3, label: "\\frac{\\pi}{3}" },
-                  { value: Math.PI/2, label: "\\frac{\\pi}{2}" },
-                  { value: 2*Math.PI/3, label: "\\frac{2\\pi}{3}" },
-                  { value: Math.PI, label: "\\pi" },
-                  { value: 4*Math.PI/3, label: "\\frac{4\\pi}{3}" },
-                  { value: 3*Math.PI/2, label: "\\frac{3\\pi}{2}" },
-                  { value: 5*Math.PI/3, label: "\\frac{5\\pi}{3}" }
+                 { value: 0, label: "0" },
+                 { value: Math.PI/3, label: "\\frac{\\pi}{3}" },
+                 { value: Math.PI/2, label: "\\frac{\\pi}{2}" },
+                 { value: 2*Math.PI/3, label: "\\frac{2\\pi}{3}" },
+                 { value: Math.PI, label: "\\pi" },
+                 { value: 4*Math.PI/3, label: "\\frac{4\\pi}{3}" },
+                 { value: 3*Math.PI/2, label: "\\frac{3\\pi}{2}" },
+                 { value: 5*Math.PI/3, label: "\\frac{5\\pi}{3}" }
                 ];
                 let obj=radianAngles[Math.floor(Math.random()*radianAngles.length)];
                 let value=Math.cos(obj.value).toFixed(2);
@@ -1039,17 +1039,17 @@ function generateCotangent(){
     }
     MathJax.typeset();
 }
-function checkAnswer() {
+function checkAnswer(){
     let userInput=userAnswer.value.trim().toLowerCase();
     let isCorrect=false;
     const format=(str)=>str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1").trim().toLowerCase();
     const formattedTypes=["deri", "mtrx", "vctr", "root", "inte", "sin", "cos", "tan", "cosec", "sec", "cot", "log"];
-    if (formattedTypes.includes(questionType.value)) {
+    if (formattedTypes.includes(questionType.value)){
         isCorrect=[correctAnswer.correct, correctAnswer.alternate]
             .map(format)
             .includes(format(userInput));
     }
-    else {
+    else{
         let userValue=parseFloat(userInput);
         let correctValue=parseFloat(correctAnswer.correct);
         isCorrect=!isNaN(userValue) && userValue==correctValue;
