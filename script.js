@@ -6,10 +6,8 @@ let generateQuestionButton=document.getElementById("genQ");
 let userAnswer=document.getElementById("answer-box");
 let answerResults=document.getElementById("answer-results");
 let checkAnswerButton=document.getElementById("check-answer");
-let answerInstructions=document.getElementById("answer-instructions");
 let correctAnswer=0;
 function generateQuestion(){
-    answerInstructions.style.display="none";
     let question=questionType.value;
     switch(question){
         case "add":
@@ -172,7 +170,6 @@ function generateRoot(){
     };
 }
 function generateDerivative(){
-    answerInstructions.style.display="block";
     questionArea.innerHTML="";
     let numTerms=Math.floor(Math.random()*4)+2;
     let exponents=new Set();
@@ -254,7 +251,6 @@ function generateDerivative(){
     };
 }
 function generateIntegral(){
-    answerInstructions.style.display="block";
     questionArea.innerHTML="";
     let numTerms=Math.floor(Math.random()*4)+2;
     let exponents=new Set();
@@ -320,15 +316,15 @@ function generateIntegral(){
         alternate: alternateIntegral.replace(/{|}/g, "")
     };
 }
-function generateFactorial(){
-    let num=Math.floor((Math.random()*8)+2);
-    questionArea.innerHTML=`\\(${num}!=\\)`;
-    correctAnswer=1;
-    for (let i=2;i<=num;i++){
-        correctAnswer*=i;
-    }
-    correctAnswer={correct: fact.toString()};
-}
+// function generateFactorial(){
+//     let num=Math.floor((Math.random()*8)+2);
+//     questionArea.innerHTML=`\\(${num}!=\\)`;
+//     correctAnswer=1;
+//     for (let i=2;i<=num;i++){
+//         correctAnswer*=i;
+//     }
+//     correctAnswer={correct: fact.toString()};
+// }
 function generateVector(){
     questionArea.innerHTML="";
     let types=['magnitude', 'direction', 'unit', 'dot', 'angle', 'projection', 'parametric', 'polar_convert', 'cartesian_convert', 'polar_graph', 'motion', 'de_moivre', 'add', 'subtract', 'parametric_to_cartesian'];
@@ -537,6 +533,264 @@ function generateVector(){
         }
         default:
             questionArea.innerHTML="Unknown question type.";
+    }
+    MathJax.typeset();
+}
+function generateLogarithm() {
+    questionArea.innerHTML="";
+    let types=['basic', 'change_base', 'equation', 'properties', 'exponential_form'];
+    let type=types[Math.floor(Math.random()*types.length)];
+    let base=Math.floor(Math.random()*4)+2;
+    let arg=Math.pow(base, Math.floor(Math.random()*4)+1);
+    let newBase=Math.floor(Math.random()*3)+2;
+    switch(type) {
+        case 'basic':
+            questionArea.innerHTML=`Evaluate: log<sub>${base}</sub>${arg}`;
+            correctAnswer={
+                correct: Math.log(arg)/Math.log(base),
+                alternate: Math.log(arg)/Math.log(base)
+            };
+            break;
+        case 'change_base':
+            questionArea.innerHTML=`Express log<sub>${base}</sub>${arg} in base ${newBase}`;
+            let numerator=Math.log(arg)/Math.log(newBase);
+            let denominator=Math.log(base)/Math.log(newBase);
+            correctAnswer={
+                correct: `\\frac{${numerator.toFixed(2)}}{${denominator.toFixed(2)}}`,
+                alternate: (numerator/denominator).toFixed(2)
+            };
+            break;
+        case 'equation':
+            let exponent=Math.floor(Math.random()*3)+2;
+            questionArea.innerHTML=`Solve for x: ${base}<sup>x</sup>=${Math.pow(base, exponent)}`;
+            correctAnswer={
+                correct: exponent,
+                alternate: exponent
+            };
+            break;
+        case 'properties':
+            let a=Math.floor(Math.random()*8)+2;
+            let b=Math.floor(Math.random()*8)+2;
+            questionArea.innerHTML=`Expand: log(${a*b})`;
+            correctAnswer={
+                correct: `log${a}+log${b}`,
+                alternate: `\\log${a}+\\log${b}`
+            };
+            break;
+        case 'exponential_form':
+            let exp=Math.floor(Math.random()*3)+2;
+            questionArea.innerHTML=`Convert to exponential form: log<sub>${base}</sub>${Math.pow(base, exp)}=${exp}`;
+            correctAnswer={
+                correct: `${base}<sup>${exp}</sup>=${Math.pow(base, exp)}`,
+                alternate: `${base}^${exp}=${Math.pow(base, exp)}`
+            };
+            break;
+    }
+    MathJax.typeset();
+}
+function generateExponent() {
+    questionArea.innerHTML="";
+    let types=['basic', 'solve', 'laws', 'growth', 'compare'];
+    let type=types[Math.floor(Math.random()*types.length)];
+    let base=Math.floor(Math.random()*4)+2;
+    let exponent=Math.floor(Math.random()*5)+2;
+    switch(type) {
+        case 'basic':
+            questionArea.innerHTML=`Evaluate: ${base}<sup>${exponent}</sup>`;
+            correctAnswer={
+                correct: Math.pow(base, exponent),
+                alternate: Math.pow(base, exponent)
+            };
+            break;
+        case 'solve':
+            let power=Math.pow(base, exponent);
+            questionArea.innerHTML=`Solve for x: ${base}<sup>x</sup>=${power}`;
+            correctAnswer={
+                correct: exponent,
+                alternate: exponent
+            };
+            break;
+        case 'laws':
+            let a=Math.floor(Math.random()*3)+2;
+            let b=Math.floor(Math.random()*3)+2;
+            questionArea.innerHTML=`Simplify: (${base}<sup>${a}</sup>)(${base}<sup>${b}</sup>)`;
+            correctAnswer={
+                correct: `${base}<sup>${a+b}</sup>`,
+                alternate: Math.pow(base, a+b)
+            };
+            break;
+        case 'growth':
+            let rate=(Math.random()*20+5).toFixed(1);
+            questionArea.innerHTML=`A population grows at ${rate}% annually. What's the growth factor?`;
+            let factor=(1+rate/100).toFixed(3);
+            correctAnswer={
+                correct: factor,
+                alternate: `1+${rate/100}`
+            };
+            break;
+        case 'compare':
+            let b1=Math.floor(Math.random()*3)+2;
+            let b2=Math.floor(Math.random()*3)+2;
+            let e1=Math.floor(Math.random()*4)+2;
+            let e2=Math.floor(Math.random()*4)+2;
+            questionArea.innerHTML=`Which is larger: ${b1}<sup>${e1}</sup> or ${b2}<sup>${e2}</sup>?`;
+            let vals=[Math.pow(b1,e1), Math.pow(b2,e2)];
+            correctAnswer={
+                correct: vals[0]>vals[1]?`${b1}^${e1}`:`${b2}^${e2}`,
+                alternate: Math.max(...vals)
+            };
+            break;
+    }
+    MathJax.typeset();
+}
+function generateFactorial() {
+    questionArea.innerHTML="";
+    let types=['basic', 'division', 'equation', 'approximation', 'prime'];
+    let type=types[Math.floor(Math.random()*types.length)];
+    let n=Math.floor(Math.random()*7)+5;
+    let k=Math.floor(Math.random()*(n-2))+2;
+    switch(type) {
+        case 'basic':
+            questionArea.innerHTML=`Calculate ${n}!`;
+            correctAnswer={
+                correct: Array.from({length: n}, (_, i)=>i+1).reduce((a,b)=>a*b, 1),
+                alternate: Array.from({length: n}, (_, i)=>i+1).reduce((a,b)=>a*b, 1)
+            };
+            break;
+        case 'division':
+            questionArea.innerHTML=`Simplify: ${n}!/${k}!`;
+            correctAnswer={
+                correct: Array.from({length: n-k}, (_, i)=>n - i).reduce((a,b)=>a*b, 1),
+                alternate: Array.from({length: n}, (_, i)=>i+1).reduce((a,b)=>a*b, 1)/Array.from({length: k}, (_, i)=>i+1).reduce((a,b)=>a*b, 1)
+            };
+            break;
+        case 'equation':
+            questionArea.innerHTML=`Solve for n: n!=${Array.from({length: n}, (_, i)=>i+1).reduce((a,b)=>a*b, 1)}`;
+            correctAnswer={
+                correct: n,
+                alternate: n
+            };
+            break;
+        case 'approximation':
+            questionArea.innerHTML=`Estimate ${n}! using Stirling's approximation`;
+            let stirling=Math.sqrt(2*Math.PI*n)*Math.pow(n/Math.E, n);
+            correctAnswer={
+                correct: stirling.toFixed(0),
+                alternate: Math.round(stirling)
+            };
+            break;
+        case 'prime':
+            let prime=[2,3,5,7,11][Math.floor(Math.random()*5)];
+            questionArea.innerHTML=`Find the exponent of ${prime} in ${n}! (prime factorization)`;
+            let count=0, temp=n;
+            while(temp>0) {
+                temp=Math.floor(temp/prime);
+                count+=temp;
+            }
+            correctAnswer={
+                correct: count,
+                alternate: count
+            };
+            break;
+    }
+    MathJax.typeset();
+}
+function generatePermutation() {
+    questionArea.innerHTML="";
+    let types=['basic', 'equation', 'word', 'circular', 'repeated'];
+    let type=types[Math.floor(Math.random()*types.length)];
+    let n=Math.floor(Math.random()*8)+5;
+    let r=Math.floor(Math.random()*(n-2))+2;
+    switch(type) {
+        case 'basic':
+            questionArea.innerHTML=`Calculate P(${n}, ${r})`;
+            correctAnswer={
+                correct: Array.from({length: r}, (_,i)=>n - i).reduce((a,b)=>a*b, 1),
+                alternate: Array.from({length: r}, (_,i)=>n - i).reduce((a,b)=>a*b, 1)
+            };
+            break;
+        case 'equation':
+            let value=Array.from({length: r}, (_,i)=>n - i).reduce((a,b)=>a*b, 1);
+            questionArea.innerHTML=`Solve for n: P(n, ${r})=${value}`;
+            correctAnswer={
+                correct: n,
+                alternate: n
+            };
+            break;
+        case 'word':
+            let objects=['books', 'cars', 'students', 'colors'][Math.floor(Math.random()*4)];
+            questionArea.innerHTML=`How many ways to arrange ${r} ${objects} out of ${n}?`;
+            correctAnswer={
+                correct: Array.from({length: r}, (_,i)=>n - i).reduce((a,b)=>a*b, 1),
+                alternate: `P(${n},${r})`
+            };
+            break;
+        case 'circular':
+            questionArea.innerHTML=`Calculate circular permutations of ${n} objects`;
+            correctAnswer={
+                correct: (Array.from({length: n}, (_,i)=>i+1).reduce((a,b)=>a*b, 1)/n),
+                alternate: (Array.from({length: n}, (_,i)=>i+1).reduce((a,b)=>a*b, 1)/n)
+            };
+            break;
+        case 'repeated':
+            let k=Math.floor(Math.random()*3)+2;
+            questionArea.innerHTML=`Permutations of ${n} items with ${k} identical elements`;
+            let total=Array.from({length: n}, (_,i)=>i+1).reduce((a,b)=>a*b, 1);
+            correctAnswer={
+                correct: total/Array.from({length: k}, (_,i)=>i+1).reduce((a,b)=>a*b, 1),
+                alternate: `\\frac{${n}!}{${k}!}`
+            };
+            break;
+    }
+    MathJax.typeset();
+}
+function generateCombination() {
+    questionArea.innerHTML="";
+    let types=['basic', 'equation', 'word', 'complement', 'paths'];
+    let type=types[Math.floor(Math.random()*types.length)];
+    let n=Math.floor(Math.random()*8)+5;
+    let r=Math.floor(Math.random()*(n-2))+2;
+    switch(type) {
+        case 'basic':
+            questionArea.innerHTML=`Calculate C(${n}, ${r})`;
+            let numerator=Array.from({length: r}, (_,i)=>n - i).reduce((a,b)=>a*b, 1);
+            let denominator=Array.from({length: r}, (_,i)=>i+1).reduce((a,b)=>a*b, 1);
+            correctAnswer={
+                correct: numerator/denominator,
+                alternate: `\\binom{${n}}{${r}}`
+            };
+            break;
+        case 'equation':
+            let value=Array.from({length: r}, (_,i)=>n - i).reduce((a,b)=>a*b, 1)/Array.from({length: r}, (_,i)=>i+1).reduce((a,b)=>a*b, 1);
+            questionArea.innerHTML=`Solve for n: C(n, ${r})=${value}`;
+            correctAnswer={
+                correct: n,
+                alternate: n
+            };
+            break;
+        case 'word':
+            let items=['fruits', 'committee members', 'pizzas'][Math.floor(Math.random()*3)];
+            questionArea.innerHTML=`How many ways to choose ${r} ${items} from ${n}?`;
+            correctAnswer={
+                correct: Array.from({length: r}, (_,i)=>n - i).reduce((a,b)=>a*b, 1)/Array.from({length: r}, (_,i)=>i+1).reduce((a,b)=>a*b, 1),
+                alternate: `C(${n},${r})`
+            };
+            break;
+        case 'complement':
+            questionArea.innerHTML=`Calculate C(${n}, ${n - r})`;
+            correctAnswer={
+                correct: Array.from({length: n - r}, (_,i)=>n - i).reduce((a,b)=>a*b, 1)/Array.from({length: n - r}, (_,i)=>i+1).reduce((a,b)=>a*b, 1),
+                alternate: `C(${n},${r})`
+            };
+            break;
+        case 'paths':
+            let gridSize=Math.floor(Math.random()*4)+3;
+            questionArea.innerHTML=`Number of paths in ${gridSize}x${gridSize} grid from corner to corner`;
+            correctAnswer={
+                correct: Array.from({length: 2*gridSize}, (_,i)=>i+1).reduce((a,b)=>a*b, 1)/Math.pow(Array.from({length: gridSize}, (_,i)=>i+1).reduce((a,b)=>a*b, 1), 2),
+                alternate: `C(${2*gridSize},${gridSize})`
+            };
+            break;
     }
     MathJax.typeset();
 }
@@ -1062,16 +1316,16 @@ function generateCotangent(){
 function checkAnswer(){
     let userInput=userAnswer.value.trim().toLowerCase();
     let isCorrect=false;
-    const format=(str)=>str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1").trim().toLowerCase();
-    const removeTrailingZeros=(num)=>parseFloat(num).toString();
-    const safeEval=(input)=>{
+    let format=(str)=>str.replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1").trim().toLowerCase();
+    let removeTrailingZeros=(num)=>parseFloat(num).toString();
+    let safeEval=(input)=>{
         try{
-            return removeTrailingZeros(Function('"use strict"; return (' + input.replace(/(sin|cos|tan|log)\(/g, 'Math.$1(') + ')')());
+            return removeTrailingZeros(Function('"use strict"; return ('+input.replace(/(sin|cos|tan|log)\(/g, 'Math.$1(')+')')());
         }catch (e){
             return format(input);
         }
     };
-    const formattedTypes=["deri", "mtrx", "vctr", "root", "inte", "sin", "cos", "tan", "cosec", "sec", "cot", "log"];
+    let formattedTypes=["deri", "mtrx", "vctr", "root", "inte", "sin", "cos", "tan", "cosec", "sec", "cot", "log"];
     if (formattedTypes.includes(questionType.value)){
         let userEvaluated=safeEval(userInput);
         isCorrect=[correctAnswer.correct, correctAnswer.alternate].filter(ans=>ans!==undefined).some(ans=>safeEval(ans)==userEvaluated||format(ans)==userEvaluated);
