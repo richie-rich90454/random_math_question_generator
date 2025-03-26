@@ -33,7 +33,7 @@
             }
             #main-div, #quote-of-the-day{
                 padding: 0;
-                margin: 1.5rem auto;
+                margin: .2rem auto;
                 text-align: center;
                 border: 3px solid #000;
                 background-color: #FEFEFE;
@@ -51,38 +51,38 @@
             input,select{
                 font-family: "Noto Sans SC";
                 display: block;
-                margin: auto;
+                margin: 0 auto;
                 width: 100%;
                 max-width: 25rem;
             }
             #gen-type{
                 border-radius: .44rem;
-                font-size: 1rem;
+                font-size: .8rem;
                 box-sizing: border-box;
                 border: 1px solid #DE0000;
-                padding: 1rem;
+                padding: .5rem;
             }
             #genQ, #check-answer{
                 border-radius: .44rem;
                 font-size: 1rem;
                 box-sizing: border-box;
                 border: 1px solid #DE0000;
-                padding: 1rem 0.8rem;
-                margin-top: 0.8rem;
+                padding: .5rem .4rem;
+                margin-top: .2rem;
                 width: auto;
                 min-width: 8rem;
-                transition: all 0.3s ease;
+                transition: all .3s ease;
             }
             sub{
-                font-size: 0.5rem;
+                font-size: .5rem;
                 vertical-align: sub;
             }
             sup{
-                font-size: 0.5rem;
+                font-size: .5rem;
                 vertical-align: super;
             }
             textarea{
-                margin-bottom: 1rem;
+                margin-bottom: .5rem;
                 border-radius: .44rem;
                 box-sizing: border-box;
                 font-family: "Noto Sans SC";
@@ -90,8 +90,8 @@
                 border: 1px solid #DE0000;
                 width: 100%;
                 max-width: 16rem;
-                padding: .8rem;
-                font-size: 1.2rem;
+                padding: .4rem;
+                font-size: 1rem;
             }
             input[type="button"]:hover{
                 transform: scale(1.05);
@@ -100,10 +100,10 @@
             #answer-results{
                 font-size: 1rem;
                 min-height: 2rem;
-                padding: .8rem;
+                padding: .4rem;
             }
             #question-area{
-                margin: 1rem 0;
+                margin: .25rem 0;
                 min-height: 5rem;
                 font-size: 1.2rem;
                 width: 100%;
@@ -114,54 +114,59 @@
             }
             #answer-instructions{
                 font-size: .9rem;
-                padding: 0 .8rem;
-                margin: .8rem 0;
+                padding: 0 .4rem;
+                margin: .2rem 0;
                 max-width: 16rem;
             }
             @media (max-width: 768px){
                 #main-div, #quote-of-the-day{
                     width: 90%;
-                    padding: 1rem;
-                    margin: 1rem auto;
+                    padding: .5rem;
+                    margin: .5rem auto;
                 }
                 #main-div{
                     min-height: auto;
-                    padding-bottom: 2rem;
+                    padding-bottom: .5rem;
                 }
-                input, select{
-                    font-size: 1.4rem;
-                    padding: 1rem;
+                input{
+                    font-size: 1rem;
+                    padding: .25rem;
+                    max-width: none;
+                }
+                select{
+                    font-size: .5rem;
+                    padding: .25rem;
                     max-width: none;
                 }
                 #genQ, #check-answer{
-                    width: 100%;
-                    padding: 1.3rem;
-                    font-size: 1.1rem;
+                    width: 50%;
+                    padding: 0rem;
+                    font-size: .8rem;
                 }
                 textarea{
-                    font-size: 1.2rem;
+                    font-size: 0.8rem;
                     height: 10rem;
                     rows: 5;
                 }
                 #question-area{
-                    font-size: 1.1rem;
-                    margin: 0.5rem 0;
+                    font-size: 1rem;
+                    margin: .25rem 0;
                 }
                 #answer-instructions{
-                    font-size: 0.8rem;
+                    font-size: .6rem;
                 }
                 #gen-type{
-                    font-size: 0.9rem;
+                    font-size: .25rem;
                 }
                 h1{
-                    font-size: 1.5rem;
-                    margin: 0.5rem 0;
+                    font-size: 1rem;
+                    margin: .25rem 0;
                 }
             }
             @media (max-width: 480px){
                 #main-div, #quote-of-the-day{
                     width: 95%;
-                    padding: 0.8rem;
+                    padding: .8rem;
                 }
                 #genQ, #check-answer{
                     padding: 1rem;
@@ -176,7 +181,7 @@
         <div id="main-div">
             <h1>Math Practice</h1>
             <select id="gen-type">
-                <option value="" disabled selected>Please select a type of question for you to practice and excel at!</option>
+                <option value="" disabled selected>Please select a type of question for you to practice!</option>
                 <option value="add">Addition (+)</option>
                 <option value="subtrt">Subtraction (-)</option>
                 <option value="mult">Multiplication (*)</option>
