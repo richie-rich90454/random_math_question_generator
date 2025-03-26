@@ -536,65 +536,76 @@ function generateVector(){
     }
     MathJax.typeset();
 }
-function generateLogarithm() {
+function generateLogarithm(){
     questionArea.innerHTML="";
     let types=['basic', 'change_base', 'equation', 'properties', 'exponential_form'];
     let type=types[Math.floor(Math.random()*types.length)];
     let base=Math.floor(Math.random()*4)+2;
     let arg=Math.pow(base, Math.floor(Math.random()*4)+1);
     let newBase=Math.floor(Math.random()*3)+2;
-    switch(type) {
-        case 'basic':
+    switch(type){
+        case 'basic':{
+            let answer=(Math.log(arg)/Math.log(base)).toFixed(2);
             questionArea.innerHTML=`Evaluate: log<sub>${base}</sub>${arg}`;
             correctAnswer={
-                correct: Math.log(arg)/Math.log(base),
-                alternate: Math.log(arg)/Math.log(base)
+                correct: answer,
+                alternate: `\\log_{${base}} ${arg}=${answer}`
             };
             break;
-        case 'change_base':
-            questionArea.innerHTML=`Express log<sub>${base}</sub>${arg} in base ${newBase}`;
+        }
+        case 'change_base':{
             let numerator=Math.log(arg)/Math.log(newBase);
             let denominator=Math.log(base)/Math.log(newBase);
+            let numericAnswer=(numerator/denominator).toFixed(2);
+            questionArea.innerHTML=`Express log<sub>${base}</sub>${arg} in base ${newBase}`;
             correctAnswer={
-                correct: `\\frac{${numerator.toFixed(2)}}{${denominator.toFixed(2)}}`,
-                alternate: (numerator/denominator).toFixed(2)
+                correct: numericAnswer,
+                alternate: `\\frac{\\log_{${newBase}} ${arg}}{\\log_{${newBase}} ${base}}=${numericAnswer}`
             };
             break;
-        case 'equation':
+        }
+        case 'equation':{
             let exponent=Math.floor(Math.random()*3)+2;
             questionArea.innerHTML=`Solve for x: ${base}<sup>x</sup>=${Math.pow(base, exponent)}`;
             correctAnswer={
                 correct: exponent,
-                alternate: exponent
+                alternate: `x=${exponent}`
             };
             break;
-        case 'properties':
+        }
+        case 'properties':{
             let a=Math.floor(Math.random()*8)+2;
             let b=Math.floor(Math.random()*8)+2;
-            questionArea.innerHTML=`Expand: log(${a*b})`;
+            let logSum=(Math.log(a*b)/Math.log(base)).toFixed(2);
+            let logA=(Math.log(a)/Math.log(base)).toFixed(2);
+            let logB=(Math.log(b)/Math.log(base)).toFixed(2);
+            questionArea.innerHTML=`Evaluate: log<sub>${base}</sub>${a*b}`;
             correctAnswer={
-                correct: `log${a}+log${b}`,
-                alternate: `\\log${a}+\\log${b}`
+                correct: logSum,
+                alternate: `\\log_{${base}} ${a}+\\log_{${base}} ${b}=${logA}+${logB}=${logSum}`
             };
             break;
-        case 'exponential_form':
-            let exp=Math.floor(Math.random()*3)+2;
-            questionArea.innerHTML=`Convert to exponential form: log<sub>${base}</sub>${Math.pow(base, exp)}=${exp}`;
+        }
+        case 'exponential_form':{
+            let exponent=Math.floor(Math.random()*3)+2;
+            let result=Math.pow(base, exponent);
+            questionArea.innerHTML=`If log<sub>${base}</sub>x=${exponent}, find x`;
             correctAnswer={
-                correct: `${base}<sup>${exp}</sup>=${Math.pow(base, exp)}`,
-                alternate: `${base}^${exp}=${Math.pow(base, exp)}`
+                correct: result,
+                alternate: `${base}^{${exponent}}=${result}`
             };
             break;
+        }
     }
     MathJax.typeset();
 }
-function generateExponent() {
+function generateExponent(){
     questionArea.innerHTML="";
     let types=['basic', 'solve', 'laws', 'growth', 'compare'];
     let type=types[Math.floor(Math.random()*types.length)];
     let base=Math.floor(Math.random()*4)+2;
     let exponent=Math.floor(Math.random()*5)+2;
-    switch(type) {
+    switch(type){
         case 'basic':
             questionArea.innerHTML=`Evaluate: ${base}<sup>${exponent}</sup>`;
             correctAnswer={
@@ -643,13 +654,13 @@ function generateExponent() {
     }
     MathJax.typeset();
 }
-function generateFactorial() {
+function generateFactorial(){
     questionArea.innerHTML="";
     let types=['basic', 'division', 'equation', 'approximation', 'prime'];
     let type=types[Math.floor(Math.random()*types.length)];
     let n=Math.floor(Math.random()*7)+5;
     let k=Math.floor(Math.random()*(n-2))+2;
-    switch(type) {
+    switch(type){
         case 'basic':
             questionArea.innerHTML=`Calculate ${n}!`;
             correctAnswer={
@@ -683,7 +694,7 @@ function generateFactorial() {
             let prime=[2,3,5,7,11][Math.floor(Math.random()*5)];
             questionArea.innerHTML=`Find the exponent of ${prime} in ${n}! (prime factorization)`;
             let count=0, temp=n;
-            while(temp>0) {
+            while(temp>0){
                 temp=Math.floor(temp/prime);
                 count+=temp;
             }
@@ -695,13 +706,13 @@ function generateFactorial() {
     }
     MathJax.typeset();
 }
-function generatePermutation() {
+function generatePermutation(){
     questionArea.innerHTML="";
     let types=['basic', 'equation', 'word', 'circular', 'repeated'];
     let type=types[Math.floor(Math.random()*types.length)];
     let n=Math.floor(Math.random()*8)+5;
     let r=Math.floor(Math.random()*(n-2))+2;
-    switch(type) {
+    switch(type){
         case 'basic':
             questionArea.innerHTML=`Calculate P(${n}, ${r})`;
             correctAnswer={
@@ -744,13 +755,13 @@ function generatePermutation() {
     }
     MathJax.typeset();
 }
-function generateCombination() {
+function generateCombination(){
     questionArea.innerHTML="";
     let types=['basic', 'equation', 'word', 'complement', 'paths'];
     let type=types[Math.floor(Math.random()*types.length)];
     let n=Math.floor(Math.random()*8)+5;
     let r=Math.floor(Math.random()*(n-2))+2;
-    switch(type) {
+    switch(type){
         case 'basic':
             questionArea.innerHTML=`Calculate C(${n}, ${r})`;
             let numerator=Array.from({length: r}, (_,i)=>n - i).reduce((a,b)=>a*b, 1);
@@ -963,22 +974,22 @@ function generateSin(){
             }
             else{
                 let radianAngles=[
-               { value: 0, label: "0" },
-               { value: Math.PI/6, label: "\\frac{\\pi}{6}" },
-               { value: Math.PI/4, label: "\\frac{\\pi}{4}" },
-               { value: Math.PI/3, label: "\\frac{\\pi}{3}" },
-               { value: Math.PI/2, label: "\\frac{\\pi}{2}" },
-               { value: 2*Math.PI/3, label: "\\frac{2\\pi}{3}" },
-               { value: 3*Math.PI/4, label: "\\frac{3\\pi}{4}" },
-               { value: 5*Math.PI/6, label: "\\frac{5\\pi}{6}" },
-               { value: Math.PI, label: "\\pi" },
-               { value: 7*Math.PI/6, label: "\\frac{7\\pi}{6}" },
-               { value: 5*Math.PI/4, label: "\\frac{5\\pi}{4}" },
-               { value: 4*Math.PI/3, label: "\\frac{4\\pi}{3}" },
-               { value: 3*Math.PI/2, label: "\\frac{3\\pi}{2}" },
-               { value: 5*Math.PI/3, label: "\\frac{5\\pi}{3}" },
-               { value: 7*Math.PI/4, label: "\\frac{7\\pi}{4}" },
-               { value: 11*Math.PI/6, label: "\\frac{11\\pi}{6}" }
+              { value: 0, label: "0" },
+              { value: Math.PI/6, label: "\\frac{\\pi}{6}" },
+              { value: Math.PI/4, label: "\\frac{\\pi}{4}" },
+              { value: Math.PI/3, label: "\\frac{\\pi}{3}" },
+              { value: Math.PI/2, label: "\\frac{\\pi}{2}" },
+              { value: 2*Math.PI/3, label: "\\frac{2\\pi}{3}" },
+              { value: 3*Math.PI/4, label: "\\frac{3\\pi}{4}" },
+              { value: 5*Math.PI/6, label: "\\frac{5\\pi}{6}" },
+              { value: Math.PI, label: "\\pi" },
+              { value: 7*Math.PI/6, label: "\\frac{7\\pi}{6}" },
+              { value: 5*Math.PI/4, label: "\\frac{5\\pi}{4}" },
+              { value: 4*Math.PI/3, label: "\\frac{4\\pi}{3}" },
+              { value: 3*Math.PI/2, label: "\\frac{3\\pi}{2}" },
+              { value: 5*Math.PI/3, label: "\\frac{5\\pi}{3}" },
+              { value: 7*Math.PI/4, label: "\\frac{7\\pi}{4}" },
+              { value: 11*Math.PI/6, label: "\\frac{11\\pi}{6}" }
                 ];
                 let obj=radianAngles[Math.floor(Math.random()*radianAngles.length)];
                 let value=Math.sin(obj.value).toFixed(2);
@@ -1085,14 +1096,14 @@ function generateCosine(){
             }
             else{
                 let radianAngles=[
-               { value: 0, label: "0" },
-               { value: Math.PI/3, label: "\\frac{\\pi}{3}" },
-               { value: Math.PI/2, label: "\\frac{\\pi}{2}" },
-               { value: 2*Math.PI/3, label: "\\frac{2\\pi}{3}" },
-               { value: Math.PI, label: "\\pi" },
-               { value: 4*Math.PI/3, label: "\\frac{4\\pi}{3}" },
-               { value: 3*Math.PI/2, label: "\\frac{3\\pi}{2}" },
-               { value: 5*Math.PI/3, label: "\\frac{5\\pi}{3}" }
+              { value: 0, label: "0" },
+              { value: Math.PI/3, label: "\\frac{\\pi}{3}" },
+              { value: Math.PI/2, label: "\\frac{\\pi}{2}" },
+              { value: 2*Math.PI/3, label: "\\frac{2\\pi}{3}" },
+              { value: Math.PI, label: "\\pi" },
+              { value: 4*Math.PI/3, label: "\\frac{4\\pi}{3}" },
+              { value: 3*Math.PI/2, label: "\\frac{3\\pi}{2}" },
+              { value: 5*Math.PI/3, label: "\\frac{5\\pi}{3}" }
                 ];
                 let obj=radianAngles[Math.floor(Math.random()*radianAngles.length)];
                 let value=Math.cos(obj.value).toFixed(2);
