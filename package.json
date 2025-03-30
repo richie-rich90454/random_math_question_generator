@@ -12,12 +12,14 @@
   "dependencies": {
     "crypto": "^1.0.1",
     "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
     "fs": "^0.0.1-security",
     "helmet": "^8.1.0",
     "http": "^0.0.1-security",
     "mathjax": "^3.2.2",
     "mathjax-full": "^3.2.2",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "rate-limit": "^0.1.1"
   },
   "description": "Random math question generator made with HTML, CSS, and JS."
 }
