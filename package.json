@@ -21,7 +21,8 @@
     "mathjax-full": "^3.2.2",
     "morgan": "^1.10.0",
     "path": "^0.12.7",
-    "rate-limit": "^0.1.1"
+    "rate-limit": "^0.1.1",
+    "terser": "^5.39.0"
   },
   "description": "Random math question generator made with HTML, CSS, and JS."
 }
