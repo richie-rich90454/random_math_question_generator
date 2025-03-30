@@ -10,6 +10,7 @@
   "author": "richie-rich90454",
   "license": "ISC",
   "dependencies": {
+    "crypto": "^1.0.1",
     "express": "^4.21.2",
     "fs": "^0.0.1-security",
     "http": "^0.0.1-security",
@@ -17,6 +18,5 @@
     "mathjax-full": "^3.2.2",
     "path": "^0.12.7"
   },
-  "devDependencies": {},
   "description": "Random math question generator made with HTML, CSS, and JS."
 }
