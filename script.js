@@ -316,15 +316,6 @@ function generateIntegral(){
         alternate: alternateIntegral.replace(/{|}/g, "")
     };
 }
-// function generateFactorial(){
-//     let num=Math.floor((Math.random()*8)+2);
-//     questionArea.innerHTML=`\\(${num}!=\\)`;
-//     correctAnswer=1;
-//     for (let i=2;i<=num;i++){
-//         correctAnswer*=i;
-//     }
-//     correctAnswer={correct: fact.toString()};
-// }
 function generateVector(){
     questionArea.innerHTML="";
     let types=['magnitude', 'direction', 'unit', 'dot', 'angle', 'projection', 'parametric', 'polar_convert', 'cartesian_convert', 'polar_graph', 'motion', 'de_moivre', 'add', 'subtract', 'parametric_to_cartesian'];
