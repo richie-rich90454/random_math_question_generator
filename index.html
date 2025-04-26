@@ -146,6 +146,9 @@
                 min-height: 2rem;
                 font-size: 1rem;
                 width: 100%;
+                word-break: break-word;
+                overflow-wrap: break-word;
+                overflow-x: auto;
             }
             .answer{
                 color: var(--primary);
@@ -213,6 +216,15 @@
             .mjx-chtml, .MathJax_Display{
                 max-width: 100%;
                 overflow-x: auto;
+                display: block;
+                overflow-x: scroll;
+                overflow-y: hidden;
+                text-align: center;
+            }
+            .mjx-container{
+                max-width: 100%;
+                overflow-x: auto;
+                overflow-y: hidden;
             }
             @media (max-width: 768px){
                 .MathJax_Display{
