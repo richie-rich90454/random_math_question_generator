@@ -758,7 +758,7 @@ function generateExponent(){
     let exponent=Math.floor(Math.random()*5)+2;
     switch (type){
         case "basic":
-            questionArea.innerHTML=`Evaluate: ${base}<sup>${exponent}</sup>`;
+            questionArea.innerHTML=`Evaluate: \\( ${base}^{${exponent}} \\)`;
             correctAnswer={
                 correct: Math.pow(base, exponent),
                 alternate: Math.pow(base, exponent)
@@ -766,7 +766,7 @@ function generateExponent(){
             break;
         case "solve":
             let power=Math.pow(base, exponent);
-            questionArea.innerHTML=`Solve for x: ${base}<sup>x</sup>=${power}`;
+            questionArea.innerHTML=`Solve for \\( x \\): \\( ${base}^{x}=${power} \\)`;
             correctAnswer={
                 correct: exponent,
                 alternate: exponent
@@ -775,7 +775,7 @@ function generateExponent(){
         case "laws":
             let a=Math.floor(Math.random()*3)+2;
             let b=Math.floor(Math.random()*3)+2;
-            questionArea.innerHTML=`Simplify: (${base}<sup>${a}</sup>)(${base}<sup>${b}</sup>)`;
+            questionArea.innerHTML=`Simplify: \\( (${base}^{${a}}) \\times (${base}^{${b}}) \\)`;
             correctAnswer={
                 correct: `${base}<sup>${a+b}</sup>`,
                 alternate: Math.pow(base, a+b)
@@ -783,7 +783,7 @@ function generateExponent(){
             break;
         case "growth":
             let rate=(Math.random()*20+5).toFixed(1);
-            questionArea.innerHTML=`A population grows at ${rate}% annually. What"s the growth factor?`;
+            questionArea.innerHTML=`A population grows at \\( ${rate}\\% \\) annually. What's the growth factor?`;
             let factor=(1+rate/100).toFixed(3);
             correctAnswer={
                 correct: factor,
@@ -795,7 +795,7 @@ function generateExponent(){
             let b2=Math.floor(Math.random()*3)+2;
             let e1=Math.floor(Math.random()*4)+2;
             let e2=Math.floor(Math.random()*4)+2;
-            questionArea.innerHTML=`Which is larger: ${b1}<sup>${e1}</sup> or ${b2}<sup>${e2}</sup>?`;
+            questionArea.innerHTML=`Which is larger: \\( ${b1}^{${e1}} \\) or \\( ${b2}^{${e2}} \\)?`;
             let vals=[Math.pow(b1, e1), Math.pow(b2, e2)];
             correctAnswer={
                 correct: vals[0]>vals[1]?`${b1}^${e1}`:`${b2}^${e2}`,
@@ -803,7 +803,7 @@ function generateExponent(){
             };
             break;
     }
-    MathJax.typeset();
+    MathJax && MathJax.typeset();
 }
 function generateFactorial(){
     questionArea.innerHTML="";
