@@ -697,7 +697,7 @@ function generateLogarithm(){
     switch (type){
         case "basic":{
             let answer=(Math.log(arg)/Math.log(base)).toFixed(2);
-            questionArea.innerHTML=`Evaluate: log<sub>${base}</sub>${arg}`;
+            questionArea.innerHTML=`Evaluate: \\( \\log_{${base}} ${arg} \\)`;
             correctAnswer={
                 correct: answer,
                 alternate: `\\log_{${base}} ${arg}=${answer}`
@@ -708,7 +708,7 @@ function generateLogarithm(){
             let numerator=Math.log(arg)/Math.log(newBase);
             let denominator=Math.log(base)/Math.log(newBase);
             let numericAnswer=(numerator/denominator).toFixed(2);
-            questionArea.innerHTML=`Express log<sub>${base}</sub>${arg} in base ${newBase}`;
+            questionArea.innerHTML=`Express \\( \\log_{${base}} ${arg} \\) in base \\( ${newBase} \\)`;
             correctAnswer={
                 correct: numericAnswer,
                 alternate: `\\frac{\\log_{${newBase}} ${arg}}{\\log_{${newBase}} ${base}}=${numericAnswer}`
@@ -717,7 +717,7 @@ function generateLogarithm(){
         }
         case "equation":{
             let exponent=Math.floor(Math.random()*3)+2;
-            questionArea.innerHTML=`Solve for x: ${base}<sup>x</sup>=${Math.pow(base, exponent)}`;
+            questionArea.innerHTML=`Solve for \\( x \\): \\( ${base}^{x}=${Math.pow(base, exponent)} \\)`;
             correctAnswer={
                 correct: exponent,
                 alternate: `x=${exponent}`
@@ -730,7 +730,7 @@ function generateLogarithm(){
             let logSum=(Math.log(a*b)/Math.log(base)).toFixed(2);
             let logA=(Math.log(a)/Math.log(base)).toFixed(2);
             let logB=(Math.log(b)/Math.log(base)).toFixed(2);
-            questionArea.innerHTML=`Evaluate: log<sub>${base}</sub>${a*b}`;
+            questionArea.innerHTML=`Evaluate: \\( \\log_{${base}} (${a} \\times ${b}) \\)`;
             correctAnswer={
                 correct: logSum,
                 alternate: `\\log_{${base}} ${a}+\\log_{${base}} ${b}=${logA}+${logB}=${logSum}`
@@ -740,7 +740,7 @@ function generateLogarithm(){
         case "exponential_form":{
             let exponent=Math.floor(Math.random()*3)+2;
             let result=Math.pow(base, exponent);
-            questionArea.innerHTML=`If log<sub>${base}</sub>x=${exponent}, find x`;
+            questionArea.innerHTML=`If \\( \\log_{${base}} x=${exponent} \\), find \\( x \\)`;
             correctAnswer={
                 correct: result,
                 alternate: `${base}^{${exponent}}=${result}`
@@ -748,7 +748,7 @@ function generateLogarithm(){
             break;
         }
     }
-    MathJax.typeset();
+    MathJax && MathJax.typeset();
 }
 function generateExponent(){
     questionArea.innerHTML="";
@@ -911,7 +911,7 @@ function generatePermutation(){
             let k=Math.floor(Math.random()*(n-1))+1;
             questionArea.innerHTML=`Permutations of \\( ${n} \\) items when \\( ${k} \\) are identical`;
             correctAnswer={
-                correct: factorial(n) / factorial(k),
+                correct: factorial(n)/factorial(k),
                 alternate: `${n}!/${k}!`
             };
             break;
