@@ -7,7 +7,7 @@
         <meta name="description" content="Free online math question generator for students. Practice addition, subtraction, differentiation, integration, trigonometry, logarithms and more with instant answer verification.">
         <meta name="keywords" content="math practice generator, algebra questions, calculus problems, trigonometry exercises, online math quiz">
         <meta name="mst-teams-context" content="enabled">
-        <meta name="theme-color" content="#DE0000">
+        <meta name="theme-color" content="var(--primary)">
         <meta name="application-name" content="Math Practice Generator">
         <meta property="og:title" content="Math Practice Generator | Free Math Questions & Answers">
         <meta property="og:description" content="Generate unlimited math questions across 20+ topics. Practice arithmetic, algebra, calculus, trigonometry, and more with instant feedback.">
@@ -54,32 +54,37 @@
             };
         </script>
         <style>
+            :root{
+                --primary: #DE0000;
+                --secondary: #1C94E9;
+                --background: #FFF;
+                --shadow: rgba(28, 148, 233, .15);
+            }
             body{
                 font-family: "Noto Sans";
                 margin: 0;
-                padding: 0;
+                background-color: var(--background);
                 color: #000;
-                text-align: center;
+                line-height: 1.55;
             }
             @font-face{
                 font-family: "Noto Sans";
-                src: url("NotoSans-VariableFont_wdth\,wght.ttf");
-                font-weight: normal;
+                src: url("NotoSans-VariableFont_wdth\,wght.ttf") format("truetype");
+                font-weight: 100 900;
                 font-style: normal;
             }
             h2, h3{
-                color: #1C94E9;
+                color: var(--secondary);
                 margin-top: 1rem;
             }
             #main, #quote-of-the-day{
-                background: #ffffff;
+                background: var(--background);
                 border-radius: 1.5rem;
-                margin: 1rem auto;
+                margin: 2rem auto;
                 padding: 2rem;
-                box-shadow: 0 .8rem 2rem rgba(28, 148, 233, 0.15);
-                display: flex;
-                flex-direction: column;
-                align-items: center;
+                box-shadow: 0 .8rem 2rem var(--shadow);
+                max-width: 800px;
+                text-align: center;
             }
             input,select{
                 font-family: "Noto Sans";
@@ -92,14 +97,14 @@
                 border-radius: .44rem;
                 font-size: .8rem;
                 box-sizing: border-box;
-                border: 1px solid #DE0000;
+                border: 1px solid var(--primary);
                 padding: .5rem;
             }
             #genQ, #check-answer{
                 border-radius: .44rem;
                 font-size: 1rem;
                 box-sizing: border-box;
-                border: 1px solid #DE0000;
+                border: 1px solid var(--primary);
                 padding: .5rem .4rem;
                 margin-top: .2rem;
                 width: auto;
@@ -121,7 +126,7 @@
                 box-sizing: border-box;
                 font-family: "Noto Sans";
                 resize: none;
-                border: 1px solid #DE0000;
+                border: 1px solid var(--primary);
                 width: 100%;
                 max-width: 16rem;
                 padding: .4rem;
@@ -139,18 +144,18 @@
             #question-area{
                 margin: .25rem 0;
                 min-height: 2rem;
-                font-size: 1.2rem;
+                font-size: 1rem;
                 width: 100%;
             }
             .answer{
-                color: #DE0000;
+                color: var(--primary);
                 font-weight: bold;
             }
             #answer-instructions{
                 font-size: 1rem;
                 padding: 0 .4rem;
                 margin: .2rem 0;
-                max-width: 16rem;
+                text-align: center;
             }
             @media (max-width: 768px){
                 #main, #quote-of-the-day{
@@ -221,24 +226,28 @@
             }
             h1{
                 font-family: "Noto Sans";
-                color: #FFF;
-                background: linear-gradient(30deg, #DE0000, #1C94E9);
-                font-size: 4rem;
+                color: var(--background);
+                background: linear-gradient(30deg, var(--primary), var(--secondary));
+                font-size: clamp(2.5rem, 6vw, 4rem);
                 margin: 0;
                 text-align: center;
-                padding: 2rem;
+                padding: 1.35rem;
+                box-shadow: 0 2px 8px var(--shadow);
             }
             #footer{
                 text-align: center;
                 background-color: #28465C;
-                color: #FFF;
+                color: var(--background);
                 padding: .05rem;
                 font-size: 1rem;
             }
             select:focus, textarea:focus{
-                border-color: #1C94E9;
+                border-color: var(--secondary);
                 outline: none;
                 box-shadow: 0 0 .7rem rgba(28, 143, 210, .3);
+            }
+            a{
+                color: var(--secondary);
             }
         </style>
     </head>
@@ -278,7 +287,7 @@
             </select>
             <input type="button" id="genQ" value="generate question">
             <div id="question-area"></div>
-            <div id="answer-instructions" >When dealing with exponents, use caret notation such as x^2</div>
+            <div id="answer-instructions">When dealing with exponents, use caret notation such as x^2</div>
             <textarea id="answer-box" cols="30" rows="10" placeholder="Enter your answer here&NewLine;&NewLine;Submit your answer by pressing the &quot;Check My Answer&quot; button or holding the shift key and then pressing the enter key" disabled></textarea>
             <div>Symbols for you to copy and use: ∫</div>
             <input type="button" id="check-answer" value="Check My Answer" disabled>
