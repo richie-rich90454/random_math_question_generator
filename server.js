@@ -1,6 +1,5 @@
-let fastify = require("fastify")();
-let path = require("path");
-let port = 1331;
+let fastify=require("fastify")();
+let port=1331;
 fastify.addHook("onSend", (request, reply, payload, done)=>{
     reply.header("Cache-Control", "no-cache, no-store, must-revalidate");
     done();
