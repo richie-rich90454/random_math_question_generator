@@ -877,7 +877,7 @@ function generatePermutation(){
     let r=Math.floor(Math.random()*(n-1))+1;
     switch (type){
         case "basic":
-            questionArea.innerHTML=`Compute P(${n}, ${r})`;
+            questionArea.innerHTML=`\\( P(${n}, ${r}) \\)`;
             correctAnswer={
                 correct: nPr(n, r),
                 alternate: `nPr(${n},${r})`
@@ -885,7 +885,7 @@ function generatePermutation(){
             break;
         case "equation":
             let val=nPr(n, r);
-            questionArea.innerHTML=`Find n if P(n, ${r})=${val}`;
+            questionArea.innerHTML=`Find \\( n \\) if \\( P(n, ${r})=${val} \\)`;
             correctAnswer={
                 correct: n,
                 alternate: `${n}`
@@ -894,29 +894,29 @@ function generatePermutation(){
         case "word":
             let objs=["books", "cars", "students", "colors"];
             let obj=objs[Math.floor(Math.random()*objs.length)];
-            questionArea.innerHTML=`In how many ways can you arrange ${r} ${obj} chosen from ${n}?`;
+            questionArea.innerHTML=`In how many ways can you arrange \\( ${r} \\) ${obj} chosen from \\( ${n} \\)?`;
             correctAnswer={
                 correct: nPr(n, r),
                 alternate: `P(${n},${r})`
             };
             break;
         case "circular":
-            questionArea.innerHTML=`How many circular arrangements of ${n} distinct objects?`;
+            questionArea.innerHTML=`How many circular arrangements of \\( ${n} \\) distinct objects?`;
             correctAnswer={
                 correct: factorial(n-1),
-                alternate: `( ${n}-1 )!`
+                alternate: `(${n}-1)!`
             };
             break;
         case "identical":
             let k=Math.floor(Math.random()*(n-1))+1;
-            questionArea.innerHTML=`Permutations of ${n} items when ${k} are identical`;
+            questionArea.innerHTML=`Permutations of \\( ${n} \\) items when \\( ${k} \\) are identical`;
             correctAnswer={
-                correct: factorial(n)/factorial(k),
+                correct: factorial(n) / factorial(k),
                 alternate: `${n}!/${k}!`
             };
             break;
         case "withReplacement":
-            questionArea.innerHTML=`How many ordered selections of ${r} items from ${n} types if repetition is allowed?`;
+            questionArea.innerHTML=`How many ordered selections of \\( ${r} \\) items from \\( ${n} \\) types if repetition is allowed?`;
             correctAnswer={
                 correct: Math.pow(n, r),
                 alternate: `${n}^${r}`
@@ -933,7 +933,7 @@ function generateCombination(){
     let r=Math.floor(Math.random()*(n-1))+1;
     switch (type){
         case "basic":
-            questionArea.innerHTML=`Compute C(${n}, ${r})`;
+            questionArea.innerHTML=`\\( C(${n}, ${r}) \\)`;
             correctAnswer={
                 correct: nCr(n, r),
                 alternate: `nCr(${n},${r})`
@@ -941,7 +941,7 @@ function generateCombination(){
             break;
         case "equation":
             let val=nCr(n, r);
-            questionArea.innerHTML=`Find n if C(n, ${r})=${val}`;
+            questionArea.innerHTML=`Find \\( n \\) if \\( C(n, ${r})=${val} \\)`;
             correctAnswer={
                 correct: n,
                 alternate: `${n}`
@@ -950,14 +950,14 @@ function generateCombination(){
         case "word":
             let items=["fruits", "committee members", "pizzas"];
             let item=items[Math.floor(Math.random()*items.length)];
-            questionArea.innerHTML=`How many ways to choose ${r} ${item} from ${n}?`;
+            questionArea.innerHTML=`How many ways to choose \\( ${r} \\) ${item} from \\( ${n} \\)?`;
             correctAnswer={
                 correct: nCr(n, r),
                 alternate: `C(${n},${r})`
             };
             break;
         case "complement":
-            questionArea.innerHTML=`Show that C(${n}, ${n-r})=C(${n}, ${r}). What is its value?`;
+            questionArea.innerHTML=`Show that \\( C(${n}, ${n-r})=C(${n}, ${r}) \\). What is its value?`;
             correctAnswer={
                 correct: nCr(n, r),
                 alternate: `C(${n},${r})`
@@ -965,14 +965,14 @@ function generateCombination(){
             break;
         case "paths":
             let g=Math.floor(Math.random()*4)+3;
-            questionArea.innerHTML=`Number of shortest paths in a ${g}×${g} grid (right & up moves)?`;
+            questionArea.innerHTML=`Number of shortest paths in a \\( ${g} \\times ${g} \\) grid (right & up moves)?`;
             correctAnswer={
                 correct: nCr(2*g, g),
                 alternate: `C(${2*g},${g})`
             };
             break;
         case "multiset":
-            questionArea.innerHTML=`Ways to choose ${r} items from ${n} types if repeats allowed?`;
+            questionArea.innerHTML=`Ways to choose \\( ${r} \\) items from \\( ${n} \\) types if repeats allowed?`;
             correctAnswer={
                 correct: nCr(n+r-1, r),
                 alternate: `C(${n+r-1},${r})`
