@@ -783,7 +783,7 @@ function generateExponent(){
             break;
         case "growth":
             let rate=(Math.random()*20+5).toFixed(1);
-            questionArea.innerHTML=`A population grows at \\( ${rate}\\% \\) annually. What's the growth factor?`;
+            questionArea.innerHTML=`A population grows at \\( ${rate}\\% \\) annually. What is the growth factor?`;
             let factor=(1+rate/100).toFixed(3);
             correctAnswer={
                 correct: factor,
