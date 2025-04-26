@@ -173,35 +173,13 @@ function generateRoot(){
 }
 function generateDerivative(){
     questionArea.innerHTML="";
-    let trigFunctions=[
-       { func: "\\sin(x)", deriv: "\\cos(x)", plainDeriv: "cos(x)" },
-       { func: "\\cos(x)", deriv: "-\\sin(x)", plainDeriv: "-sin(x)" },
-       { func: "\\tan(x)", deriv: "\\sec^{2}(x)", plainDeriv: "sec^2(x)" },
-       { func: "\\csc(x)", deriv: "-\\csc(x)\\cot(x)", plainDeriv: "-csc(x)cot(x)" },
-       { func: "\\sec(x)", deriv: "\\sec(x)\\tan(x)", plainDeriv: "sec(x)tan(x)" },
-       { func: "\\cot(x)", deriv: "-\\csc^{2}(x)", plainDeriv: "-csc^2(x)" }
-    ];
-    let expFunctions=[
-       { func: "e^{x}", deriv: "e^{x}", plainDeriv: "e^x" },
-       { func: "2^{x}", deriv: "2^{x}\\ln(2)", plainDeriv: "2^x*ln(2)" }
-    ];
-    let logFunctions=[
-       { func: "\\ln(x)", deriv: "\\frac{1}{x}", plainDeriv: "1/x" },
-       { func: "\\log_{2}(x)", deriv: "\\frac{1}{x\\ln(2)}", plainDeriv: "1/(x*ln(2))" }
-    ];
-    let questionTypes=[
-        "polynomial", "trigonometric", "exponential", "logarithmic",
-        "product", "quotient", "chain", "implicit", "higherOrder", "motion"
-    ];
+    let trigFunctions=[{ func: "\\sin(x)", deriv: "\\cos(x)", plainDeriv: "cos(x)" }, { func: "\\cos(x)", deriv: "-\\sin(x)", plainDeriv: "-sin(x)" }, { func: "\\tan(x)", deriv: "\\sec^{2}(x)", plainDeriv: "sec^2(x)" }, { func: "\\csc(x)", deriv: "-\\csc(x)\\cot(x)", plainDeriv: "-csc(x)cot(x)" }, { func: "\\sec(x)", deriv: "\\sec(x)\\tan(x)", plainDeriv: "sec(x)tan(x)" }, { func: "\\cot(x)", deriv: "-\\csc^{2}(x)", plainDeriv: "-csc^2(x)" }];
+    let expFunctions=[{ func: "e^{x}", deriv: "e^{x}", plainDeriv: "e^x" }, { func: "2^{x}", deriv: "2^{x}\\ln(2)", plainDeriv: "2^x*ln(2)" }];
+    let logFunctions=[{ func: "\\ln(x)", deriv: "\\frac{1}{x}", plainDeriv: "1/x" }, { func: "\\log_{2}(x)", deriv: "\\frac{1}{x\\ln(2)}", plainDeriv: "1/(x*ln(2))" }];
+    let questionTypes=["polynomial", "trigonometric", "exponential", "logarithmic", "product", "quotient", "chain", "implicit", "higherOrder", "motion"];
     let questionType=questionTypes[Math.floor(Math.random()*questionTypes.length)];
     let polynomial, correctDerivative, plainCorrectDerivative, mathExpression;
-    let latexToPlain=(str)=>str
-        .replace(/\\/g, "")
-        .replace(/{/g, "")
-        .replace(/}/g, "")
-        .replace(/cdot/g, "*")
-        .replace(/frac\(([^)]+)\)\(([^)]+)\)/g, "($1)/($2)")
-        .replace(/frac{([^}]+)}{([^}]+)}/g, "($1)/($2)");
+    let latexToPlain=(str)=>str.replace(/\\/g, "").replace(/{/g, "").replace(/}/g, "").replace(/cdot/g, "*").replace(/frac\(([^)]+)\)\(([^)]+)\)/g, "($1)/($2)").replace(/frac{([^}]+)}{([^}]+)}/g, "($1)/($2)");
     switch (questionType){
         case "polynomial":{
             let numTerms=Math.floor(Math.random()*4)+2;
