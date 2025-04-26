@@ -156,8 +156,6 @@ function generateRoot(){
     if (root==2){
         rootExpression=`\\[ \\sqrt{${radicand}}=? \\]`;
     }
-
-
     else{
         rootExpression=`\\[ \\sqrt[${root}]{${radicand}}=? \\]`;
     }
@@ -173,9 +171,9 @@ function generateRoot(){
 }
 function generateDerivative(){
     questionArea.innerHTML="";
-    let trigFunctions=[{ func: "\\sin(x)", deriv: "\\cos(x)", plainDeriv: "cos(x)" }, { func: "\\cos(x)", deriv: "-\\sin(x)", plainDeriv: "-sin(x)" }, { func: "\\tan(x)", deriv: "\\sec^{2}(x)", plainDeriv: "sec^2(x)" }, { func: "\\csc(x)", deriv: "-\\csc(x)\\cot(x)", plainDeriv: "-csc(x)cot(x)" }, { func: "\\sec(x)", deriv: "\\sec(x)\\tan(x)", plainDeriv: "sec(x)tan(x)" }, { func: "\\cot(x)", deriv: "-\\csc^{2}(x)", plainDeriv: "-csc^2(x)" }];
-    let expFunctions=[{ func: "e^{x}", deriv: "e^{x}", plainDeriv: "e^x" }, { func: "2^{x}", deriv: "2^{x}\\ln(2)", plainDeriv: "2^x*ln(2)" }];
-    let logFunctions=[{ func: "\\ln(x)", deriv: "\\frac{1}{x}", plainDeriv: "1/x" }, { func: "\\log_{2}(x)", deriv: "\\frac{1}{x\\ln(2)}", plainDeriv: "1/(x*ln(2))" }];
+    let trigFunctions=[{ func: "\\sin(x)", deriv: "\\cos(x)", plainDeriv: "cos(x)" },{ func: "\\cos(x)", deriv: "-\\sin(x)", plainDeriv: "-sin(x)" },{ func: "\\tan(x)", deriv: "\\sec^{2}(x)", plainDeriv: "sec^2(x)" },{ func: "\\csc(x)", deriv: "-\\csc(x)\\cot(x)", plainDeriv: "-csc(x)cot(x)" },{ func: "\\sec(x)", deriv: "\\sec(x)\\tan(x)", plainDeriv: "sec(x)tan(x)" },{ func: "\\cot(x)", deriv: "-\\csc^{2}(x)", plainDeriv: "-csc^2(x)" }];
+    let expFunctions=[{ func: "e^{x}", deriv: "e^{x}", plainDeriv: "e^x" },{ func: "2^{x}", deriv: "2^{x}\\ln(2)", plainDeriv: "2^x*ln(2)" }];
+    let logFunctions=[{ func: "\\ln(x)", deriv: "\\frac{1}{x}", plainDeriv: "1/x" },{ func: "\\log_{2}(x)", deriv: "\\frac{1}{x\\ln(2)}", plainDeriv: "1/(x*ln(2))" }];
     let questionTypes=["polynomial", "trigonometric", "exponential", "logarithmic", "product", "quotient", "chain", "implicit", "higherOrder", "motion"];
     let questionType=questionTypes[Math.floor(Math.random()*questionTypes.length)];
     let polynomial, correctDerivative, plainCorrectDerivative, mathExpression;
@@ -259,7 +257,7 @@ function generateDerivative(){
             let num=`${b}x+${c}`;
             polynomial=`\\frac{${num}}{${trigQuot.func}}`;
             correctDerivative=`\\frac{${b} \\cdot ${trigQuot.func}-(${num}) \\cdot ${trigQuot.deriv}}{(${trigQuot.func})^{2}}`;
-            plainCorrectDerivative=`(${b}*${latexToPlain(trigQuot.func)}-(${num})*${trigQuot.plainDeriv}) / (${latexToPlain(trigQuot.func)})^2`;
+            plainCorrectDerivative=`(${b}*${latexToPlain(trigQuot.func)}-(${num})*${trigQuot.plainDeriv})/(${latexToPlain(trigQuot.func)})^2`;
             mathExpression=`\\[ \\frac{d}{dx} ${polynomial}=? \\]`;
             break;
         }
@@ -339,74 +337,140 @@ function getOrdinal(n){
 }
 function generateIntegral(){
     questionArea.innerHTML="";
-    let numTerms=Math.floor(Math.random()*4)+2;
-    let exponents=new Set();
-    while (exponents.size<numTerms){
-        let exponent=Math.floor(Math.random()*11);
-        exponents.add(exponent);
+    let questionTypes=["polynomial", "trigonometric", "exponential", "logarithmic", "substitution", "definite", "initialValue", "area", "motion"];
+    let questionType=questionTypes[Math.floor(Math.random()*questionTypes.length)];
+    let polynomial, correctIntegral, plainCorrectIntegral, mathExpression;
+    let latexToPlain=(str)=>str.replace(/\\/g, "").replace(/{/g, "").replace(/}/g, "").replace(/cdot/g, "*").replace(/frac\(([^)]+)\)\(([^)]+)\)/g, "($1)/($2)").replace(/frac{([^}]+)}{([^}]+)}/g, "($1)/($2)");
+    switch (questionType){
+        case "polynomial":{
+            let numTerms=Math.floor(Math.random()*4)+2;
+            let exponents=new Set();
+            while (exponents.size<numTerms){
+                exponents.add(Math.floor(Math.random()*11));
+            }
+            exponents=Array.from(exponents).sort((a, b)=>b-a);
+            let coefficients=[];
+            for (let exponent of exponents){
+                coefficients.push((exponent==0)?Math.floor(Math.random()*100)+1:
+                    (exponent==1)?Math.floor(Math.random()*20)+1:Math.floor(Math.random()*30)+1);
+            }
+            let terms=[], plainTerms=[];
+            for (let i=0; i<exponents.length; i++){
+                let term=(exponents[i]==0)?`${coefficients[i]}`:(exponents[i]==1)?`${coefficients[i]}x`:`${coefficients[i]}x^{${exponents[i]}}`;
+                let plainTerm=term.replace(/[{}]/g, "");
+                terms.push(term);
+                plainTerms.push(plainTerm);
+            }
+            polynomial=`(${terms.join("+")})`;
+            let integralTerms=[], plainIntegralTerms=[];
+            for (let i=0; i<exponents.length; i++){
+                let newExponent=exponents[i]+1;
+                let newCoeff=coefficients[i]/newExponent;
+                let term=`${newCoeff.toFixed(2)}x^{${newExponent}}`;
+                let plainTerm=`${newCoeff.toFixed(2)}x^${newExponent}`;
+                integralTerms.push(term);
+                plainIntegralTerms.push(plainTerm);
+            }
+            integralTerms.push("C");
+            plainIntegralTerms.push("C");
+            correctIntegral=integralTerms.join("+");
+            plainCorrectIntegral=plainIntegralTerms.join("+");
+            mathExpression=`\\[ \\int ${polynomial} \\,dx=? \\]`;
+            break;
+        }
+        case "trigonometric":{
+            let trigIntegrals=[{ func: "\\sin(ax)", integral: "-\\frac{1}{a}\\cos(ax)", plain: "-1/a cos(ax)" }, { func: "\\cos(ax)", integral: "\\frac{1}{a}\\sin(ax)", plain: "1/a sin(ax)" }, { func: "\\sec^{2}(ax)", integral: "\\frac{1}{a}\\tan(ax)", plain: "1/a tan(ax)" }];
+            let chosen=trigIntegrals[Math.floor(Math.random()*trigIntegrals.length)];
+            let a=Math.floor(Math.random()*3)+1;
+            let coeff=Math.floor(Math.random()*4)+1;
+            polynomial=`${coeff}${chosen.func.replace("a", a)}`;
+            correctIntegral=`${coeff}${chosen.integral.replace(/a/g, a)}+C`;
+            plainCorrectIntegral=`${(coeff/a).toFixed(2)}${chosen.plain.replace("a", a).replace("1/a", "1/"+a)}+C`.replace(/(\.00|0+)$/, "");
+            break;
+        }
+        case "exponential":{
+            let base=Math.random()<0.5?"e":Math.floor(Math.random()*3)+2;
+            let a=Math.floor(Math.random()*3)+1;
+            let coeff=Math.floor(Math.random()*4)+1;
+            if (base=="e"){
+                polynomial=`${coeff}e^{${a}x}`;
+                plainCorrectIntegral=`${(coeff/a).toFixed(2)}e^(${a}x)+C`;
+            }
+            else{
+                polynomial=`${coeff}${base}^{x}`;
+                plainCorrectIntegral=`${(coeff/Math.log(base)).toFixed(2)}${base}^x+C`;
+            }
+            mathExpression=`\\[ \\int ${polynomial} \\,dx=? \\]`;
+            break;
+        }
+        case "logarithmic":{
+            let coeff=Math.floor(Math.random()*5)+1;
+            polynomial=`${coeff}/x`;
+            plainCorrectIntegral=`${coeff}ln|x|+C`;
+            mathExpression=`\\[ \\int ${polynomial} \\,dx=? \\]`;
+            break;
+        }
+        case "substitution":{
+            let a=Math.floor(Math.random()*3)+1;
+            let b=Math.floor(Math.random()*5);
+            let power=Math.floor(Math.random()*3)+2;
+            let coeff=Math.floor(Math.random()*4)+1;
+            polynomial=`${coeff}(${a}x+${b})^{${power}}`;
+            let newPower=power+1;
+            plainCorrectIntegral=`${(coeff/(a*newPower)).toFixed(2)}(${a}x+${b})^${newPower}+C`.replace(/\.00/g, "");
+            mathExpression=`\\[ \\int ${polynomial} \\,dx=? \\]`;
+            break;
+        }
+        case "definite":{
+            let exponents=Array.from({length: 3}, ()=>Math.floor(Math.random()*4));
+            let coefficients=exponents.map(()=>Math.floor(Math.random()*5)+1);
+            let [lower, upper]=[1, Math.floor(Math.random()*5)+2];
+            polynomial=coefficients.map((c, i)=>`${c}x^${exponents[i]}`).join("+");
+            let integral=coefficients.map((c, i)=>c/(exponents[i]+1)).reduce((a,b)=>a+b, 0);
+            let result=(upper**(exponents[0]+1)-lower**(exponents[0]+1))*integral;
+            plainCorrectIntegral=result.toFixed(2);
+            mathExpression=`\\[ \\int_{${lower}}^{${upper}} ${polynomial} \\,dx=? \\]`;
+            break;
+        }
+        case "initialValue":{
+            let coeff=Math.floor(Math.random()*5)+1;
+            let exponent=Math.floor(Math.random()*3)+1;
+            let xVal=Math.floor(Math.random()*3)+1;
+            let yVal=Math.floor(Math.random()*20)+5;
+            polynomial=`${coeff}x^${exponent}`;
+            let c=yVal-(coeff/(exponent+1))*xVal**(exponent+1);
+            plainCorrectIntegral=`${(coeff/(exponent+1)).toFixed(2)}x^${exponent+1}+${c.toFixed(2)}`;
+            mathExpression=`\\[ \\text{Find } f(x) \\text{ where } f'(${xVal})=${yVal} \\text{ and } f'(x)=${polynomial} \\]`;
+            break;
+        }
+        case "area":{
+            let funcs=["x^2", "sin(x)", "sqrt(x)", "2^x"];
+            let func=funcs[Math.floor(Math.random()*funcs.length)];
+            let [a, b]=[0, Math.floor(Math.random()*4)+1];
+            plainCorrectIntegral=`∫${a}^${b} ${func} dx`;
+            mathExpression=`\\[ \\text{Set up the integral for the area under } ${func} \\text{ from } ${a} \\text{ to } ${b} \\]`;
+            break;
+        }
+        case "motion":{
+            let coeff=Math.floor(Math.random()*4)+1;
+            let type=Math.random()<0.5?"velocity":"acceleration";
+            if (type=="velocity"){
+                polynomial=`${coeff}t^2`;
+                plainCorrectIntegral=`${(coeff/3).toFixed(2)}t^3+C`;
+            }
+            else{
+                polynomial=`${coeff}t`;
+                plainCorrectIntegral=`${(coeff/2).toFixed(2)}t^2+C`;
+            }
+            mathExpression=`\\[ \\text{Find position function from } ${type} \\ a(t)=${polynomial} \\]`;
+            break;
+        }
     }
-    exponents=Array.from(exponents).sort((a, b)=>b-a);
-    let coefficients=[];
-    for (let exponent of exponents){
-        let coeff;
-        if (exponent==0){
-            coeff=Math.floor(Math.random()*100)+1;
-        }
-    
-        else if (exponent==1){
-            coeff=Math.floor(Math.random()*20)+1;
-        }
-    
-    
-        else{
-            coeff=Math.floor(Math.random()*30)+1;
-        }
-        coefficients.push(coeff);
-    }
-    let terms=[];
-    for (let i=0;i<exponents.length;i++){
-        let exponent=exponents[i];
-        let coeff=coefficients[i];
-        let term;
-        if (exponent==0){
-            term=coeff.toString();
-        }
-    
-        else if (exponent==1){
-            term=`${coeff}x`;
-        }
-    
-    
-        else{
-            term=`${coeff}x^{${exponent}}`;
-        }
-        terms.push(term);
-    }
-    let polynomial=`(${terms.join("+")})`;
-    let integralTerms=[];
-    let alternateTerms=[];
-    for (let i=0;i<exponents.length;i++){
-        let exponent=exponents[i];
-        let coeff=coefficients[i];
-        let newExponent=exponent+1;
-        let newCoeff=(coeff/newExponent).toFixed(2);
-        let integralTerm=`${newCoeff}x^{${newExponent}}`;
-        let alternateTerm=`${newCoeff}x^${newExponent}`;
-        integralTerms.push(integralTerm);
-        alternateTerms.push(alternateTerm);
-    }
-    integralTerms.push("C");
-    alternateTerms.push("C");
-    let correctIntegral=integralTerms.join("+");
-    let alternateIntegral=alternateTerms.join("+");
-    let mathExpression=`\\[ \\int ${polynomial} \\,dx=? \\]`;
     let mathContainer=document.createElement("div");
-    mathContainer.innerHTML=mathExpression;
+    mathContainer.innerHTML=mathExpression || `\\[ \\int ${polynomial} \\,dx=? \\]`;
     questionArea.appendChild(mathContainer);
     MathJax.typesetPromise([mathContainer]);
-    correctAnswer={
-        correct: correctIntegral.replace(/{|}/g, ""),
-        alternate: alternateIntegral.replace(/{|}/g, "")
+    correctAnswer={correct: plainCorrectIntegral.replace(/\s+/g, "").replace(/\^{/g, "^").replace(/}/g, "").replace(/{/g, "").toLowerCase()
     };
 }
 function generateVector(){
@@ -1058,27 +1122,8 @@ function generateSin(){
                 questionArea.innerHTML=`Evaluate \$\\sin(${angle}^\\circ)\$`;
                 correctAnswer={correct: value, alternate: value};
             }
-        
-        
             else{
-                let radianAngles=[
-                  { value: 0, label: "0" },
-                  { value: Math.PI/6, label: "\\frac{\\pi}{6}" },
-                  { value: Math.PI/4, label: "\\frac{\\pi}{4}" },
-                  { value: Math.PI/3, label: "\\frac{\\pi}{3}" },
-                  { value: Math.PI/2, label: "\\frac{\\pi}{2}" },
-                  { value: 2*Math.PI/3, label: "\\frac{2\\pi}{3}" },
-                  { value: 3*Math.PI/4, label: "\\frac{3\\pi}{4}" },
-                  { value: 5*Math.PI/6, label: "\\frac{5\\pi}{6}" },
-                  { value: Math.PI, label: "\\pi" },
-                  { value: 7*Math.PI/6, label: "\\frac{7\\pi}{6}" },
-                  { value: 5*Math.PI/4, label: "\\frac{5\\pi}{4}" },
-                  { value: 4*Math.PI/3, label: "\\frac{4\\pi}{3}" },
-                  { value: 3*Math.PI/2, label: "\\frac{3\\pi}{2}" },
-                  { value: 5*Math.PI/3, label: "\\frac{5\\pi}{3}" },
-                  { value: 7*Math.PI/4, label: "\\frac{7\\pi}{4}" },
-                  { value: 11*Math.PI/6, label: "\\frac{11\\pi}{6}" }
-                ];
+                let radianAngles=[{ value: 0, label: "0" },{ value: Math.PI/6, label: "\\frac{\\pi}{6}" },{ value: Math.PI/4, label: "\\frac{\\pi}{4}" },{ value: Math.PI/3, label: "\\frac{\\pi}{3}" },{ value: Math.PI/2, label: "\\frac{\\pi}{2}" },{ value: 2*Math.PI/3, label: "\\frac{2\\pi}{3}" },{ value: 3*Math.PI/4, label: "\\frac{3\\pi}{4}" },{ value: 5*Math.PI/6, label: "\\frac{5\\pi}{6}" },{ value: Math.PI, label: "\\pi" },{ value: 7*Math.PI/6, label: "\\frac{7\\pi}{6}" },{ value: 5*Math.PI/4, label: "\\frac{5\\pi}{4}" },{ value: 4*Math.PI/3, label: "\\frac{4\\pi}{3}" },{ value: 3*Math.PI/2, label: "\\frac{3\\pi}{2}" },{ value: 5*Math.PI/3, label: "\\frac{5\\pi}{3}" },{ value: 7*Math.PI/4, label: "\\frac{7\\pi}{4}" },{ value: 11*Math.PI/6, label: "\\frac{11\\pi}{6}" }];
                 let obj=radianAngles[Math.floor(Math.random()*radianAngles.length)];
                 let value=Math.sin(obj.value).toFixed(2);
                 questionArea.innerHTML=`Evaluate \$\\sin(${obj.label})\$`;
@@ -1100,8 +1145,6 @@ function generateSin(){
                 });
                 questionArea.innerHTML=`Solve \$\\sin\\theta=${k}\$ (in degrees)`;
             }
-        
-        
             else{
                 let sol1=principal;
                 let sol2=Math.PI-principal;
@@ -1184,19 +1227,8 @@ function generateCosine(){
                 questionArea.innerHTML=`Evaluate \$\\cos(${angle}^\\circ)\$`;
                 correctAnswer={correct: value, alternate: value};
             }
-        
-        
             else{
-                let radianAngles=[
-          { value: 0, label: "0" },
-          { value: Math.PI/3, label: "\\frac{\\pi}{3}" },
-          { value: Math.PI/2, label: "\\frac{\\pi}{2}" },
-          { value: 2*Math.PI/3, label: "\\frac{2\\pi}{3}" },
-          { value: Math.PI, label: "\\pi" },
-          { value: 4*Math.PI/3, label: "\\frac{4\\pi}{3}" },
-          { value: 3*Math.PI/2, label: "\\frac{3\\pi}{2}" },
-          { value: 5*Math.PI/3, label: "\\frac{5\\pi}{3}" }
-                ];
+                let radianAngles=[{ value: 0, label: "0" },{ value: Math.PI/3, label: "\\frac{\\pi}{3}" },{ value: Math.PI/2, label: "\\frac{\\pi}{2}" },{ value: 2*Math.PI/3, label: "\\frac{2\\pi}{3}" },{ value: Math.PI, label: "\\pi" },{ value: 4*Math.PI/3, label: "\\frac{4\\pi}{3}" },{ value: 3*Math.PI/2, label: "\\frac{3\\pi}{2}" },{ value: 5*Math.PI/3, label: "\\frac{5\\pi}{3}" }];
                 let obj=radianAngles[Math.floor(Math.random()*radianAngles.length)];
                 let value=Math.cos(obj.value).toFixed(2);
                 questionArea.innerHTML=`Evaluate \$\\cos(${obj.label})\$`;
@@ -1218,8 +1250,6 @@ function generateCosine(){
                 });
                 questionArea.innerHTML=`Solve \$\\cos\\theta=${k}\$ (in degrees)`;
             }
-        
-        
             else{
                 let sol1=principal;
                 let sol2=2*Math.PI-principal;
@@ -1301,8 +1331,6 @@ function generateTangent(){
                 questionArea.innerHTML=`Solve \$\\tan\\theta=${k}\$ (in degrees, give the principal solution)`;
                 correctAnswer={ correct: `${principalDeg.toFixed(0)}deg+180degn`, alternate: `${principalDeg.toFixed(0)}deg+180degn` };
             }
-        
-        
             else{
                 questionArea.innerHTML=`Solve \$\\tan\\theta=${k}\$ (in radians, give the principal solution)`;
                 correctAnswer={ correct: `${principal.toFixed(2)}+\\pi n`, alternate: `${principal.toFixed(2)}+\\pi n` };
@@ -1437,8 +1465,6 @@ function checkAnswer(){
         let userEvaluated=safeEval(userInput);
         isCorrect=[correctAnswer.correct, correctAnswer.alternate].filter(ans=>ans!==undefined).some(ans=>safeEval(ans)==userEvaluated||format(ans)==userEvaluated);
     }
-
-
     else{
         let userValue=parseFloat(userInput);
         let correctValue=parseFloat(correctAnswer.correct);
