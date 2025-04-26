@@ -748,7 +748,7 @@ function generateLogarithm(){
             break;
         }
     }
-    MathJax && MathJax.typeset();
+    MathJax&&MathJax.typeset();
 }
 function generateExponent(){
     questionArea.innerHTML="";
@@ -803,38 +803,39 @@ function generateExponent(){
             };
             break;
     }
-    MathJax && MathJax.typeset();
+    MathJax&&MathJax.typeset();
 }
-function generateFactorial(){
+function generateFactorial() {
     questionArea.innerHTML="";
     let types=["basic", "division", "equation", "approximation", "prime"];
     let type=types[Math.floor(Math.random()*types.length)];
     let n=Math.floor(Math.random()*7)+5;
     let k=Math.floor(Math.random()*(n-2))+2;
-    switch (type){
+    switch (type) {
         case "basic":
-            questionArea.innerHTML=`Calculate ${n}!`;
+            questionArea.innerHTML=`Calculate \\( ${n}! \\)`;
             correctAnswer={
                 correct: Array.from({ length: n }, (_, i)=>i+1).reduce((a, b)=>a*b, 1),
                 alternate: Array.from({ length: n }, (_, i)=>i+1).reduce((a, b)=>a*b, 1)
             };
             break;
         case "division":
-            questionArea.innerHTML=`Simplify: ${n}!/${k}!`;
+            questionArea.innerHTML=`Simplify: \\( \\frac{${n}!}{${k}!} \\)`;
             correctAnswer={
                 correct: Array.from({ length: n-k }, (_, i)=>n-i).reduce((a, b)=>a*b, 1),
                 alternate: Array.from({ length: n }, (_, i)=>i+1).reduce((a, b)=>a*b, 1)/Array.from({ length: k }, (_, i)=>i+1).reduce((a, b)=>a*b, 1)
             };
             break;
         case "equation":
-            questionArea.innerHTML=`Solve for n: n!=${Array.from({ length: n }, (_, i)=>i+1).reduce((a, b)=>a*b, 1)}`;
+            let factVal=Array.from({ length: n }, (_, i)=>i+1).reduce((a, b)=>a*b, 1);
+            questionArea.innerHTML=`Solve for \\( n \\): \\( n!=${factVal} \\)`;
             correctAnswer={
                 correct: n,
                 alternate: n
             };
             break;
         case "approximation":
-            questionArea.innerHTML=`Estimate ${n}! using Stirling"s approximation`;
+            questionArea.innerHTML=`Estimate \\( ${n}! \\) using Stirling's approximation`;
             let stirling=Math.sqrt(2*Math.PI*n)*Math.pow(n/Math.E, n);
             correctAnswer={
                 correct: stirling.toFixed(0),
@@ -843,11 +844,11 @@ function generateFactorial(){
             break;
         case "prime":
             let prime=[2, 3, 5, 7, 11][Math.floor(Math.random()*5)];
-            questionArea.innerHTML=`Find the exponent of ${prime} in ${n}! (prime factorization)`;
+            questionArea.innerHTML=`Find the exponent of \\( ${prime} \\) in \\( ${n}! \\) (prime factorization)`;
             let count=0, temp=n;
-            while (temp>0){
+            while (temp > 0) {
                 temp=Math.floor(temp/prime);
-                count += temp;
+                count+=temp;
             }
             correctAnswer={
                 correct: count,
@@ -855,7 +856,7 @@ function generateFactorial(){
             };
             break;
     }
-    MathJax.typeset();
+    MathJax&&MathJax.typeset();
 }
 function factorial(n){
     if (n<0) return NaN;
