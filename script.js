@@ -9,7 +9,7 @@ let checkAnswerButton=document.getElementById("check-answer");
 let correctAnswer=0;
 function generateQuestion(){
     let question=questionType.value;
-    switch(question){
+    switch (question){
         case "add":
             generateAddition();
             checkAnswerButton.disabled=false;
@@ -119,13 +119,13 @@ function generateAddition(){
     let num1=parseFloat(((Math.random()*1500)-1000).toFixed(3));
     let num2=parseFloat((Math.random()*1500).toFixed(3));
     questionArea.innerHTML=`\$${num1}+${num2}=\$`;
-    correctAnswer={correct: (num1+num2).toFixed(3)};
+    correctAnswer={ correct: (num1+num2).toFixed(3) };
 }
 function generateSubtraction(){
     let num1=parseFloat(((Math.random()*1500)-1000).toFixed(3));
     let num2=parseFloat((Math.random()*1500).toFixed(3));
     questionArea.innerHTML=`\$${num1}-${num2}=\$`;
-    correctAnswer={correct: (num1-num2).toFixed(3)};
+    correctAnswer={ correct: (num1-num2).toFixed(3) };
 }
 function generateMultiplication(){
     let num1=parseFloat(((Math.random()*1500)-1000).toFixed(2));
@@ -142,9 +142,9 @@ function generateDivision(){
     let num2=parseFloat((Math.random()*1500).toFixed(2));
     questionArea.innerHTML=`\$${num1} \\div ${num2}=\$<br>Round your answer to two decimal places`;
     let actualAnswer=num1/num2;
-    correctAnswer={ 
+    correctAnswer={
         correct: (Math.round(actualAnswer*100)/100).toFixed(2),
-        alternate: actualAnswer.toFixed(5) 
+        alternate: actualAnswer.toFixed(5)
     };
 }
 function generateRoot(){
@@ -209,8 +209,8 @@ function generateDerivative(){
                 derivativeTerms.push(term);
                 plainDerivativeTerms.push(plainTerm);
             }
-            correctDerivative=derivativeTerms.join("+") || "0";
-            plainCorrectDerivative=plainDerivativeTerms.join("+") || "0";
+            correctDerivative=derivativeTerms.join("+")||"0";
+            plainCorrectDerivative=plainDerivativeTerms.join("+")||"0";
             mathExpression=`\\[ \\frac{d}{dx} ${polynomial}=? \\]`;
             break;
         }
@@ -332,8 +332,8 @@ function generateDerivative(){
 }
 function getOrdinal(n){
     let s=["th", "st", "nd", "rd"];
-    let v=n%100;
-    return s[(v-20)%10]||s[v]||s[0];
+    let v=n % 100;
+    return s[(v-20) % 10]||s[v]||s[0];
 }
 function generateIntegral(){
     questionArea.innerHTML="";
@@ -351,7 +351,7 @@ function generateIntegral(){
             exponents=Array.from(exponents).sort((a, b)=>b-a);
             let coefficients=[];
             for (let exponent of exponents){
-                coefficients.push((exponent==0)?Math.floor(Math.random()*100)+1:
+                coefficients.push((exponent==0)?Math.floor(Math.random()*100)+1 :
                     (exponent==1)?Math.floor(Math.random()*20)+1:Math.floor(Math.random()*30)+1);
             }
             let terms=[], plainTerms=[];
@@ -379,7 +379,7 @@ function generateIntegral(){
             break;
         }
         case "trigonometric":{
-            let trigIntegrals=[{ func: "\\sin(ax)", integral: "-\\frac{1}{a}\\cos(ax)", plain: "-1/a cos(ax)" }, { func: "\\cos(ax)", integral: "\\frac{1}{a}\\sin(ax)", plain: "1/a sin(ax)" }, { func: "\\sec^{2}(ax)", integral: "\\frac{1}{a}\\tan(ax)", plain: "1/a tan(ax)" }];
+            let trigIntegrals=[{ func: "\\sin(ax)", integral: "-\\frac{1}{a}\\cos(ax)", plain: "-1/a cos(ax)" },{ func: "\\cos(ax)", integral: "\\frac{1}{a}\\sin(ax)", plain: "1/a sin(ax)" },{ func: "\\sec^{2}(ax)", integral: "\\frac{1}{a}\\tan(ax)", plain: "1/a tan(ax)" }];
             let chosen=trigIntegrals[Math.floor(Math.random()*trigIntegrals.length)];
             let a=Math.floor(Math.random()*3)+1;
             let coeff=Math.floor(Math.random()*4)+1;
@@ -422,12 +422,12 @@ function generateIntegral(){
             break;
         }
         case "definite":{
-            let exponents=Array.from({length: 3}, ()=>Math.floor(Math.random()*4));
+            let exponents=Array.from({ length: 3 }, ()=>Math.floor(Math.random()*4));
             let coefficients=exponents.map(()=>Math.floor(Math.random()*5)+1);
             let [lower, upper]=[1, Math.floor(Math.random()*5)+2];
             polynomial=coefficients.map((c, i)=>`${c}x^${exponents[i]}`).join("+");
-            let integral=coefficients.map((c, i)=>c/(exponents[i]+1)).reduce((a,b)=>a+b, 0);
-            let result=(upper**(exponents[0]+1)-lower**(exponents[0]+1))*integral;
+            let integral=coefficients.map((c, i)=>c/(exponents[i]+1)).reduce((a, b)=>a+b, 0);
+            let result=(upper ** (exponents[0]+1)-lower ** (exponents[0]+1))*integral;
             plainCorrectIntegral=result.toFixed(2);
             mathExpression=`\\[ \\int_{${lower}}^{${upper}} ${polynomial} \\,dx=? \\]`;
             break;
@@ -438,7 +438,7 @@ function generateIntegral(){
             let xVal=Math.floor(Math.random()*3)+1;
             let yVal=Math.floor(Math.random()*20)+5;
             polynomial=`${coeff}x^${exponent}`;
-            let c=yVal-(coeff/(exponent+1))*xVal**(exponent+1);
+            let c=yVal-(coeff/(exponent+1))*xVal ** (exponent+1);
             plainCorrectIntegral=`${(coeff/(exponent+1)).toFixed(2)}x^${exponent+1}+${c.toFixed(2)}`;
             mathExpression=`\\[ \\text{Find } f(x) \\text{ where } f'(${xVal})=${yVal} \\text{ and } f'(x)=${polynomial} \\]`;
             break;
@@ -467,10 +467,11 @@ function generateIntegral(){
         }
     }
     let mathContainer=document.createElement("div");
-    mathContainer.innerHTML=mathExpression || `\\[ \\int ${polynomial} \\,dx=? \\]`;
+    mathContainer.innerHTML=mathExpression||`\\[ \\int ${polynomial} \\,dx=? \\]`;
     questionArea.appendChild(mathContainer);
     MathJax.typesetPromise([mathContainer]);
-    correctAnswer={correct: plainCorrectIntegral.replace(/\s+/g, "").replace(/\^{/g, "^").replace(/}/g, "").replace(/{/g, "").toLowerCase()
+    correctAnswer={
+        correct: plainCorrectIntegral.replace(/\s+/g, "").replace(/\^{/g, "^").replace(/}/g, "").replace(/{/g, "").toLowerCase()
     };
 }
 function generateVector(){
@@ -482,8 +483,8 @@ function generateVector(){
         do{
             x=Math.random()*10-5;
             y=Math.random()*10-5;
-        }while (Math.abs(x)<0.1&&Math.abs(y)<0.1);
-        return{x,y};
+        } while (Math.abs(x)<0.1&&Math.abs(y)<0.1);
+        return{ x, y };
     };
     let generateNonZeroXVector=()=>{
         let vec;
@@ -494,8 +495,8 @@ function generateVector(){
     };
     switch (type){
         case "magnitude":{
-            let{x,y}=generateNonZeroVector();
-            let mag=Math.sqrt(x**2+y**2).toFixed(2);
+            let{ x, y }=generateNonZeroVector();
+            let mag=Math.sqrt(x ** 2+y ** 2).toFixed(2);
             questionArea.innerHTML=`Find the magnitude of \\(\\langle ${x.toFixed(1)}, ${y.toFixed(1)} \\rangle\\).`;
             correctAnswer={
                 correct: mag,
@@ -504,7 +505,7 @@ function generateVector(){
             break;
         }
         case "direction":{
-            let{x,y}=generateNonZeroVector();
+            let{ x, y }=generateNonZeroVector();
             let angle=(Math.atan2(y, x)*180/Math.PI).toFixed(1);
             questionArea.innerHTML=`Find the direction angle (in degrees) of \\(\\langle ${x.toFixed(1)}, ${y.toFixed(1)} \\rangle\\).`;
             correctAnswer={
@@ -514,8 +515,8 @@ function generateVector(){
             break;
         }
         case "unit":{
-            let{x,y}=generateNonZeroVector();
-            let mag=Math.sqrt(x**2+y**2);
+            let{ x, y }=generateNonZeroVector();
+            let mag=Math.sqrt(x ** 2+y ** 2);
             let ux=(x/mag).toFixed(2);
             let uy=(y/mag).toFixed(2);
             questionArea.innerHTML=`Find the unit vector in the direction of \\(\\langle ${x.toFixed(1)}, ${y.toFixed(1)} \\rangle\\).`;
@@ -540,8 +541,8 @@ function generateVector(){
             let v1=generateNonZeroVector();
             let v2=generateNonZeroVector();
             let dot=v1.x*v2.x+v1.y*v2.y;
-            let mag1=Math.sqrt(v1.x**2+v1.y**2);
-            let mag2=Math.sqrt(v2.x**2+v2.y**2);
+            let mag1=Math.sqrt(v1.x ** 2+v1.y ** 2);
+            let mag2=Math.sqrt(v2.x ** 2+v2.y ** 2);
             let angle=(Math.acos(dot/(mag1*mag2))*180/Math.PI).toFixed(1);
             questionArea.innerHTML=`Find the angle (in degrees) between \\(\\langle ${v1.x.toFixed(1)}, ${v1.y.toFixed(1)} \\rangle\\) and \\(\\langle ${v2.x.toFixed(1)}, ${v2.y.toFixed(1)} \\rangle\\).`;
             correctAnswer={
@@ -554,7 +555,7 @@ function generateVector(){
             let v1=generateNonZeroVector();
             let v2=generateNonZeroVector();
             let dot=v1.x*v2.x+v1.y*v2.y;
-            let magV2Sq=v2.x**2+v2.y**2;
+            let magV2Sq=v2.x ** 2+v2.y ** 2;
             let projX=(dot/magV2Sq*v2.x).toFixed(2);
             let projY=(dot/magV2Sq*v2.y).toFixed(2);
             questionArea.innerHTML=`Find the projection of \\(\\langle ${v1.x.toFixed(1)}, ${v1.y.toFixed(1)} \\rangle\\) onto \\(\\langle ${v2.x.toFixed(1)}, ${v2.y.toFixed(1)} \\rangle\\).`;
@@ -588,8 +589,8 @@ function generateVector(){
             break;
         }
         case "cartesian_convert":{
-            let{x,y}=generateNonZeroVector();
-            let r=Math.sqrt(x**2+y**2).toFixed(2);
+            let{ x, y }=generateNonZeroVector();
+            let r=Math.sqrt(x ** 2+y ** 2).toFixed(2);
             let theta=(Math.atan2(y, x)*180/Math.PI).toFixed(1);
             questionArea.innerHTML=`Convert the Cartesian coordinate \\((${x.toFixed(1)}, ${y.toFixed(1)})\\) to polar coordinates. Answer with (r, degrees), no need to add deg.`;
             correctAnswer={
@@ -609,7 +610,7 @@ function generateVector(){
                     alternate: `Circle: center (0, ${center}), radius ${center}`,
                 };
             }
-        
+
             else{
                 questionArea.innerHTML=`Describe the graph of the polar equation \\(r=${a}\\cos\\theta\\). Use the format \" A circle with center at (x, y) and radius (radius) \"  Use two decimal places.`;
                 let center=(a/2).toFixed(2);
@@ -635,8 +636,8 @@ function generateVector(){
             let r=(Math.random()*5+1).toFixed(1);
             let theta=Math.floor(Math.random()*360);
             let n=Math.floor(Math.random()*3+2);
-            let newR=(r**n).toFixed(2);
-            let newTheta=(theta*n)%360;
+            let newR=(r ** n).toFixed(2);
+            let newTheta=(theta*n) % 360;
             questionArea.innerHTML=`Compute \\((${r}(\\cos ${theta}^{\\circ}+i\\sin ${theta}^{\\circ}))^{${n}}\\) using De Moivre"s Theorem. Answer with degrees (no need to add deg).`;
             correctAnswer={
                 correct: `${newR} cis ${newTheta}`,
@@ -693,7 +694,7 @@ function generateLogarithm(){
     let base=Math.floor(Math.random()*4)+2;
     let arg=Math.pow(base, Math.floor(Math.random()*4)+1);
     let newBase=Math.floor(Math.random()*3)+2;
-    switch(type){
+    switch (type){
         case "basic":{
             let answer=(Math.log(arg)/Math.log(base)).toFixed(2);
             questionArea.innerHTML=`Evaluate: log<sub>${base}</sub>${arg}`;
@@ -755,7 +756,7 @@ function generateExponent(){
     let type=types[Math.floor(Math.random()*types.length)];
     let base=Math.floor(Math.random()*4)+2;
     let exponent=Math.floor(Math.random()*5)+2;
-    switch(type){
+    switch (type){
         case "basic":
             questionArea.innerHTML=`Evaluate: ${base}<sup>${exponent}</sup>`;
             correctAnswer={
@@ -795,7 +796,7 @@ function generateExponent(){
             let e1=Math.floor(Math.random()*4)+2;
             let e2=Math.floor(Math.random()*4)+2;
             questionArea.innerHTML=`Which is larger: ${b1}<sup>${e1}</sup> or ${b2}<sup>${e2}</sup>?`;
-            let vals=[Math.pow(b1,e1), Math.pow(b2,e2)];
+            let vals=[Math.pow(b1, e1), Math.pow(b2, e2)];
             correctAnswer={
                 correct: vals[0]>vals[1]?`${b1}^${e1}`:`${b2}^${e2}`,
                 alternate: Math.max(...vals)
@@ -810,23 +811,23 @@ function generateFactorial(){
     let type=types[Math.floor(Math.random()*types.length)];
     let n=Math.floor(Math.random()*7)+5;
     let k=Math.floor(Math.random()*(n-2))+2;
-    switch(type){
+    switch (type){
         case "basic":
             questionArea.innerHTML=`Calculate ${n}!`;
             correctAnswer={
-                correct: Array.from({length: n}, (_, i)=>i+1).reduce((a,b)=>a*b, 1),
-                alternate: Array.from({length: n}, (_, i)=>i+1).reduce((a,b)=>a*b, 1)
+                correct: Array.from({ length: n }, (_, i)=>i+1).reduce((a, b)=>a*b, 1),
+                alternate: Array.from({ length: n }, (_, i)=>i+1).reduce((a, b)=>a*b, 1)
             };
             break;
         case "division":
             questionArea.innerHTML=`Simplify: ${n}!/${k}!`;
             correctAnswer={
-                correct: Array.from({length: n-k}, (_, i)=>n-i).reduce((a,b)=>a*b, 1),
-                alternate: Array.from({length: n}, (_, i)=>i+1).reduce((a,b)=>a*b, 1)/Array.from({length: k}, (_, i)=>i+1).reduce((a,b)=>a*b, 1)
+                correct: Array.from({ length: n-k }, (_, i)=>n-i).reduce((a, b)=>a*b, 1),
+                alternate: Array.from({ length: n }, (_, i)=>i+1).reduce((a, b)=>a*b, 1)/Array.from({ length: k }, (_, i)=>i+1).reduce((a, b)=>a*b, 1)
             };
             break;
         case "equation":
-            questionArea.innerHTML=`Solve for n: n!=${Array.from({length: n}, (_, i)=>i+1).reduce((a,b)=>a*b, 1)}`;
+            questionArea.innerHTML=`Solve for n: n!=${Array.from({ length: n }, (_, i)=>i+1).reduce((a, b)=>a*b, 1)}`;
             correctAnswer={
                 correct: n,
                 alternate: n
@@ -841,12 +842,12 @@ function generateFactorial(){
             };
             break;
         case "prime":
-            let prime=[2,3,5,7,11][Math.floor(Math.random()*5)];
+            let prime=[2, 3, 5, 7, 11][Math.floor(Math.random()*5)];
             questionArea.innerHTML=`Find the exponent of ${prime} in ${n}! (prime factorization)`;
             let count=0, temp=n;
-            while(temp>0){
+            while (temp>0){
                 temp=Math.floor(temp/prime);
-                count+=temp;
+                count += temp;
             }
             correctAnswer={
                 correct: count,
@@ -856,112 +857,137 @@ function generateFactorial(){
     }
     MathJax.typeset();
 }
+function factorial(n){
+    if (n<0) return NaN;
+    let res=1;
+    for (let i=2; i<=n; i++) res*=i;
+    return res;
+}
+function nPr(n, r){
+    return r>n?0:factorial(n)/factorial(n-r);
+}
+function nCr(n, r){
+    return r>n?0:factorial(n)/(factorial(r)*factorial(n-r));
+}
 function generatePermutation(){
     questionArea.innerHTML="";
-    let types=["basic", "equation", "word", "circular", "repeated"];
+    let types=["basic", "equation", "word", "circular", "identical", "withReplacement"];
     let type=types[Math.floor(Math.random()*types.length)];
     let n=Math.floor(Math.random()*8)+5;
-    let r=Math.floor(Math.random()*(n-2))+2;
-    switch(type){
+    let r=Math.floor(Math.random()*(n-1))+1;
+    switch (type){
         case "basic":
-            questionArea.innerHTML=`Calculate P(${n}, ${r})`;
+            questionArea.innerHTML=`Compute P(${n}, ${r})`;
             correctAnswer={
-                correct: Array.from({length: r}, (_,i)=>n-i).reduce((a,b)=>a*b, 1),
-                alternate: Array.from({length: r}, (_,i)=>n-i).reduce((a,b)=>a*b, 1)
+                correct: nPr(n, r),
+                alternate: `nPr(${n},${r})`
             };
             break;
         case "equation":
-            let value=Array.from({length: r}, (_,i)=>n-i).reduce((a,b)=>a*b, 1);
-            questionArea.innerHTML=`Solve for n: P(n, ${r})=${value}`;
+            let val=nPr(n, r);
+            questionArea.innerHTML=`Find n if P(n, ${r})=${val}`;
             correctAnswer={
                 correct: n,
-                alternate: n
+                alternate: `${n}`
             };
             break;
         case "word":
-            let objects=["books", "cars", "students", "colors"][Math.floor(Math.random()*4)];
-            questionArea.innerHTML=`How many ways to arrange ${r} ${objects} out of ${n}?`;
+            let objs=["books", "cars", "students", "colors"];
+            let obj=objs[Math.floor(Math.random()*objs.length)];
+            questionArea.innerHTML=`In how many ways can you arrange ${r} ${obj} chosen from ${n}?`;
             correctAnswer={
-                correct: Array.from({length: r}, (_,i)=>n-i).reduce((a,b)=>a*b, 1),
+                correct: nPr(n, r),
                 alternate: `P(${n},${r})`
             };
             break;
         case "circular":
-            questionArea.innerHTML=`Calculate circular permutations of ${n} objects`;
+            questionArea.innerHTML=`How many circular arrangements of ${n} distinct objects?`;
             correctAnswer={
-                correct: (Array.from({length: n}, (_,i)=>i+1).reduce((a,b)=>a*b, 1)/n),
-                alternate: (Array.from({length: n}, (_,i)=>i+1).reduce((a,b)=>a*b, 1)/n)
+                correct: factorial(n-1),
+                alternate: `( ${n}-1 )!`
             };
             break;
-        case "repeated":
-            let k=Math.floor(Math.random()*3)+2;
-            questionArea.innerHTML=`Permutations of ${n} items with ${k} identical elements`;
-            let total=Array.from({length: n}, (_,i)=>i+1).reduce((a,b)=>a*b, 1);
+        case "identical":
+            let k=Math.floor(Math.random()*(n-1))+1;
+            questionArea.innerHTML=`Permutations of ${n} items when ${k} are identical`;
             correctAnswer={
-                correct: total/Array.from({length: k}, (_,i)=>i+1).reduce((a,b)=>a*b, 1),
-                alternate: `\\frac{${n}!}{${k}!}`
+                correct: factorial(n)/factorial(k),
+                alternate: `${n}!/${k}!`
+            };
+            break;
+        case "withReplacement":
+            questionArea.innerHTML=`How many ordered selections of ${r} items from ${n} types if repetition is allowed?`;
+            correctAnswer={
+                correct: Math.pow(n, r),
+                alternate: `${n}^${r}`
             };
             break;
     }
-    MathJax.typeset();
+    MathJax&&MathJax.typeset();
 }
 function generateCombination(){
     questionArea.innerHTML="";
-    let types=["basic", "equation", "word", "complement", "paths"];
+    let types=["basic", "equation", "word", "complement", "paths", "multiset"];
     let type=types[Math.floor(Math.random()*types.length)];
     let n=Math.floor(Math.random()*8)+5;
-    let r=Math.floor(Math.random()*(n-2))+2;
-    switch(type){
+    let r=Math.floor(Math.random()*(n-1))+1;
+    switch (type){
         case "basic":
-            questionArea.innerHTML=`Calculate C(${n}, ${r})`;
-            let numerator=Array.from({length: r}, (_,i)=>n-i).reduce((a,b)=>a*b, 1);
-            let denominator=Array.from({length: r}, (_,i)=>i+1).reduce((a,b)=>a*b, 1);
+            questionArea.innerHTML=`Compute C(${n}, ${r})`;
             correctAnswer={
-                correct: numerator/denominator,
-                alternate: `\\binom{${n}}{${r}}`
+                correct: nCr(n, r),
+                alternate: `nCr(${n},${r})`
             };
             break;
         case "equation":
-            let value=Array.from({length: r}, (_,i)=>n-i).reduce((a,b)=>a*b, 1)/Array.from({length: r}, (_,i)=>i+1).reduce((a,b)=>a*b, 1);
-            questionArea.innerHTML=`Solve for n: C(n, ${r})=${value}`;
+            let val=nCr(n, r);
+            questionArea.innerHTML=`Find n if C(n, ${r})=${val}`;
             correctAnswer={
                 correct: n,
-                alternate: n
+                alternate: `${n}`
             };
             break;
         case "word":
-            let items=["fruits", "committee members", "pizzas"][Math.floor(Math.random()*3)];
-            questionArea.innerHTML=`How many ways to choose ${r} ${items} from ${n}?`;
+            let items=["fruits", "committee members", "pizzas"];
+            let item=items[Math.floor(Math.random()*items.length)];
+            questionArea.innerHTML=`How many ways to choose ${r} ${item} from ${n}?`;
             correctAnswer={
-                correct: Array.from({length: r}, (_,i)=>n-i).reduce((a,b)=>a*b, 1)/Array.from({length: r}, (_,i)=>i+1).reduce((a,b)=>a*b, 1),
+                correct: nCr(n, r),
                 alternate: `C(${n},${r})`
             };
             break;
         case "complement":
-            questionArea.innerHTML=`Calculate C(${n}, ${n-r})`;
+            questionArea.innerHTML=`Show that C(${n}, ${n-r})=C(${n}, ${r}). What is its value?`;
             correctAnswer={
-                correct: Array.from({length: n-r}, (_,i)=>n-i).reduce((a,b)=>a*b, 1)/Array.from({length: n-r}, (_,i)=>i+1).reduce((a,b)=>a*b, 1),
+                correct: nCr(n, r),
                 alternate: `C(${n},${r})`
             };
             break;
         case "paths":
-            let gridSize=Math.floor(Math.random()*4)+3;
-            questionArea.innerHTML=`Number of paths in ${gridSize}x${gridSize} grid from corner to corner`;
+            let g=Math.floor(Math.random()*4)+3;
+            questionArea.innerHTML=`Number of shortest paths in a ${g}×${g} grid (right & up moves)?`;
             correctAnswer={
-                correct: Array.from({length: 2*gridSize}, (_,i)=>i+1).reduce((a,b)=>a*b, 1)/Math.pow(Array.from({length: gridSize}, (_,i)=>i+1).reduce((a,b)=>a*b, 1), 2),
-                alternate: `C(${2*gridSize},${gridSize})`
+                correct: nCr(2*g, g),
+                alternate: `C(${2*g},${g})`
+            };
+            break;
+        case "multiset":
+            questionArea.innerHTML=`Ways to choose ${r} items from ${n} types if repeats allowed?`;
+            correctAnswer={
+                correct: nCr(n+r-1, r),
+                alternate: `C(${n+r-1},${r})`
             };
             break;
     }
-    MathJax.typeset();
+    MathJax&&MathJax.typeset();
 }
 function generateMatrix(){
     questionArea.innerHTML="";
     let types=["add", "subtract", "multiply", "inverse", "system", "transpose", "scalar_mult", "power", "row_echelon"];
     let type=types[Math.floor(Math.random()*types.length)];
-    let generate2x2=()=>({a: +(Math.random()*10-5).toFixed(2),b: +(Math.random()*10-5).toFixed(2),c: +(Math.random()*10-5).toFixed(2),d: +(Math.random()*10-5).toFixed(2)});
+    let generate2x2=()=>({ a: +(Math.random()*10-5).toFixed(2), b: +(Math.random()*10-5).toFixed(2), c: +(Math.random()*10-5).toFixed(2), d: +(Math.random()*10-5).toFixed(2) });
     let matrixToString=(m, style="bmatrix")=>`\\begin{${style}} ${m.a} & ${m.b} \\\\ ${m.c} & ${m.d} \\end{${style}}`;
-    switch(type){
+    switch (type){
         case "add":{
             let A=generate2x2();
             let B=generate2x2();
@@ -1049,7 +1075,7 @@ function generateMatrix(){
         }
         case "transpose":{
             let A=generate2x2();
-            let result={a: A.a, b: A.c, c: A.b, d: A.d};
+            let result={ a: A.a, b: A.c, c: A.b, d: A.d };
             questionArea.innerHTML=`Find transpose of \$${matrixToString(A)}\$`;
             correctAnswer={
                 correct: `tr(${result.a},${result.b},${result.c},${result.d})`,
@@ -1120,14 +1146,14 @@ function generateSin(){
                 let angle=commonAngles[Math.floor(Math.random()*commonAngles.length)];
                 let value=Math.sin(angle*Math.PI/180).toFixed(2);
                 questionArea.innerHTML=`Evaluate \$\\sin(${angle}^\\circ)\$`;
-                correctAnswer={correct: value, alternate: value};
+                correctAnswer={ correct: value, alternate: value };
             }
             else{
                 let radianAngles=[{ value: 0, label: "0" },{ value: Math.PI/6, label: "\\frac{\\pi}{6}" },{ value: Math.PI/4, label: "\\frac{\\pi}{4}" },{ value: Math.PI/3, label: "\\frac{\\pi}{3}" },{ value: Math.PI/2, label: "\\frac{\\pi}{2}" },{ value: 2*Math.PI/3, label: "\\frac{2\\pi}{3}" },{ value: 3*Math.PI/4, label: "\\frac{3\\pi}{4}" },{ value: 5*Math.PI/6, label: "\\frac{5\\pi}{6}" },{ value: Math.PI, label: "\\pi" },{ value: 7*Math.PI/6, label: "\\frac{7\\pi}{6}" },{ value: 5*Math.PI/4, label: "\\frac{5\\pi}{4}" },{ value: 4*Math.PI/3, label: "\\frac{4\\pi}{3}" },{ value: 3*Math.PI/2, label: "\\frac{3\\pi}{2}" },{ value: 5*Math.PI/3, label: "\\frac{5\\pi}{3}" },{ value: 7*Math.PI/4, label: "\\frac{7\\pi}{4}" },{ value: 11*Math.PI/6, label: "\\frac{11\\pi}{6}" }];
                 let obj=radianAngles[Math.floor(Math.random()*radianAngles.length)];
                 let value=Math.sin(obj.value).toFixed(2);
                 questionArea.innerHTML=`Evaluate \$\\sin(${obj.label})\$`;
-                correctAnswer={correct: value, alternate: value};
+                correctAnswer={ correct: value, alternate: value };
             }
             break;
         }
@@ -1165,8 +1191,8 @@ function generateSin(){
         case "period":{
             let B=Math.floor(Math.random()*4+1);
             questionArea.innerHTML=`What is the period of \$y=\\sin(${B}x)\$?`;
-            correctAnswer={ 
-                correct: (2*Math.PI/B).toFixed(2)+" radians", 
+            correctAnswer={
+                correct: (2*Math.PI/B).toFixed(2)+" radians",
                 alternate: `\\frac{2\\pi}{${B}}`
             };
             break;
@@ -1176,9 +1202,9 @@ function generateSin(){
             let shiftDirection=(parseFloat(C)>0)?"left":"right";
             let shiftText=(parseFloat(C)==0)?"0":`${C} units ${shiftDirection}`;
             questionArea.innerHTML=`Identify the phase shift of \$y=\\sin(x+${C})\$`;
-            correctAnswer={ 
-                correct: shiftText, 
-                alternate: (parseFloat(C)==0)?"0":`-${C}` 
+            correctAnswer={
+                correct: shiftText,
+                alternate: (parseFloat(C)==0)?"0":`-${C}`
             };
             break;
         }
@@ -1187,7 +1213,7 @@ function generateSin(){
             let angleB=Math.floor(Math.random()*50+30);
             let sideA=Math.floor(Math.random()*10+5);
             let sideB=(sideA*Math.sin(angleB*Math.PI/180)/Math.sin(angleA*Math.PI/180)).toFixed(1);
-            
+
             questionArea.innerHTML=`Using the Law of Sines:<br>
                 In triangle ABC, ∠A=${angleA}deg, ∠B=${angleB}deg, and side a=${sideA}.<br>
                 Find side b.`;
@@ -1208,7 +1234,7 @@ function generateSin(){
             correctAnswer={ correct: "1", alternate: "one" };
             break;
         }
-        default: 
+        default:
             questionArea.innerHTML="Unknown sine question type";
     }
     MathJax.typeset();
@@ -1225,14 +1251,14 @@ function generateCosine(){
                 let angle=angles[Math.floor(Math.random()*angles.length)];
                 let value=Math.cos(angle*Math.PI/180).toFixed(2);
                 questionArea.innerHTML=`Evaluate \$\\cos(${angle}^\\circ)\$`;
-                correctAnswer={correct: value, alternate: value};
+                correctAnswer={ correct: value, alternate: value };
             }
             else{
                 let radianAngles=[{ value: 0, label: "0" },{ value: Math.PI/3, label: "\\frac{\\pi}{3}" },{ value: Math.PI/2, label: "\\frac{\\pi}{2}" },{ value: 2*Math.PI/3, label: "\\frac{2\\pi}{3}" },{ value: Math.PI, label: "\\pi" },{ value: 4*Math.PI/3, label: "\\frac{4\\pi}{3}" },{ value: 3*Math.PI/2, label: "\\frac{3\\pi}{2}" },{ value: 5*Math.PI/3, label: "\\frac{5\\pi}{3}" }];
                 let obj=radianAngles[Math.floor(Math.random()*radianAngles.length)];
                 let value=Math.cos(obj.value).toFixed(2);
                 questionArea.innerHTML=`Evaluate \$\\cos(${obj.label})\$`;
-                correctAnswer={correct: value, alternate: value};
+                correctAnswer={ correct: value, alternate: value };
             }
             break;
         }
@@ -1270,8 +1296,8 @@ function generateCosine(){
         case "period":{
             let B=Math.floor(Math.random()*4+1);
             questionArea.innerHTML=`What is the period of \$y=\\cos(${B}x)\$?`;
-            correctAnswer={ 
-                correct: (2*Math.PI/B).toFixed(2)+" radians", 
+            correctAnswer={
+                correct: (2*Math.PI/B).toFixed(2)+" radians",
                 alternate: `\\frac{2\\pi}{${B}}`
             };
             break;
@@ -1281,8 +1307,8 @@ function generateCosine(){
             let shiftDirection=(parseFloat(C)>0)?"left":"right";
             let shiftText=(parseFloat(C)==0)?"0":`${C} units ${shiftDirection}`;
             questionArea.innerHTML=`Identify the phase shift of \$y=\\cos(x+${C})\$`;
-            correctAnswer={ 
-                correct: shiftText, 
+            correctAnswer={
+                correct: shiftText,
                 alternate: (parseFloat(C)==0)?"0":`-${C}`
             };
             break;
@@ -1292,7 +1318,7 @@ function generateCosine(){
             let b=Math.floor(Math.random()*10+5);
             let angleC=Math.floor(Math.random()*50+30);
             let c=Math.sqrt(a*a+b*b-2*a*b*Math.cos(angleC*Math.PI/180)).toFixed(1);
-            
+
             questionArea.innerHTML=`Using the Law of Cosines:<br>
                 In triangle ABC, sides a=${a}, b=${b}, and ∠C=${angleC}deg.<br>
                 Find side c.`;
@@ -1304,7 +1330,7 @@ function generateCosine(){
             correctAnswer={ correct: "1", alternate: "one" };
             break;
         }
-        default: 
+        default:
             questionArea.innerHTML="Unknown cosine question type";
     }
     MathJax.typeset();
@@ -1319,7 +1345,7 @@ function generateTangent(){
             let angle=angles[Math.floor(Math.random()*angles.length)];
             let value=Math.tan(angle*Math.PI/180).toFixed(2);
             questionArea.innerHTML=`Evaluate \$\\tan(${angle}^\\circ)\$`;
-            correctAnswer={correct: value, alternate: value};
+            correctAnswer={ correct: value, alternate: value };
             break;
         }
         case "solve":{
@@ -1340,8 +1366,8 @@ function generateTangent(){
         case "period":{
             let B=Math.floor(Math.random()*3+1);
             questionArea.innerHTML=`What is the period of \$y=\\tan(${B}x)\$?`;
-            correctAnswer={ 
-                correct: (Math.PI/B).toFixed(2)+" radians", 
+            correctAnswer={
+                correct: (Math.PI/B).toFixed(2)+" radians",
                 alternate: `\\frac{\\pi}{${B}}`
             };
             break;
@@ -1349,22 +1375,22 @@ function generateTangent(){
         case "asymptote":{
             let B=Math.floor(Math.random()*2+1);
             let asymptotes=[];
-            for (let k=-1;k<=0;k++){
+            for (let k=-1; k<=0; k++){
                 asymptotes.push(`x=\\frac{(2*${k}+1)\\pi}{2\\cdot${B}}`);
             }
             questionArea.innerHTML=`Find the vertical asymptotes of \$y=\\tan(${B}x)\$`;
-            correctAnswer={ 
-                correct: asymptotes.join(", "), 
+            correctAnswer={
+                correct: asymptotes.join(", "),
                 alternate: `x=\\frac{\\pi}{2\\cdot${B}}+\\frac{\\pi k}{${B}}`
             };
             break;
         }
         case "identity":{
             questionArea.innerHTML=`Complete the identity: \$1+\\tan^2\\theta=\\; ?\$`;
-            correctAnswer={correct: "sec^2theta", alternate: "\\sec^2\\theta"};
+            correctAnswer={ correct: "sec^2theta", alternate: "\\sec^2\\theta" };
             break;
         }
-        default: 
+        default:
             questionArea.innerHTML="Unknown tangent question type";
     }
     MathJax.typeset();
@@ -1379,24 +1405,24 @@ function generateCosecant(){
             let angle=angles[Math.floor(Math.random()*angles.length)];
             let value=(1/Math.sin(angle*Math.PI/180)).toFixed(2);
             questionArea.innerHTML=`Evaluate \$\\csc(${angle}^\\circ)\$`;
-            correctAnswer={correct: value, alternate: value};
+            correctAnswer={ correct: value, alternate: value };
             break;
         }
         case "relationship":{
             let angle=Math.floor(Math.random()*360);
             questionArea.innerHTML=`Express \$\\csc(${angle}^\\circ)\$ in terms of sine.`;
-            correctAnswer={ 
-                correct: `\\frac{1}{\\sin(${angle}^\\circ)}`, 
-                alternate: "1/sin("+angle+"deg)" 
+            correctAnswer={
+                correct: `\\frac{1}{\\sin(${angle}^\\circ)}`,
+                alternate: "1/sin("+angle+"deg)"
             };
             break;
         }
         case "asymptote":{
             questionArea.innerHTML=`Find the vertical asymptotes of \$y=\\csc(x)\$ (in radians).`;
-            correctAnswer={correct: "x=n\\pi", alternate: "nπ"};
+            correctAnswer={ correct: "x=n\\pi", alternate: "nπ" };
             break;
         }
-        default: 
+        default:
             questionArea.innerHTML="Unknown cosecant question type";
     }
     MathJax.typeset();
@@ -1410,15 +1436,15 @@ function generateSecant(){
             let angle=angles[Math.floor(Math.random()*angles.length)];
             let value=(1/Math.cos(angle*Math.PI/180)).toFixed(2);
             questionArea.innerHTML=`Evaluate \$\\sec(${angle}^\\circ)\$`;
-            correctAnswer={correct: value, alternate: value};
+            correctAnswer={ correct: value, alternate: value };
             break;
         }
         case "identity":{
             questionArea.innerHTML=`Complete the identity: \$\\sec^2\\theta-\\tan^2\\theta=?\$`;
-            correctAnswer={correct: "1", alternate: "one"};
+            correctAnswer={ correct: "1", alternate: "one" };
             break;
         }
-        default: 
+        default:
             questionArea.innerHTML="Unknown secant question type";
     }
     MathJax.typeset();
@@ -1432,18 +1458,18 @@ function generateCotangent(){
             let angle=angles[Math.floor(Math.random()*angles.length)];
             let value=(1/Math.tan(angle*Math.PI/180)).toFixed(2);
             questionArea.innerHTML=`Evaluate \$\\cot(${angle}^\\circ)\$`;
-            correctAnswer={correct: value, alternate: value};
+            correctAnswer={ correct: value, alternate: value };
             break;
         }
         case "relationship":{
             questionArea.innerHTML=`Express \$\\cot\\theta\$ in terms of tangent.`;
-            correctAnswer={ 
-                correct: `\\frac{1}{\\tan\\theta}`, 
-                alternate: "1/tantheta" 
+            correctAnswer={
+                correct: `\\frac{1}{\\tan\\theta}`,
+                alternate: "1/tantheta"
             };
             break;
         }
-        default: 
+        default:
             questionArea.innerHTML="Unknown cotangent question type";
     }
     MathJax.typeset();
@@ -1456,14 +1482,14 @@ function checkAnswer(){
     let safeEval=(input)=>{
         try{
             return removeTrailingZeros(Function("\"use strict\"; return ("+input.replace(/(sin|cos|tan|log)\(/g, "Math.$1(")+")")());
-        }catch (e){
+        } catch (e){
             return format(input);
         }
     };
     let formattedTypes=["deri", "mtrx", "vctr", "root", "inte", "sin", "cos", "tan", "cosec", "sec", "cot", "log"];
     if (formattedTypes.includes(questionType.value)){
         let userEvaluated=safeEval(userInput);
-        isCorrect=[correctAnswer.correct, correctAnswer.alternate].filter(ans=>ans!==undefined).some(ans=>safeEval(ans)==userEvaluated||format(ans)==userEvaluated);
+        isCorrect=[correctAnswer.correct, correctAnswer.alternate].filter(ans=>ans !==undefined).some(ans=>safeEval(ans)==userEvaluated||format(ans)==userEvaluated);
     }
     else{
         let userValue=parseFloat(userInput);
@@ -1496,7 +1522,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
         })
         .catch(error=>console.error("Error:", error));
 });
-userAnswer.addEventListener("keyup", function(e){
+userAnswer.addEventListener("keyup", function (e){
     if (e.shiftKey&&e.key=="Enter"){
         checkAnswer();
         userAnswer.value="";
