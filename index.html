@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <title>Math Practice Generator-Algebra, Calculus, Trigonometry and More</title>
+    <title>Math Practice -Algebra, Calculus, Trigonometry, and more</title>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,7 @@
         <meta name="twitter:description" content="Free math problem generator with instant answer checking. Practice over 20 math topics including calculus, trigonometry, and algebra.">
         <meta name="twitter:image" content="https://math.richardsblogs.com/favicon.png">
         <script type="application/ld+json">
-          {
+         {
               "@context": "https://schema.org",
               "@type": "WebPage",
               "name": "Math Practice Generator",
@@ -57,7 +57,7 @@
             :root{
                 --primary: #DE0000;
                 --secondary: #1C94E9;
-                --background: #FFF;
+                --background: #F5F5F5;
                 --shadow: rgba(28, 148, 233, .15);
             }
             body{
@@ -66,6 +66,7 @@
                 background-color: var(--background);
                 color: #000;
                 line-height: 1.55;
+                font-weight: 400;
             }
             @font-face{
                 font-family: "Noto Sans";
@@ -76,41 +77,52 @@
             h2, h3{
                 color: var(--secondary);
                 margin-top: 1rem;
+                font-weight: 700;
             }
             #main, #quote-of-the-day{
-                background: var(--background);
+                background: #FFF;
                 border-radius: 1.5rem;
                 margin: 2rem auto;
-                padding: 2rem;
+                padding: 3rem;
                 box-shadow: 0 .8rem 2rem var(--shadow);
                 max-width: 800px;
                 text-align: center;
             }
-            input,select{
+            input, select, textarea{
                 font-family: "Noto Sans";
                 display: block;
                 margin: 0 auto;
                 width: 100%;
                 max-width: 25rem;
+                border: 1px solid #ccc;
+                background-color: #fff;
+                padding: .75rem;
+                border-radius: .5rem;
+                box-shadow: 0 2px 4px var(--shadow);
+                text-align: center;
             }
-            #gen-type{
-                border-radius: .44rem;
-                font-size: .8rem;
-                box-sizing: border-box;
-                border: 1px solid var(--primary);
-                padding: .5rem;
+            select{
+                appearance: none;
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="5"><path d="M0 0h10L5 5z" fill="%2328465C"/></svg>');
+                background-repeat: no-repeat;
+                background-position: right .75rem center;
             }
             #genQ, #check-answer{
-                border-radius: .44rem;
+                background-color: var(--primary);
+                color: var(--background);
+                border: none;
+                padding: .75rem 1.5rem;
                 font-size: 1rem;
-                box-sizing: border-box;
-                border: 1px solid var(--primary);
-                padding: .5rem .4rem;
-                margin-top: .2rem;
+                border-radius: .5rem;
+                transition: all .35s ease;
                 width: auto;
                 min-width: 8rem;
-                transition: all .3s ease;
-                padding: .5rem;
+                margin-top: 1rem;
+                box-shadow: 0 2px 4px var(--shadow);
+            }
+            #genQ:hover, #check-answer:hover{
+                background-color: var(--secondary);
+                transform: scale(1.1);
             }
             sub{
                 font-size: .5rem;
@@ -121,20 +133,10 @@
                 vertical-align: super;
             }
             textarea{
+                min-height: 10rem;
+                height: auto;
                 margin-bottom: .5rem;
-                border-radius: .44rem;
-                box-sizing: border-box;
-                font-family: "Noto Sans";
                 resize: none;
-                border: 1px solid var(--primary);
-                width: 100%;
-                max-width: 16rem;
-                padding: .4rem;
-                font-size: 1rem;
-            }
-            input[type="button"]:hover{
-                transform: scale(1.05);
-                cursor: pointer;
             }
             #answer-results{
                 font-size: 1rem;
@@ -154,49 +156,26 @@
                 color: var(--primary);
                 font-weight: bold;
             }
-            #answer-instructions{
-                font-size: 1rem;
-                padding: 0 .4rem;
-                margin: .2rem 0;
-                text-align: center;
-            }
             @media (max-width: 768px){
                 #main, #quote-of-the-day{
                     width: 90%;
-                    padding: .5rem;
+                    padding: 1.5rem;
                     margin: .5rem auto;
                 }
-                #main{
-                    min-height: auto;
-                    padding-bottom: .5rem;
-                }
-                input{
+                input, select, textarea{
                     font-size: 1rem;
-                    padding: .25rem;
-                    max-width: none;
-                }
-                select{
-                    font-size: 1rem;
-                    padding: .25rem;
+                    padding: .5rem;
                     max-width: none;
                 }
                 #genQ, #check-answer{
                     width: 50%;
-                    padding: .3rem;
+                    padding: .5rem;
                     font-size: 1rem;
                 }
                 textarea{
-                    font-size: 0.8rem;
-                    height: 10rem;
+                    min-height: 8rem;
                 }
                 #question-area{
-                    font-size: 1rem;
-                    margin: .25rem 0;
-                }
-                #gen-type{
-                    font-size: 1rem;
-                }
-                h1{
                     font-size: 1rem;
                     margin: .25rem 0;
                 }
@@ -204,13 +183,13 @@
             @media (max-width: 480px){
                 #main, #quote-of-the-day{
                     width: 95%;
-                    padding: .8rem;
+                    padding: 1rem;
                 }
                 #genQ, #check-answer{
-                    padding: .3rem;
+                    padding: .5rem;
                 }
                 textarea{
-                    height: 8.33rem;
+                    min-height: 6rem;
                 }
             }
             .mjx-chtml, .MathJax_Display{
@@ -251,22 +230,22 @@
                     font-size: 0.8em;
                 }
             }
-            h1{
-                font-family: "Noto Sans";
-                color: var(--background);
+            header{
                 background: linear-gradient(30deg, var(--primary), var(--secondary));
+                padding: 1.5rem;
+                text-align: center;
+            }
+            h1{
+                color: var(--background);
                 font-size: clamp(2.5rem, 6vw, 4rem);
                 margin: 0;
-                text-align: center;
-                padding: 1.35rem;
-                box-shadow: 0 2px 8px var(--shadow);
             }
             #footer{
                 text-align: center;
                 background-color: #28465C;
                 color: var(--background);
-                padding: .05rem;
-                font-size: 1rem;
+                padding: 1rem;
+                font-size: 1.2rem;
             }
             select:focus, textarea:focus{
                 border-color: var(--secondary);
@@ -312,12 +291,11 @@
                 <option value="perm">Permutation (P)</option>
                 <option value="comb">Combination (C)</option>
             </select>
-            <input type="button" id="genQ" value="generate question">
+            <input type="button" id="genQ" value="Generate Question">
             <div id="question-area"></div>
-            <div id="answer-instructions">When dealing with exponents, use caret notation such as x^2</div>
             <textarea id="answer-box" cols="30" rows="10" placeholder="Enter your answer here&NewLine;&NewLine;Submit your answer by pressing the &quot;Check My Answer&quot; button or holding the shift key and then pressing the enter key" disabled></textarea>
             <div>Symbols for you to copy and use: ∫</div>
-            <input type="button" id="check-answer" value="Check My Answer" disabled>
+            <input type="button" id="check-answer" value="Check Answer" disabled>
             <div id="answer-results"></div>
         </main>
         <footer id="footer">
