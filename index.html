@@ -19,7 +19,7 @@
         <meta name="twitter:description" content="Free math problem generator with instant answer checking. Practice over 20 math topics including calculus, trigonometry, and algebra.">
         <meta name="twitter:image" content="https://math.richardsblogs.com/favicon.png">
         <script type="application/ld+json">
-           {
+          {
               "@context": "https://schema.org",
               "@type": "WebPage",
               "name": "Math Practice Generator",
@@ -226,6 +226,21 @@
                 overflow-x: auto;
                 overflow-y: hidden;
             }
+            #question-area::-webkit-scrollbar, .mjx-container::-webkit-scrollbar{
+                height: 6px;
+            }
+            #question-area::-webkit-scrollbar-thumb, .mjx-container::-webkit-scrollbar-thumb{
+                background: var(--secondary);
+                border-radius: 3px;
+            }
+            #question-area::-webkit-scrollbar-track, .mjx-container::-webkit-scrollbar-track{
+                background: #F0F0F0;
+                border-radius: 3px;
+            }
+            #question-area, .mjx-container{
+                scrollbar-width: thin;
+                scrollbar-color: var(--secondary) #F0F0F0;
+            }
             @media (max-width: 768px){
                 .MathJax_Display{
                     font-size: 0.9em;
@@ -267,13 +282,13 @@
         <header>
             <h1>Math Practice</h1>
         </header>
-        <main id="main">
-            <div id="quote-of-the-day">
-                <h3>A Special Quote</h3>
-                <div>
-                    <span id="new-quote"></span><b><span id="author"></span></b>
-                </div>
+        <div id="quote-of-the-day">
+            <h3>A Special Quote</h3>
+            <div>
+                <span id="new-quote"></span><b><span id="author"></span></b>
             </div>
+        </div>
+        <main id="main">
             <select id="gen-type">
                 <option value="" disabled selected>Please select a type of question to practice!</option>
                 <option value="add">Addition (+)</option>
