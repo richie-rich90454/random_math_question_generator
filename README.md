@@ -13,10 +13,11 @@ A free online math question generator that allows students to practice algebra, 
 * Instant answer checking
 * Responsive design for desktop and mobile
 * Random quote of the day
-## Tech Stack
+## Technology
 * **Frontend**: HTML5, CSS3 (custom properties), JavaScript (ES6), [MathJax](https://www.mathjax.org/) for rendering math notation, jQuery
 * **Backend**: Node.js with [Fastify](https://www.fastify.io/) for serving static files and handling errors
 * **License**: Apache License 2.0
+* **License**: Noto Sans (SIL Open Font License, see [OFL-Noto_Sans.txt](OFL-Noto_Sans.txt))
 ## Prerequisites
 * [Node.js](https://nodejs.org/) v14+ installed
 * npm (comes with Node.js)
