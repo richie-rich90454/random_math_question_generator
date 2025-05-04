@@ -39,7 +39,7 @@ Start the server and open [http://localhost:1331](http://localhost:1331) in your
 ├── script.js           # Frontend logic for generating questions and checking answers
 ├── jquery-3.7.1.js     # jQuery library for DOM manipulation
 ├── favicon.png         # Site favicon and preview image
-├── server.js            # Fastify server setup and configuration
+├── server.js           # Fastify server setup and configuration
 ├── package.json        # Project metadata and npm scripts
 ├── LICENSE             # Apache License 2.0
 └── node_modules/       # npm dependencies
