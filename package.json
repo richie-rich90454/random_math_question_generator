@@ -27,7 +27,8 @@
   },
   "description": "Random math question generator made with HTML, CSS, and JS.",
   "devDependencies": {
-    "electron": "^36.4.0"
+    "electron": "^36.4.0",
+    "electron-builder": "^26.0.12"
   },
   "build": {
     "appId": "com.richierich.mathgen",
