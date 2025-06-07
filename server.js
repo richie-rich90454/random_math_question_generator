@@ -24,7 +24,5 @@ fastify.listen(
             process.exit(1);
         }
         console.log(`Server running at http://localhost:${port}`);
-        console.log(`Listening on IPv4: 0.0.0.0:${port}`);
-        console.log(`Listening on IPv6: [::]:${port}`);
     }
 );
