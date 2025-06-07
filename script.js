@@ -1,3 +1,4 @@
+//user "terser script.js -o script.min.js --compress --mangle" to package it as a min file
 let quotesArray=[];
 let authorsArray=[];
 let questionArea=document.getElementById("question-area");
