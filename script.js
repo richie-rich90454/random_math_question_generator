@@ -1,4 +1,4 @@
-//user "terser script.js -o script.min.js --compress --mangle" to package it as a min file
+//use "terser script.js -o script.min.js --compress --mangle --mangle-props" to package it as a min file
 let quotesArray=[];
 let authorsArray=[];
 let questionArea=document.getElementById("question-area");
@@ -10,7 +10,6 @@ let checkAnswerButton=document.getElementById("check-answer");
 let correctAnswer=0;
 function generateQuestion(){
     let question=questionType.value;
-    console.log(question);
     switch (question){
         case "add":
             generateAddition();
@@ -117,8 +116,23 @@ function generateQuestion(){
             checkAnswerButton.disabled=false;
             userAnswer.disabled=false;
             break;
+        case "ser":
+            generateSeries();
+            checkAnswerButton.disabled=false;
+            userAnswer.disabled=false;
+            break;
+        case "lim":
+            generateLimit();
+            checkAnswerButton.disabled=false;
+            userAnswer.disabled=false;
+            break;
+        case "relRates":
+            generateRelatedRates();
+            checkAnswerButton.disabled=false;
+            userAnswer.disabled=false;
+            break;
         default:
-            questionArea.innerHTML=`Please select a type of question to generate before hitting the "Generate Question" button`
+            questionArea.innerHTML=`Please select a type of question to generate before hitting the "Generate Question" button`;
     }
     MathJax.typeset();
 }
@@ -1600,15 +1614,50 @@ function checkAnswer(){
     let removeTrailingZeros=(num)=>parseFloat(num).toString();
     let safeEval=(input)=>{
         try{
-            return removeTrailingZeros(Function("\"use strict\"; return ("+input.replace(/(sin|cos|tan|log)\(/g, "Math.$1(")+")")());
-        } catch (e){
+            return removeTrailingZeros(Function("\"use strict\"; return (" + input.replace(/(sin|cos|tan|log)\(/g, "Math.$1(") + ")")());
+        }
+        catch (e){
             return format(input);
         }
     };
     let formattedTypes=["deri", "mtrx", "vctr", "root", "inte", "sin", "cos", "tan", "cosec", "sec", "cot", "log"];
-    if (formattedTypes.includes(questionType.value)){
+    let seriesTypes=["arithmetic_sum", "geometric_sum", "convergence", "nth_term"];
+    let currentType=questionType.value;
+    if (seriesTypes.includes(currentType)){
+        switch (currentType){
+            case "convergence":
+                let cleanUserInput=userInput.replace(/[^a-z]/g, "");
+                let cleanCorrectAnswer=correctAnswer.correct.toLowerCase().replace(/[^a-z]/g, "");
+                if (cleanCorrectAnswer=="converges"){
+                    isCorrect=cleanUserInput=="converge"||cleanUserInput=="converges";
+                }
+                else if (cleanCorrectAnswer=="diverges"){
+                    isCorrect=cleanUserInput=="diverge"||cleanUserInput=="diverges";
+                }
+                else{
+                    isCorrect=cleanUserInput==cleanCorrectAnswer;
+                }
+                break;
+            case "geometric_sum":
+                let userValue=parseFloat(userInput);
+                let correctValue=parseFloat(correctAnswer.correct);
+                if (!isNaN(userValue)){
+                    isCorrect=Math.abs(userValue-correctValue)<0.01;
+                }
+                else{
+                    let userEvaluated=safeEval(userInput);
+                    isCorrect=[correctAnswer.correct, correctAnswer.alternate].filter(ans=>ans!==undefined).some(ans=>{let ansEval=safeEval(ans);return ansEval==userEvaluated||format(ans)==userEvaluated;});
+                }
+                break;
+            default:
+                let userNum=parseFloat(userInput);
+                let correctNum=parseFloat(correctAnswer.correct);
+                isCorrect=!isNaN(userNum)&&userNum==correctNum;
+        }
+    }
+    else if (formattedTypes.includes(currentType)){
         let userEvaluated=safeEval(userInput);
-        isCorrect=[correctAnswer.correct, correctAnswer.alternate].filter(ans=>ans !==undefined).some(ans=>safeEval(ans)==userEvaluated||format(ans)==userEvaluated);
+        isCorrect=[correctAnswer.correct, correctAnswer.alternate].filter(ans=>ans!==undefined).some(ans=>{let ansEval=safeEval(ans);return ansEval==userEvaluated||format(ans)==userEvaluated;});
     }
     else{
         let userValue=parseFloat(userInput);
@@ -1616,6 +1665,149 @@ function checkAnswer(){
         isCorrect=!isNaN(userValue)&&userValue==correctValue;
     }
     answerResults.innerHTML=isCorrect?`Correct! The answer is <span class="answer">${correctAnswer.correct}</span>.`:`Incorrect. The correct answer is <span class="answer">${correctAnswer.correct}</span>.`;
+}
+function generateSeries(){
+    questionArea.innerHTML="";
+    let types=["arithmetic_sum", "geometric_sum", "convergence", "nth_term"];
+    let type=types[Math.floor(Math.random()*types.length)];
+    let mathExpression, plainCorrectAnswer;
+    switch (type){
+        case "arithmetic_sum":{
+            let a1=Math.floor(Math.random()*10)+1;
+            let d=Math.floor(Math.random()*5)+1;
+            let n=Math.floor(Math.random()*10)+5;
+            let sum=(n/2)*(2*a1+(n-1)*d);
+            mathExpression=`Find the sum of the first ${n} terms of the arithmetic sequence: \\[ S_n=\\frac{n}{2} [2a_1+(n-1)d] \\] where \\( a_1=${a1} \\) and \\( d=${d} \\).`;
+            plainCorrectAnswer=sum.toString();
+            correctAnswer={correct: plainCorrectAnswer};
+            break;
+        }
+        case "geometric_sum":{
+            let a1=Math.floor(Math.random()*5)+1;
+            let rValue=(Math.random()<0.5?-1:1)*(Math.random()*0.9+0.1);
+            let r=rValue.toFixed(2);
+            let n=Math.floor(Math.random()*8)+3;
+            let sum=a1*(1-Math.pow(rValue, n))/(1-rValue);
+            mathExpression=`Find the sum of the first ${n} terms of the geometric sequence: \\[ S_n=a_1 \\frac{1-r^n}{1-r} \\] where \\( a_1=${a1} \\) and \\( r=${r} \\).`;
+            plainCorrectAnswer=sum.toFixed(2);
+            correctAnswer={correct: plainCorrectAnswer, alternate: `\\frac{${a1}(1-${r}^{${n}})}{1-${r}}`};
+            break;
+        }
+        case "convergence":{
+            let seriesTypes=[
+            {expr: "\\frac{1}{n^2}", conv: "converges"},
+            {expr: "\\frac{1}{\\sqrt{n}}", conv: "diverges"},
+            {expr: "(-1)^n \\frac{1}{n}", conv: "converges"}
+            ];
+            let chosen=seriesTypes[Math.floor(Math.random()*seriesTypes.length)];
+            mathExpression=`Determine if the series converges or diverges: \\[ \\sum_{n=1}^{\\infty} ${chosen.expr} \\]`;
+            plainCorrectAnswer=chosen.conv;
+            correctAnswer={correct: plainCorrectAnswer, alternate: plainCorrectAnswer};
+            break;
+        }
+        case "nth_term":{
+            let a1=Math.floor(Math.random()*10)+1;
+            let d=Math.floor(Math.random()*5)+1;
+            let n=Math.floor(Math.random()*10)+5;
+            let an=a1+(n-1)*d;
+            mathExpression=`Find the ${n}${getOrdinal(n)} term of the arithmetic sequence: \\[ a_n=a_1+(n-1)d \\] where \\( a_1=${a1} \\) and \\( d=${d} \\).`;
+            plainCorrectAnswer=an.toString();
+            correctAnswer={correct: plainCorrectAnswer};
+            break;
+        }
+    }
+    let mathContainer=document.createElement("div");
+    mathContainer.innerHTML=mathExpression;
+    questionArea.appendChild(mathContainer);
+    MathJax.typesetPromise([mathContainer]);
+}
+function generateLimit(){
+    questionArea.innerHTML="";
+    let types=["polynomial", "rational", "infinity", "trig"];
+    let type=types[Math.floor(Math.random()*types.length)];
+    let mathExpression, plainCorrectAnswer;
+    switch (type){
+        case "polynomial":{
+            let a=Math.floor(Math.random()*5)+1;
+            let c=Math.floor(Math.random()*10)-5;
+            let x0=Math.floor(Math.random()*5);
+            let limit=a*x0*x0+c;
+            mathExpression=`\\[ \\lim_{x \\to ${x0}} (${a}x^2+${c}) \\]`;
+            plainCorrectAnswer=limit.toString();
+            correctAnswer={ correct: plainCorrectAnswer };
+            break;
+        }
+        case "rational":{
+            let a=Math.floor(Math.random()*5)+1;
+            let b=Math.floor(Math.random()*5)+1;
+            let x0=Math.floor(Math.random()*5)+1;
+            let limit=(a*x0+1)/(b*x0-1);
+            mathExpression=`\\[ \\lim_{x \\to ${x0}} \\frac{${a}x+1}{${b}x-1} \\]`;
+            plainCorrectAnswer=limit.toFixed(2);
+            correctAnswer={ correct: plainCorrectAnswer, alternate: `\\frac{${a*x0+1}}{${b*x0-1}}` };
+            break;
+        }
+        case "infinity":{
+            let a=Math.floor(Math.random()*3)+1;
+            let limit=a;
+            mathExpression=`\\[ \\lim_{x \\to \\infty} \\frac{${a}x^2+x}{x^2-1} \\]`;
+            plainCorrectAnswer=a.toString();
+            correctAnswer={ correct: plainCorrectAnswer };
+            break;
+        }
+        case "trig":{
+            let limit=1;
+            mathExpression=`\\[ \\lim_{x \\to 0} \\frac{\\sin(x)}{x} \\]`;
+            plainCorrectAnswer="1";
+            correctAnswer={ correct: plainCorrectAnswer };
+            break;
+        }
+    }
+    let mathContainer=document.createElement("div");
+    mathContainer.innerHTML=mathExpression;
+    questionArea.appendChild(mathContainer);
+    MathJax.typesetPromise([mathContainer]);
+}
+function generateRelatedRates(){
+    questionArea.innerHTML="";
+    let types=["ladder", "cone"];
+    let type=types[Math.floor(Math.random()*types.length)];
+    let mathExpression, plainCorrectAnswer;
+    let problemText="";
+    switch (type){
+        case "ladder":{
+            let ladder=10;
+            let x=6;
+            let dx_dt=2;
+            let y=Math.sqrt(ladder*ladder-x*x);
+            let dy_dt=-(x/y)*dx_dt;
+            problemText=`A ${ladder}-ft ladder leans against a wall. The bottom is ${x} ft from the wall, moving away at ${dx_dt} ft/s. Find the rate at which the top is sliding down.`;
+            mathExpression=`\\[ \\frac{dy}{dt}=? \\]`;
+            plainCorrectAnswer=dy_dt.toFixed(2);
+            correctAnswer={ correct: plainCorrectAnswer };
+            break;
+        }
+        case "cone":{
+            let r=3;
+            let h=9;
+            let dr_dt=0.5;
+            let V=(1/3)*Math.PI*r*r*h;
+            let dV_dt=Math.PI*r*h*dr_dt;
+            problemText=`A conical tank has radius ${r} ft and height ${h} ft. The radius increases at ${dr_dt} ft/s. Find the rate of change of volume.`;
+            mathExpression=`\\[ \\frac{dV}{dt}=? \\]`;
+            plainCorrectAnswer=dV_dt.toFixed(2);
+            correctAnswer={ correct: plainCorrectAnswer };
+            break;
+        }
+    }
+    let textContainer=document.createElement("div");
+    textContainer.textContent=problemText;
+    textContainer.classList.add("problem-text");
+    questionArea.appendChild(textContainer);
+    let mathContainer=document.createElement("div");
+    mathContainer.innerHTML=mathExpression;
+    questionArea.appendChild(mathContainer);
+    MathJax.typesetPromise([mathContainer]);
 }
 document.addEventListener("DOMContentLoaded", ()=>{
     fetch("/quotes_of_the_day.txt")
