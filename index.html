@@ -1,54 +1,52 @@
 <!DOCTYPE html>
-<html>
-    <title>Math Practice -Algebra, Calculus, Trigonometry, and more</title>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Free online math question generator for students. Practice addition, subtraction, differentiation, integration, trigonometry, logarithms and more with instant answer verification.">
-        <meta name="keywords" content="math practice generator, algebra questions, calculus problems, trigonometry exercises, online math quiz">
-        <meta name="mst-teams-context" content="enabled">
-        <meta name="theme-color" content="#28465C">
+        <title>Math Practice - Algebra, Calculus, Trigonometry & More</title>
+        <meta name="description" content="Free online math question generator. Practice algebra, calculus, trigonometry, probability, and more with instant answer checking.">
+        <meta name="keywords" content="math practice generator, algebra questions, calculus problems, trigonometry exercises, online math quiz, math question generator">
         <meta name="application-name" content="Math Practice Generator">
+        <meta name="theme-color" content="#28465C">
         <meta property="og:title" content="Math Practice Generator | Free Math Questions & Answers">
-        <meta property="og:description" content="Generate unlimited math questions across 20+ topics. Practice arithmetic, algebra, calculus, trigonometry, and more with instant feedback.">
-        <meta property="og:image" content="https://math.richardsblogs.com/favicon.ico"/>
-        <meta property="og:url" content="https://math.richardsblogs.com/">
+        <meta property="og:description" content="Generate unlimited math questions across algebra, calculus, trigonometry, probability, and more. Instant answer feedback.">
         <meta property="og:type" content="website">
+        <meta property="og:url" content="https://math.richardsblogs.com/">
+        <meta property="og:image" content="https://math.richardsblogs.com/favicon.png">
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="Math Question Generator-Practice Math Skills Online">
-        <meta name="twitter:description" content="Free math problem generator with instant answer checking. Practice over 20 math topics including calculus, trigonometry, and algebra.">
-        <meta name="twitter:image" content="https://math.richardsblogs.com/favicon.ico">
+        <meta name="twitter:title" content="Math Question Generator - Practice Math Skills Online">
+        <meta name="twitter:description" content="Free math generator with instant answer checking. Covers 20+ math topics.">
+        <meta name="twitter:image" content="https://math.richardsblogs.com/favicon.png">
         <script type="application/ld+json">
-         {
-              "@context": "https://schema.org",
-              "@type": "WebPage",
-              "name": "Math Practice Generator",
-              "description": "Free online math question generator for students and educators",
-              "keywords": ["math practice", "algebra problems", "calculus exercises", "trigonometry questions"],
-              "url": "https://math.richardsblogs.com/math-generator",
-              "mainEntityOfPage": true,
-              "inLanguage": "en",
-              "publisher":{
+        {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Math Practice Generator",
+            "description": "Free online math question generator for students and educators.",
+            "url": "https://math.richardsblogs.com/",
+            "inLanguage": "en",
+            "publisher": {
                 "@type": "Person",
                 "name": "Richard's Blogs",
                 "url": "https://github.com/richie-rich90454",
-                "logo":{
-                  "@type": "ImageObject",
-                  "url": "https://math.richardsblogs.com/favicon.ico"
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://math.richardsblogs.com/favicon.png"
                 }
-              }
             }
+        }
         </script>
-        <link rel="icon" href="favicon.ico" type="image/x-icon" alt="Math Practice Icon">
+        <link rel="icon" href="favicon.png" type="image/png">
+        <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
         <script>
             window.MathJax={
-              tex:{
-                inlineMath: [["$", "$"], ['\\(', '\\)']],
-                displayMath: [["$$", "$$"], ['\\[', '\\]']]
-              },
-              svg:{
-                fontCache: "global"
-              }
+                tex:{
+                    inlineMath: [["$", "$"], ["\\(", "\\)"]],
+                    displayMath: [["$$", "$$"], ["\\[", "\\]"]]
+                },
+                svg:{
+                    fontCache: "global"
+                }
             };
         </script>
         <script id="MathJax-script" async src="node_modules/mathjax/es5/tex-mml-chtml.js"></script>
@@ -67,12 +65,12 @@
                 <option value="add">Addition (+)</option>
                 <option value="subtrt">Subtraction (-)</option>
                 <option value="mult">Multiplication (*)</option>
-                <option value="divid">Divison (/)</option>
-                <option value="root">Roots (&radic;)</option>
+                <option value="divid">Division (&div;)</option>
+                <option value="root">Roots (&Sqrt;)</option>
                 <option value="deri">Differentiation (∂)</option>
-                <option value="inte">Integration (∫)</option>
+                <option value="inte">Integration (&int;)</option>
                 <option value="mtrx">Matrix Operations ([aᵢⱼ])</option>
-                <option value="vctr">Vector Operations (→)</option>
+                <option value="vctr">Vector Operations (&RightArrow;)</option>
                 <option value="sin">Sine (sin)</option>
                 <option value="cos">Cosine (cos)</option>
                 <option value="tan">Tangent (tan)</option>
@@ -85,19 +83,19 @@
                 <option value="perm">Permutation (P)</option>
                 <option value="comb">Combination (C)</option>
                 <option value="prob">Probability (%)</option>
-                <option value="ser">Series (∑)</option>
+                <option value="ser">Series (&Sigma;)</option>
                 <option value="lim">Limits (lim)</option>
                 <option value="relRates">Related Rates (dx/dt)</option>
             </select>
             <input type="button" id="genQ" value="Generate Question">
             <div id="question-area"></div>
-            <textarea id="answer-box" cols="30" rows="10" placeholder="Enter your answer here&NewLine;&NewLine;Submit your answer by pressing the &quot;Check My Answer&quot; button or holding the shift key and then pressing the enter key" disabled></textarea>
-            <div>Symbols for you to copy and use: ∫</div>
+            <textarea id="answer-box" cols="30" rows="10" placeholder="Enter your answer here. Submit with “Check My Answer” or Shift + Enter." disabled></textarea>
+            <div>Symbols you can copy: ∫</div>
             <input type="button" id="check-answer" value="Check Answer" disabled>
             <div id="answer-results"></div>
         </main>
         <footer id="footer">
-            <p>2025 Richard's Blogs</p>
+            <p>&copy; 2025 Richard's Blogs</p>
             <p>Main site: <a href="https://www.richardsblogs.com" target="_blank">www.richardsblogs.com</a></p>
         </footer>
     </body>
