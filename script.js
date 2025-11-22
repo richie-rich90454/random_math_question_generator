@@ -140,61 +140,61 @@ function generateQuestion(){
     }
 }
 function checkAnswer(){
-    let userInput=userAnswer.value.trim().toLowerCase();
+    let userInput=userAnswer.value.trim();
+    let currentType=questionType.value;
     let isCorrect=false;
-    let format=(str)=>String(str).replace(/\s+/g, "").replace(/\^1/g, "").replace(/x(?!\d)/g, "x1").replace(/(\D)1+/g, "$1").trim().toLowerCase();
-    let removeTrailingZeros=(num)=>parseFloat(num).toString();
-    let safeEval=(input)=>{
+    let normalizeAnswer=(input)=>{
         try{
-            return removeTrailingZeros(Function("\"use strict\"; return (" + input.replace(/(sin|cos|tan|log)\(/g, "Math.$1(") + ")")());
+            let simplified=math.simplify(input);
+            if (simplified.isletantNode&&simplified.value!==null){
+                return parseFloat(simplified.value);
+            }
+            return simplified.toString();
         }
         catch (e){
-            return format(input);
+            return input.replace(/\s+/g, "").toLowerCase();
         }
     };
-    let formattedTypes=["deri", "mtrx", "vctr", "root", "inte", "sin", "cos", "tan", "cosec", "sec", "cot", "log"];
+    let numericEquals=(a, b, tol=1e-8)=>Math.abs(a-b)<tol;
     let seriesTypes=["arithmetic_sum", "geometric_sum", "convergence", "nth_term"];
-    let currentType=questionType.value;
     if (seriesTypes.includes(currentType)){
         switch (currentType){
             case "convergence":
-                let cleanUserInput=userInput.replace(/[^a-z]/g, "");
-                let cleanCorrectAnswer=correctAnswer.correct.toLowerCase().replace(/[^a-z]/g, "");
-                if (cleanCorrectAnswer=="converges"){
+                let cleanUserInput=userInput.replace(/[^a-z]/gi, "").toLowerCase();
+                let cleanCorrect=correctAnswer.correct.replace(/[^a-z]/gi, "").toLowerCase();
+                if (cleanCorrect=="converges"){
                     isCorrect=cleanUserInput=="converge"||cleanUserInput=="converges";
                 }
-                else if (cleanCorrectAnswer=="diverges"){
+                else if (cleanCorrect=="diverges"){
                     isCorrect=cleanUserInput=="diverge"||cleanUserInput=="diverges";
                 }
                 else{
-                    isCorrect=cleanUserInput==cleanCorrectAnswer;
-                }
-                break;
-            case "geometric_sum":
-                let userValue=parseFloat(userInput);
-                let correctValue=parseFloat(correctAnswer.correct);
-                if (!isNaN(userValue)){
-                    isCorrect=Math.abs(userValue-correctValue)<0.01;
-                }
-                else{
-                    let userEvaluated=safeEval(userInput);
-                    isCorrect=[correctAnswer.correct, correctAnswer.alternate].filter(ans=>ans!==undefined).some(ans=>{let ansEval=safeEval(ans);return ansEval==userEvaluated||format(ans)==userEvaluated;});
+                    isCorrect=cleanUserInput==cleanCorrect;
                 }
                 break;
             default:
                 let userNum=parseFloat(userInput);
                 let correctNum=parseFloat(correctAnswer.correct);
-                isCorrect=!isNaN(userNum)&&userNum==correctNum;
+                if (!isNaN(userNum)&&!isNaN(correctNum)){
+                    isCorrect=numericEquals(userNum, correctNum);
+                }
+                else{
+                    let userNorm=normalizeAnswer(userInput);
+                    isCorrect=[correctAnswer.correct, correctAnswer.alternate].filter(ans=>ans!=undefined).some(ans=>normalizeAnswer(ans)==userNorm);
+                }
         }
     }
-    else if (formattedTypes.includes(currentType)){
-        let userEvaluated=safeEval(userInput);
-        isCorrect=[correctAnswer.correct, correctAnswer.alternate].filter(ans=>ans!==undefined).some(ans=>{let ansEval=safeEval(ans);return ansEval==userEvaluated||format(ans)==userEvaluated;});
-    }
     else{
-        let userValue=parseFloat(userInput);
-        let correctValue=parseFloat(correctAnswer.correct);
-        isCorrect=!isNaN(userValue)&&userValue==correctValue;
+        let formattedTypes=["deri", "mtrx", "vctr", "root", "inte", "sin", "cos", "tan", "cosec", "sec", "cot", "log"];
+        if (formattedTypes.includes(currentType)){
+            let userNorm=normalizeAnswer(userInput);
+            isCorrect=[correctAnswer.correct, correctAnswer.alternate].filter(ans=>ans!=undefined).some(ans=>normalizeAnswer(ans)==userNorm);
+        }
+        else{
+            let userNum=parseFloat(userInput);
+            let correctNum=parseFloat(correctAnswer.correct);
+            isCorrect=!isNaN(userNum)&&!isNaN(correctNum)&&numericEquals(userNum, correctNum);
+        }
     }
     answerResults.innerHTML=isCorrect?`Correct! The answer is <span class="answer">${correctAnswer.correct}</span>.`:`Incorrect. The correct answer is <span class="answer">${correctAnswer.correct}</span>.`;
 }

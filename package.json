@@ -1,6 +1,6 @@
 {
   "name": "random_math_question_generator",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -8,7 +8,14 @@
     "dev": "node server.js",
     "build": "electron-builder"
   },
-  "keywords": ["math", "calculus", "precalculus", "algebra", "integration", "differentiation"],
+  "keywords": [
+    "math",
+    "calculus",
+    "precalculus",
+    "algebra",
+    "integration",
+    "differentiation"
+  ],
   "author": "richie-rich90454",
   "license": "Apache-2.0",
   "dependencies": {
@@ -16,6 +23,7 @@
     "cssnano": "^7.1.2",
     "fastify": "^5.3.2",
     "mathjax": "^3.2.2",
+    "mathjs": "^15.1.0",
     "terser": "^5.39.0"
   },
   "description": "Random math question generator made with HTML, CSS, and JS.",
