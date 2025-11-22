@@ -1,6 +1,6 @@
 /* Optimized CSS - Use "cleancss -O2 -O1 -O0 -o style.min.css style.css" to compress */
 :root{
-    --primary: #2C4A66;
+    --primary: #28465C;
     --primary-strong: #20374D;
     --secondary: #DE0000;
     --tertiary: #5D7D9C;
@@ -211,11 +211,6 @@ header h1{
     color: var(--secondary);
     font-weight: bold;
 }
-#author{
-    display: block;
-    margin-top: .25rem;
-    color: var(--muted);
-}
 #footer{
     text-align: center;
     background-color: var(--primary);
@@ -241,6 +236,7 @@ header h1{
     overflow-x: auto;
     overflow-y: hidden;
     text-align: center;
+    color: var(--text);
 }
 .mjx-container{
     max-width: 100%;
@@ -279,7 +275,7 @@ header h1{
 }
 #main > div{
     text-align: center;
-    color: var(--muted);
+    color: var(--text);
     font-size: .9rem;
     margin: .25rem 0;
 }
