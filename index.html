@@ -40,8 +40,6 @@
             }
         </script>
         <link rel="icon" href="favicon.ico" type="image/x-icon" alt="Math Practice Icon">
-        <script id="MathJax-script" async src="node_modules/mathjax/es5/tex-mml-chtml.js"></script>
-        <script src="jquery-3.7.1.js"></script>
         <script>
             window.MathJax={
               tex:{
@@ -53,226 +51,15 @@
               }
             };
         </script>
-        <style>
-            :root{
-                --primary: #DE0000;
-                --secondary: #1C94E9;
-                --background: #F5F5F5;
-                --shadow: rgba(28, 148, 233, .15);
-            }
-            body{
-                font-family: "Noto Sans";
-                margin: 0;
-                background-color: var(--background);
-                color: #000;
-                line-height: 1.55;
-                font-weight: 400;
-            }
-            @font-face{
-                font-family: "Noto Sans";
-                src: url("NotoSans-VariableFont_wdth\,wght.ttf") format("truetype");
-                font-weight: 100 900;
-                font-style: normal;
-            }
-            h2, h3{
-                color: var(--secondary);
-                margin-top: 1rem;
-                font-weight: 700;
-            }
-            #main, #quote-of-the-day{
-                background: #FFF;
-                border-radius: 1.5rem;
-                margin: 2rem auto;
-                padding: 3rem;
-                box-shadow: 0 .8rem 2rem var(--shadow);
-                max-width: 800px;
-                text-align: center;
-            }
-            input, select, textarea{
-                font-family: "Noto Sans";
-                display: block;
-                margin: 0 auto;
-                width: 100%;
-                max-width: 25rem;
-                border: 1px solid #ccc;
-                background-color: #fff;
-                padding: .75rem;
-                border-radius: .5rem;
-                box-shadow: 0 2px 4px var(--shadow);
-                text-align: center;
-            }
-            select{
-                appearance: none;
-                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="5"><path d="M0 0h10L5 5z" fill="%2328465C"/></svg>');
-                background-repeat: no-repeat;
-                background-position: right .75rem center;
-            }
-            #genQ, #check-answer{
-                background-color: var(--primary);
-                color: var(--background);
-                border: none;
-                padding: .75rem 1.5rem;
-                font-size: 1rem;
-                border-radius: .5rem;
-                transition: all .35s ease;
-                width: auto;
-                min-width: 8rem;
-                margin-top: 1rem;
-                box-shadow: 0 2px 4px var(--shadow);
-            }
-            #genQ:hover, #check-answer:hover{
-                background-color: var(--secondary);
-                transform: scale(1.1);
-            }
-            sub{
-                font-size: .5rem;
-                vertical-align: sub;
-            }
-            sup{
-                font-size: .5rem;
-                vertical-align: super;
-            }
-            textarea{
-                min-height: 10rem;
-                height: auto;
-                margin-bottom: .5rem;
-                resize: none;
-            }
-            #answer-results{
-                font-size: 1rem;
-                min-height: 1rem;
-                padding: .4rem;
-            }
-            #question-area{
-                margin: .25rem 0;
-                min-height: 2rem;
-                font-size: 1rem;
-                width: 100%;
-                word-break: break-word;
-                overflow-wrap: break-word;
-                overflow-x: auto;
-            }
-            .answer{
-                color: var(--primary);
-                font-weight: bold;
-            }
-            @media (max-width: 768px){
-                #main, #quote-of-the-day{
-                    width: 90%;
-                    padding: 1.5rem;
-                    margin: .5rem auto;
-                }
-                input, select, textarea{
-                    font-size: 1rem;
-                    padding: .5rem;
-                    max-width: none;
-                }
-                #genQ, #check-answer{
-                    width: 50%;
-                    padding: .5rem;
-                    font-size: 1rem;
-                }
-                textarea{
-                    min-height: 8rem;
-                }
-                #question-area{
-                    font-size: 1rem;
-                    margin: .25rem 0;
-                }
-            }
-            @media (max-width: 480px){
-                #main, #quote-of-the-day{
-                    width: 95%;
-                    padding: 1rem;
-                }
-                #genQ, #check-answer{
-                    padding: .5rem;
-                }
-                textarea{
-                    min-height: 6rem;
-                }
-            }
-            .mjx-chtml, .MathJax_Display{
-                max-width: 100%;
-                overflow-x: auto;
-                display: block;
-                overflow-x: scroll;
-                overflow-y: hidden;
-                text-align: center;
-            }
-            .mjx-container{
-                max-width: 100%;
-                overflow-x: auto;
-                overflow-y: hidden;
-            }
-            #question-area::-webkit-scrollbar, .mjx-container::-webkit-scrollbar{
-                height: 6px;
-            }
-            #question-area::-webkit-scrollbar-thumb, .mjx-container::-webkit-scrollbar-thumb{
-                background: var(--secondary);
-                border-radius: 3px;
-            }
-            #question-area::-webkit-scrollbar-track, .mjx-container::-webkit-scrollbar-track{
-                background: #F0F0F0;
-                border-radius: 3px;
-            }
-            #question-area, .mjx-container{
-                scrollbar-width: thin;
-                scrollbar-color: var(--secondary) #F0F0F0;
-            }
-            @media (max-width: 768px){
-                .MathJax_Display{
-                    font-size: 0.9em;
-                }
-            }
-            @media (max-width: 480px){
-                .MathJax_Display{
-                    font-size: 0.8em;
-                }
-            }
-            header{
-                background: linear-gradient(30deg, var(--primary), var(--secondary));
-                padding: 1.5rem;
-                text-align: center;
-            }
-            h1{
-                color: var(--background);
-                font-size: clamp(2.5rem, 6vw, 4rem);
-                margin: 0;
-            }
-            #footer{
-                text-align: center;
-                background-color: #28465C;
-                color: var(--background);
-                padding: 1rem;
-                font-size: 1rem;
-            }
-            select:focus, textarea:focus{
-                border-color: var(--secondary);
-                outline: none;
-                box-shadow: 0 0 .7rem rgba(28, 143, 210, .3);
-            }
-            a{
-                color: var(--secondary);
-            }
-            input[type="button"]{
-                cursor: pointer;
-            }
-            #answer-box{
-                text-align: left;
-            }
-        </style>
+        <script id="MathJax-script" async src="node_modules/mathjax/es5/tex-mml-chtml.js"></script>
+        <script src="jquery-3.7.1.js"></script>
+        <link rel="stylesheet" href="style.css">
+        <script type="module" src="script.min.js"></script>
     </head>
     <body>
         <header>
             <h1>Math Practice</h1>
         </header>
-        <div id="quote-of-the-day">
-            <h3>A Special Quote</h3>
-            <div>
-                <span id="new-quote"></span><b><span id="author"></span></b>
-            </div>
-        </div>
         <main id="main">
             <select id="gen-type">
                 <option value="" disabled selected>Please select a type of question to practice!</option>
@@ -312,6 +99,5 @@
             <p>2025 Richard's Blogs</p>
             <p>Main site: <a href="https://www.richardsblogs.com" target="_blank">www.richardsblogs.com</a></p>
         </footer>
-        <script src="script.min.js"></script>
     </body>
 </html>
