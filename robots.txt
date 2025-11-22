@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://math.richardsblogs.com/sitemap.xml
