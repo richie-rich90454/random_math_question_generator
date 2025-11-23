@@ -1,4 +1,4 @@
-# Random Math Question Generator
+# Random Math Question Generator available at [math.richardsblogs.com](https://math.richardsblogs.com)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 A free online math question generator that allows students to practice algebra, calculus, trigonometry, and more with instant answer verification.
 ## Features
