@@ -211,22 +211,22 @@ header h1{
     color: var(--secondary);
     font-weight: bold;
 }
-#footer{
+footer{
     text-align: center;
     background-color: var(--primary);
     color: var(--on-primary);
     font-size: .9rem;
     margin-top: auto;
 }
-#footer p{
+footer p{
     margin: .25rem 0;
 }
-#footer a{
+footer a{
     color: rgba(255, 255, 255, .95);
     text-decoration: underline;
     transition: opacity .2s ease;
 }
-#footer a:hover{
+footer a:hover{
     opacity: .8;
 }
 .mjx-chtml, .MathJax_Display{
