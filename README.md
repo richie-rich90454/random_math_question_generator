@@ -1,5 +1,4 @@
-# Random Math Question Generator available at [math.richardsblogs.com](https://math.richardsblogs.com)
-# Random Math Question Generator 🧮
+# Random Math Question Generator 🧮 available at [math.richardsblogs.com](https://math.richardsblogs.com)
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/richie-rich90454/random_math_question_generator?style=social)](https://github.com/richie-rich90454/random_math_question_generator)
