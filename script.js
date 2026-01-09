@@ -146,7 +146,7 @@ function checkAnswer(){
     let normalizeAnswer=(input)=>{
         try{
             let simplified=math.simplify(input);
-            if (simplified.isletantNode&&simplified.value!==null){
+            if (simplified.isConstantNode&&simplified.value!==null){
                 return parseFloat(simplified.value);
             }
             return simplified.toString();
@@ -156,32 +156,27 @@ function checkAnswer(){
         }
     };
     let numericEquals=(a, b, tol=1e-8)=>Math.abs(a-b)<tol;
-    let seriesTypes=["arithmetic_sum", "geometric_sum", "convergence", "nth_term"];
-    if (seriesTypes.includes(currentType)){
-        switch (currentType){
-            case "convergence":
-                let cleanUserInput=userInput.replace(/[^a-z]/gi, "").toLowerCase();
-                let cleanCorrect=correctAnswer.correct.replace(/[^a-z]/gi, "").toLowerCase();
-                if (cleanCorrect=="converges"){
-                    isCorrect=cleanUserInput=="converge"||cleanUserInput=="converges";
-                }
-                else if (cleanCorrect=="diverges"){
-                    isCorrect=cleanUserInput=="diverge"||cleanUserInput=="diverges";
-                }
-                else{
-                    isCorrect=cleanUserInput==cleanCorrect;
-                }
-                break;
-            default:
-                let userNum=parseFloat(userInput);
-                let correctNum=parseFloat(correctAnswer.correct);
-                if (!isNaN(userNum)&&!isNaN(correctNum)){
-                    isCorrect=numericEquals(userNum, correctNum);
-                }
-                else{
-                    let userNorm=normalizeAnswer(userInput);
-                    isCorrect=[correctAnswer.correct, correctAnswer.alternate].filter(ans=>ans!=undefined).some(ans=>normalizeAnswer(ans)==userNorm);
-                }
+    if (currentType=="ser"){
+        let cleanCorrect=correctAnswer.correct.replace(/[^a-z]/gi, "").toLowerCase();
+        if (cleanCorrect=="converges"||cleanCorrect=="diverges"){
+            let cleanUserInput=userInput.replace(/[^a-z]/gi, "").toLowerCase();
+            if (cleanCorrect=="converges"){
+                isCorrect=cleanUserInput=="converge"||cleanUserInput=="converges";
+            }
+            else{
+                isCorrect=cleanUserInput=="diverge"||cleanUserInput=="diverges";
+            }
+        }
+        else{
+            let userNum=parseFloat(userInput);
+            let correctNum=parseFloat(correctAnswer.correct);
+            if (!isNaN(userNum)&&!isNaN(correctNum)){
+                isCorrect=numericEquals(userNum, correctNum);
+            }
+            else{
+                let userNorm=normalizeAnswer(userInput);
+                isCorrect=[correctAnswer.correct, correctAnswer.alternate].filter(ans=>ans!=undefined).some(ans=>normalizeAnswer(ans)==userNorm);
+            }
         }
     }
     else{
