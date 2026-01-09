@@ -1,11 +1,13 @@
 let fastify=require("fastify")();
 let port=1331;
+let isProduction=process.env.NODE_ENV=="production";
+let staticRoot=isProduction?require("path").join(__dirname, "dist"):__dirname;
 fastify.addHook("onSend", (request, reply, payload, done)=>{
     reply.header("Cache-Control", "no-cache, no-store, must-revalidate");
     done();
 });
 fastify.register(require("@fastify/static"),{
-    root: __dirname,
+    root: staticRoot,
 });
 fastify.setNotFoundHandler((request, reply)=>{
     reply.code(404).type("text/html").send("<h1>404 Not Found</h1>");

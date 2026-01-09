@@ -4,9 +4,12 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron .",
-    "dev": "node server.js",
-    "build": "electron-builder"
+    "start": "vite preview",
+    "dev": "vite",
+    "build": "vite build",
+    "package": "electron-builder",
+    "start:electron": "electron .",
+    "start:server": "node server.js"
   },
   "keywords": [
     "math",
@@ -29,7 +32,12 @@
   "description": "Random math question generator made with HTML, CSS, and JS.",
   "devDependencies": {
     "electron": "^36.4.0",
-    "electron-builder": "^26.0.12"
+    "electron-builder": "^26.0.12",
+    "vite": "^7.3.1",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-copy": "^0.1.6",
+    "vite-plugin-html": "^3.2.2",
+    "vite-plugin-static-copy": "^3.1.4"
   },
   "build": {
     "appId": "com.richierich.mathgen",
