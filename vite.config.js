@@ -18,14 +18,6 @@ export default defineConfig({
             module: true,
         },
         cssMinify: "cssnano",
-        rollupOptions: {
-            input: {
-                main: "./index.html",
-            },
-            output: {
-                manualChunks: undefined,
-            },
-        },
     },
     plugins: [
         createHtmlPlugin({
