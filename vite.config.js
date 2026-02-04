@@ -1,35 +1,25 @@
-import { defineConfig } from "vite";
-import { createHtmlPlugin } from "vite-plugin-html";
-import viteCompression from "vite-plugin-compression";
-import { viteStaticCopy } from "vite-plugin-static-copy";
+import {defineConfig} from "vite";
+import {createHtmlPlugin} from "vite-plugin-html";
+import {viteStaticCopy} from "vite-plugin-static-copy";
 export default defineConfig({
     root: "src",
     publicDir: "../public",
     build: {
         outDir: "../dist",
+        emptyOutDir: true,
         assetsDir: "assets",
         minify: "terser",
+        cssMinify: true,
         terserOptions: {
             compress: {
                 drop_console: true,
                 drop_debugger: true,
             },
-            mangle: true,
-            module: true,
         },
-        cssMinify: "cssnano",
     },
     plugins: [
         createHtmlPlugin({
             minify: true,
-        }),
-        viteCompression({
-            algorithm: "gzip",
-            ext: ".gz",
-        }),
-        viteCompression({
-            algorithm: "brotliCompress",
-            ext: ".br",
         }),
         viteStaticCopy({
             targets: [
