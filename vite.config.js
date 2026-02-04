@@ -32,10 +32,12 @@ export default defineConfig({
     ],
     server: {
         port: 1331,
-        open: true,
+        open: false,
+        strictPort: true
     },
     preview: {
         port: 1331,
-        open: true,
+        open: false,
+        strictPort: true
     }
 });
