@@ -4,8 +4,11 @@
 [![GitHub stars](https://img.shields.io/github/stars/richie-rich90454/random_math_question_generator?style=social)](https://github.com/richie-rich90454/random_math_question_generator)
 [![Live Demo](https://img.shields.io/badge/demo-live-green.svg)](https://math.richardsblogs.com/)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen.svg)](https://nodejs.org/)
+[![Tauri](https://img.shields.io/badge/tauri-%2324C8DB.svg?style=for-the-badge&logo=tauri&logoColor=%23FFFFFF)](https://tauri.app/)
+[![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)](https://www.rust-lang.org/)
+[![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 
-A comprehensive, free online math question generator that helps students practice algebra, calculus, trigonometry, and more with instant answer verification. Perfect for students, educators, and anyone looking to improve their math skills!
+A comprehensive, free online math question generator that helps students practice algebra, calculus, trigonometry, and more with instant answer verification. Available as both a web application and cross-platform desktop app. Perfect for students, educators, and anyone looking to improve their math skills!
 
 ## ✨ Key Features
 
@@ -16,6 +19,7 @@ A comprehensive, free online math question generator that helps students practic
 - **🔢 Math Notation Support**: Beautiful mathematical rendering with MathJax
 - **🎲 Unlimited Questions**: Generate endless practice problems
 - **💡 Educational Focus**: Designed specifically for learning and practice
+- **🖥️ Cross-Platform Desktop App**: Native desktop application built with Tauri (Windows, macOS, Linux)
 
 ### Supported Math Topics
 
@@ -33,7 +37,7 @@ A comprehensive, free online math question generator that helps students practic
 ### Live Demo
 Try it now: **[https://math.richardsblogs.com/](https://math.richardsblogs.com/)**
 
-### Local Installation
+### Local Installation (Web Version)
 
 ```bash
 # Clone the repository
@@ -49,6 +53,19 @@ npm run dev
 
 Then open [http://localhost:1331](http://localhost:1331) in your browser.
 
+### Desktop App Development
+
+```bash
+# Install Tauri CLI globally (if not already installed)
+npm install -g @tauri-apps/cli
+
+# Start Tauri development (runs both web dev server and desktop app)
+npm run tauri dev
+
+# Build desktop application for your platform
+npm run tauri build
+```
+
 ## 🎯 How to Use
 
 1. **Select a Topic**: Choose from 25+ math categories in the dropdown
@@ -61,46 +78,53 @@ Then open [http://localhost:1331](http://localhost:1331) in your browser.
 
 - **Frontend**: HTML5, CSS3 (Custom Properties), JavaScript (ES6 Modules)
 - **Math Rendering**: [MathJax](https://www.mathjax.org/) for beautiful mathematical notation
-- **Backend**: Node.js with [Fastify](https://www.fastify.io/) for high-performance serving
+- **Build Tool**: [Vite](https://vitejs.dev/) for fast development and optimized builds
 - **Math Engine**: [Math.js](https://mathjs.org/) for complex calculations
+- **Desktop Framework**: [Tauri](https://tauri.app/) with Rust for secure, lightweight native applications
 - **Build Tools**: Terser for minification, CSSNano for CSS optimization
-- **Desktop App**: Electron for cross-platform desktop application
+- **Package Manager**: npm with Node.js
 
 ## 📁 Project Structure
 
 ```
 random_math_question_generator/
-├── index.html              # Main web application interface
-├── main.js                 # Electron desktop application entry point
-├── script.js              # Core application logic (ES6 modules)
-├── script.min.js          # Minified version of script.js
-├── style.css              # Responsive styling
-├── style.min.css          # Minified version of style.css
-├── server.js              # Fastify server configuration
-├── package.json           # Project configuration and dependencies
-├── modules/               # Modular math question generators
-│   ├── math.js            # Main math module loader
-│   ├── algebra.js         # Algebraic operations
-│   ├── algebra.full.js    # Full algebra module
-│   ├── arithmetic.js      # Basic arithmetic
-│   ├── arithmetic.full.js # Full arithmetic module
-│   ├── calculus.js        # Calculus problems
-│   ├── calculus.full.js   # Full calculus module
-│   ├── linearAlgebra.js   # Matrix and vector operations
-│   ├── linearAlgebra.full.js # Full linear algebra module
-│   ├── trigonometry.js    # Trigonometric functions
-│   ├── trigonometry.full.js # Full trigonometry module
-│   └── discreteMathematics.js # Combinatorics and probability
-├── favicon.png            # Application icon
-├── favicon.ico            # Desktop application icon
-├── apple-touch-icon.png   # iOS app icon
-├── NotoSans-VariableFont_wdth_wght.ttf # Custom font
-├── sitemap.xml            # SEO sitemap
-├── robots.txt             # Search engine directives
-├── LICENSE                # Apache 2.0 License
-├── CODE_OF_CONDUCT.md     # Community guidelines
-├── OFL-Noto_Sans.txt      # Font license
-└── README.md              # This file
+├── src/                          # Source code directory
+│   ├── index.html               # Main web application interface
+│   ├── script.js                # Core application logic (ES6 modules)
+│   ├── style.css                # Responsive styling
+│   ├── robots.txt               # Search engine directives
+│   ├── sitemap.xml              # SEO sitemap
+│   ├── modules/                 # Modular math question generators
+│   │   ├── math.js              # Main math module loader
+│   │   ├── algebra.js           # Algebraic operations
+│   │   ├── arithmetic.js        # Basic arithmetic
+│   │   ├── calculus.js          # Calculus problems
+│   │   ├── linearAlgebra.js     # Matrix and vector operations
+│   │   ├── trigonometry.js      # Trigonometric functions
+│   │   └── discreteMathematics.js # Combinatorics and probability
+│   ├── components/              # UI components
+│   ├── utils/                   # Utility functions
+│   └── assets/                  # Static assets
+├── src-tauri/                   # Tauri desktop application
+│   ├── src/                     # Rust source code
+│   ├── Cargo.toml               # Rust dependencies
+│   ├── tauri.conf.json          # Tauri configuration
+│   ├── build.rs                 # Build script
+│   └── icons/                   # Application icons
+├── public/                      # Public assets
+│   ├── favicon.ico              # Desktop application icon
+│   ├── favicon.png              # Web application icon
+│   ├── apple-touch-icon.png     # iOS app icon
+│   ├── NotoSans-VariableFont_wdth_wght.ttf # Custom font
+│   └── mathjax/                 # MathJax library
+├── dist/                        # Build output directory
+├── vite.config.js               # Vite build configuration
+├── package.json                 # Project configuration and dependencies
+├── package-lock.json            # Dependency lock file
+├── LICENSE                      # Apache 2.0 License
+├── CODE_OF_CONDUCT.md           # Community guidelines
+├── OFL-Noto_Sans.txt            # Font license
+└── README.md                    # This file
 ```
 
 ## 🎨 Features in Detail
@@ -119,22 +143,35 @@ random_math_question_generator/
 
 ### Performance Optimized
 - Fast server response times
-- Optimized bundle sizes
+- Optimized bundle sizes with Vite
 - Efficient math calculations
 - Responsive design
+
+### Cross-Platform Desktop App
+- Native performance with Tauri
+- Small bundle sizes
+- Secure sandboxing
+- Windows, macOS, and Linux support
 
 ## 🚀 Deployment
 
 ### Web Deployment
-The application is ready for deployment on any Node.js hosting platform:
-- Vercel, Netlify, Heroku
-- AWS, Google Cloud, Azure
+The application is ready for deployment on any static hosting platform:
+- Vercel, Netlify, GitHub Pages
+- AWS S3, Google Cloud Storage, Azure Static Websites
 - Any static hosting service
 
-### Desktop Application
-Build cross-platform desktop apps:
+### Desktop Application Build
+Build cross-platform desktop apps with Tauri:
+
 ```bash
-npm run build
+# Build for current platform
+npm run tauri build
+
+# Build for specific platform (requires cross-compilation setup)
+npm run tauri build -- --target x86_64-pc-windows-msvc
+npm run tauri build -- --target x86_64-apple-darwin
+npm run tauri build -- --target x86_64-unknown-linux-gnu
 ```
 
 ## 🤝 Contributing
@@ -151,7 +188,12 @@ We welcome contributions! Here's how you can help:
 git clone https://github.com/richie-rich90454/random_math_question_generator.git
 cd random_math_question_generator
 npm install
+
+# For web development
 npm run dev
+
+# For desktop app development
+npm run tauri dev
 ```
 
 ## 📊 Project Stats
@@ -161,15 +203,17 @@ npm run dev
 - **5** Major math categories
 - **Unlimited** Question combinations
 - **Instant** Answer verification
+- **Cross-platform** Desktop application
 
 ## 🌟 Why Star This Project?
 
 - **🎓 Educational Value**: Helps students learn math effectively
 - **🚀 Performance**: Fast, responsive, and reliable
-- **📱 Accessibility**: Works on all devices
+- **📱 Accessibility**: Works on all devices and platforms
 - **🔧 Well-Maintained**: Regular updates and improvements
 - **🎯 Practical**: Real-world educational tool
 - **📚 Comprehensive**: Covers high school to college-level math
+- **🖥️ Native Desktop**: Lightweight, secure desktop application
 
 ## 📄 License
 
@@ -180,6 +224,8 @@ This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE
 - **Live Demo**: [https://math.richardsblogs.com/](https://math.richardsblogs.com/)
 - **GitHub Repository**: [https://github.com/richie-rich90454/random_math_question_generator](https://github.com/richie-rich90454/random_math_question_generator)
 - **Main Website**: [https://www.richardsblogs.com](https://www.richardsblogs.com)
+- **Tauri Framework**: [https://tauri.app/](https://tauri.app/)
+- **Vite Build Tool**: [https://vitejs.dev/](https://vitejs.dev/)
 
 ---
 
