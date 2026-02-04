@@ -1,6 +1,6 @@
 {
   "name": "random_math_question_generator",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -48,14 +48,14 @@
     ],
     "asar": true,
     "win": {
-      "icon": "favicon.ico",
+      "icon": "public/favicon.ico",
       "target": [
         "portable",
         "nsis"
       ]
     },
     "linux": {
-      "icon": "favicon.png",
+      "icon": "public/favicon.png",
       "target": [
         "AppImage",
         "deb"

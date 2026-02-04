@@ -3,10 +3,10 @@ import { createHtmlPlugin } from "vite-plugin-html";
 import viteCompression from "vite-plugin-compression";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 export default defineConfig({
-    root: ".",
-    publicDir: "public",
+    root: "src",
+    publicDir: "../public",
     build: {
-        outDir: "dist",
+        outDir: "../dist",
         assetsDir: "assets",
         minify: "terser",
         terserOptions: {
@@ -45,19 +45,11 @@ export default defineConfig({
                     src: "modules/math.js",
                     dest: "modules",
                 },
-                {
-                    src: "node_modules/mathjax/es5/tex-mml-chtml.js",
-                    dest: "node_modules/mathjax/es5",
-                },
-                {
-                    src: "node_modules/mathjax/es5/output/chtml/fonts/woff-v2/*",
-                    dest: "node_modules/mathjax/es5/output/chtml/fonts/woff-v2",
-                },
             ],
         }),
     ],
     server: {
-        port: 1331,
+        port: 3000,
         open: true,
     },
 });

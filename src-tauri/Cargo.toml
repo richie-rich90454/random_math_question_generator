@@ -1,0 +1,27 @@
+[package]
+name = "random_math_question_generator"
+version = "3.0.0"
+description = "Random math question generator made with HTML, CSS, and JS."
+authors = ["richie-rich90454"]
+license = "Apache-2.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+tauri = { version = "2", features = ["shell-open"] }
+
+[features]
+# by default Tauri runs in production mode
+# when building for production, use `cargo build --release`
+default = ["custom-protocol"]
+# this feature is used for production builds
+custom-protocol = ["tauri/custom-protocol"]
+
+# this feature is used for development builds
+dev = ["tauri/dev"]
