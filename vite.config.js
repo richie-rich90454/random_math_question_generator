@@ -21,14 +21,6 @@ export default defineConfig({
         createHtmlPlugin({
             minify: true,
         }),
-        viteStaticCopy({
-            targets: [
-                {
-                    src: "modules/math.js",
-                    dest: "modules",
-                },
-            ],
-        }),
     ],
     server: {
         port: 1331,

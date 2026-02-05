@@ -16,32 +16,7 @@ let themeToggle=document.getElementById("theme-toggle");
 let helpButton=document.getElementById("help-button");
 window.correctAnswer={};
 let selectedTopic=null;
-let topics=[
-{id: "add", name: "Addition", icon: "+", category: "Arithmetic"},
-{id: "subtrt", name: "Subtraction", icon: "-", category: "Arithmetic"},
-{id: "mult", name: "Multiplication", icon: "×", category: "Arithmetic"},
-{id: "divid", name: "Division", icon: "÷", category: "Arithmetic"},
-{id: "root", name: "Roots", icon: "√", category: "Algebra"},
-{id: "deri", name: "Differentiation", icon: "∂", category: "Calculus"},
-{id: "inte", name: "Integration", icon: "∫", category: "Calculus"},
-{id: "mtrx", name: "Matrix Operations", icon: "[ ]", category: "Linear Algebra"},
-{id: "vctr", name: "Vector Operations", icon: "→", category: "Linear Algebra"},
-{id: "sin", name: "Sine", icon: "sin", category: "Trigonometry"},
-{id: "cos", name: "Cosine", icon: "cos", category: "Trigonometry"},
-{id: "tan", name: "Tangent", icon: "tan", category: "Trigonometry"},
-{id: "cosec", name: "Cosecant", icon: "csc", category: "Trigonometry"},
-{id: "sec", name: "Secant", icon: "sec", category: "Trigonometry"},
-{id: "cot", name: "Cotangent", icon: "cot", category: "Trigonometry"},
-{id: "log", name: "Logarithm", icon: "log", category: "Algebra"},
-{id: "exp", name: "Exponential", icon: "eˣ", category: "Algebra"},
-{id: "fact", name: "Factorial", icon: "!", category: "Algebra"},
-{id: "perm", name: "Permutation", icon: "P", category: "Discrete Math"},
-{id: "comb", name: "Combination", icon: "C", category: "Discrete Math"},
-{id: "prob", name: "Probability", icon: "%", category: "Discrete Math"},
-{id: "ser", name: "Series", icon: "Σ", category: "Algebra"},
-{id: "lim", name: "Limits", icon: "lim", category: "Calculus"},
-{id: "relRates", name: "Related Rates", icon: "dx/dt", category: "Calculus"}
-];
+let topics=[{id: "add", name: "Addition", icon: "+", category: "Arithmetic"}, {id: "subtrt", name: "Subtraction", icon: "-", category: "Arithmetic"}, {id: "mult", name: "Multiplication", icon: "×", category: "Arithmetic"}, {id: "divid", name: "Division", icon: "÷", category: "Arithmetic"}, {id: "root", name: "Roots", icon: "√", category: "Algebra"}, {id: "deri", name: "Differentiation", icon: "∂", category: "Calculus"}, {id: "inte", name: "Integration", icon: "∫", category: "Calculus"}, {id: "mtrx", name: "Matrix Operations", icon: "[ ]", category: "Linear Algebra"}, {id: "vctr", name: "Vector Operations", icon: "→", category: "Linear Algebra"}, {id: "sin", name: "Sine", icon: "sin", category: "Trigonometry"}, {id: "cos", name: "Cosine", icon: "cos", category: "Trigonometry"}, {id: "tan", name: "Tangent", icon: "tan", category: "Trigonometry"}, {id: "cosec", name: "Cosecant", icon: "csc", category: "Trigonometry"}, {id: "sec", name: "Secant", icon: "sec", category: "Trigonometry"}, {id: "cot", name: "Cotangent", icon: "cot", category: "Trigonometry"}, {id: "log", name: "Logarithm", icon: "log", category: "Algebra"}, {id: "exp", name: "Exponential", icon: "eˣ", category: "Algebra"}, {id: "fact", name: "Factorial", icon: "!", category: "Algebra"}, {id: "perm", name: "Permutation", icon: "P", category: "Discrete Math"}, {id: "comb", name: "Combination", icon: "C", category: "Discrete Math"}, {id: "prob", name: "Probability", icon: "%", category: "Discrete Math"}, {id: "ser", name: "Series", icon: "Σ", category: "Algebra"}, {id: "lim", name: "Limits", icon: "lim", category: "Calculus"}, {id: "relRates", name: "Related Rates", icon: "dx/dt", category: "Calculus"}];
 function initApp(){
     renderTopicGrid();
     setupEventListeners();
