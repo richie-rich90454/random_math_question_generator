@@ -24,36 +24,20 @@ function initApp(){
 }
 function renderTopicGrid(){
     topicGrid.innerHTML="";
-    let categories={};
     topics.forEach(topic=>{
-        if (!categories[topic.category]){
-            categories[topic.category]=[];
-        }
-        categories[topic.category].push(topic);
-    });
-    Object.entries(categories).forEach(([categoryName, categoryTopics])=>{
-        let categorySection=document.createElement("div");
-        categorySection.className="category-section";
-        let categoryTitle=document.createElement("div");
-        categoryTitle.className="category-title";
-        categoryTitle.textContent=categoryName;
-        categorySection.appendChild(categoryTitle);
-        categoryTopics.forEach(topic=>{
-            let topicElement=document.createElement("button");
-            topicElement.className="category-item";
-            topicElement.dataset.topicId=topic.id;
-            topicElement.innerHTML=`
-                <span class="category-icon">${topic.icon}</span>
-                <span class="category-name">${topic.name}</span>
-            `;
-            topicElement.addEventListener("click", ()=>selectTopic(topic.id));
-            categorySection.appendChild(topicElement);
-        });
-        topicGrid.appendChild(categorySection);
+        let topicElement=document.createElement("button");
+        topicElement.className="topic-pill";
+        topicElement.dataset.topicId=topic.id;
+        topicElement.innerHTML=`
+            <span class="topic-pill-icon">${topic.icon}</span>
+            <span class="topic-pill-name">${topic.name}</span>
+        `;
+        topicElement.addEventListener("click", ()=>selectTopic(topic.id));
+        topicGrid.appendChild(topicElement);
     });
 }
 function selectTopic(topicId){
-    document.querySelectorAll(".category-item").forEach(item=>{
+    document.querySelectorAll(".topic-pill").forEach(item=>{
         item.classList.remove("active");
     });
     let selectedElement=document.querySelector(`[data-topic-id="${topicId}"]`);

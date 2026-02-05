@@ -71,29 +71,29 @@
                 </div>
             </div>
             <div class="app-content">
-                <div class="content-grid">
-                    <div class="sidebar">
-                        <div class="category-section">
-                            <h2 class="section-title">Topics</h2>
-                            <div class="category-grid" id="topic-grid"></div>
-                        </div>
-                        <div class="controls-section">
-                            <h2 class="section-title">Actions</h2>
-                            <button class="primary-button" id="genQ">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
-                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                                </svg>
-                                Generate Question
-                            </button>
-                            <button class="secondary-button" id="check-answer" disabled>
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
-                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                                </svg>
-                                Check Answer
-                            </button>
-                        </div>
+                <div class="control-toolbar">
+                    <div class="toolbar-section">
+                        <h2 class="toolbar-title">Topics</h2>
+                        <div class="topic-pills-container" id="topic-grid"></div>
                     </div>
-                    <div class="main-content">
+                    <div class="toolbar-actions">
+                        <button class="primary-button toolbar-button" id="genQ">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                            </svg>
+                            Generate Question
+                        </button>
+                        <button class="secondary-button toolbar-button" id="check-answer" disabled>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                            Check Answer
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="main-content">
+                    <div class="content-stack">
                         <div class="question-card card">
                             <div class="card-header">
                                 <h2 class="card-title">Question</h2>
@@ -111,29 +111,33 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="answer-card card">
-                            <div class="card-header">
-                                <h2 class="card-title">Your Answer</h2>
-                            </div>
-                            <div class="card-content">
-                                <textarea id="answer-box" class="answer-input" placeholder="Enter your answer here. Use Shift + Enter to submit." disabled></textarea>
-                                <div class="symbols-hint">
-                                    <span class="hint-label">Available symbols:</span>
-                                    <span class="symbols-list">∫ ∑ √ π ∞ ± ≈ ≠ ≤ ≥</span>
+                        
+                        <div class="answer-section">
+                            <div class="answer-card card">
+                                <div class="card-header">
+                                    <h2 class="card-title">Your Answer</h2>
+                                </div>
+                                <div class="card-content">
+                                    <textarea id="answer-box" class="answer-input" placeholder="Enter your answer here. Use Shift + Enter to submit." disabled></textarea>
+                                    <div class="symbols-hint">
+                                        <span class="hint-label">Available symbols:</span>
+                                        <span class="symbols-list">∫ ∑ √ π ∞ ± ≈ ≠ ≤ ≥</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="results-card card">
-                            <div class="card-header">
-                                <h2 class="card-title">Results</h2>
-                            </div>
-                            <div class="card-content">
-                                <div id="answer-results" class="results-display">
-                                    <div class="empty-state">
-                                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
-                                        </svg>
-                                        <p>Your results will appear here after checking your answer</p>
+                            
+                            <div class="results-card card">
+                                <div class="card-header">
+                                    <h2 class="card-title">Results</h2>
+                                </div>
+                                <div class="card-content">
+                                    <div id="answer-results" class="results-display">
+                                        <div class="empty-state">
+                                            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
+                                            </svg>
+                                            <p>Your results will appear here after checking your answer</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
