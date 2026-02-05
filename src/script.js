@@ -1,132 +1,102 @@
-// Math Practice Generator - App Version
 import * as Algebra from "./modules/algebra.js"
 import * as Arithmetic from "./modules/arithmetic.js";
 import * as Calculus from "./modules/calculus.js";
 import * as DiscreteMathematics from "./modules/discreteMathematics.js";
 import * as LinearAlgebra from "./modules/linearAlgebra.js";
 import * as Trigonometry from "./modules/trigonometry.js";
-import * as math from 'mathjs';
-
-// DOM Elements
-export let questionArea = document.getElementById("question-area");
-let topicGrid = document.getElementById("topic-grid");
-let currentTopicDisplay = document.getElementById("current-topic");
-let generateQuestionButton = document.getElementById("genQ");
-let userAnswer = document.getElementById("answer-box");
-let answerResults = document.getElementById("answer-results");
-let checkAnswerButton = document.getElementById("check-answer");
-let themeToggle = document.getElementById("theme-toggle");
-let helpButton = document.getElementById("help-button");
-
-// App State
-window.correctAnswer = {};
-let selectedTopic = null;
-let topics = [
-    { id: "add", name: "Addition", icon: "+", category: "Arithmetic" },
-    { id: "subtrt", name: "Subtraction", icon: "-", category: "Arithmetic" },
-    { id: "mult", name: "Multiplication", icon: "×", category: "Arithmetic" },
-    { id: "divid", name: "Division", icon: "÷", category: "Arithmetic" },
-    { id: "root", name: "Roots", icon: "√", category: "Algebra" },
-    { id: "deri", name: "Differentiation", icon: "∂", category: "Calculus" },
-    { id: "inte", name: "Integration", icon: "∫", category: "Calculus" },
-    { id: "mtrx", name: "Matrix Operations", icon: "[ ]", category: "Linear Algebra" },
-    { id: "vctr", name: "Vector Operations", icon: "→", category: "Linear Algebra" },
-    { id: "sin", name: "Sine", icon: "sin", category: "Trigonometry" },
-    { id: "cos", name: "Cosine", icon: "cos", category: "Trigonometry" },
-    { id: "tan", name: "Tangent", icon: "tan", category: "Trigonometry" },
-    { id: "cosec", name: "Cosecant", icon: "csc", category: "Trigonometry" },
-    { id: "sec", name: "Secant", icon: "sec", category: "Trigonometry" },
-    { id: "cot", name: "Cotangent", icon: "cot", category: "Trigonometry" },
-    { id: "log", name: "Logarithm", icon: "log", category: "Algebra" },
-    { id: "exp", name: "Exponential", icon: "eˣ", category: "Algebra" },
-    { id: "fact", name: "Factorial", icon: "!", category: "Algebra" },
-    { id: "perm", name: "Permutation", icon: "P", category: "Discrete Math" },
-    { id: "comb", name: "Combination", icon: "C", category: "Discrete Math" },
-    { id: "prob", name: "Probability", icon: "%", category: "Discrete Math" },
-    { id: "ser", name: "Series", icon: "Σ", category: "Algebra" },
-    { id: "lim", name: "Limits", icon: "lim", category: "Calculus" },
-    { id: "relRates", name: "Related Rates", icon: "dx/dt", category: "Calculus" }
+import * as math from "mathjs";
+export let questionArea=document.getElementById("question-area");
+let topicGrid=document.getElementById("topic-grid");
+let currentTopicDisplay=document.getElementById("current-topic");
+let generateQuestionButton=document.getElementById("genQ");
+let userAnswer=document.getElementById("answer-box");
+let answerResults=document.getElementById("answer-results");
+let checkAnswerButton=document.getElementById("check-answer");
+let themeToggle=document.getElementById("theme-toggle");
+let helpButton=document.getElementById("help-button");
+window.correctAnswer={};
+let selectedTopic=null;
+let topics=[
+{id: "add", name: "Addition", icon: "+", category: "Arithmetic"},
+{id: "subtrt", name: "Subtraction", icon: "-", category: "Arithmetic"},
+{id: "mult", name: "Multiplication", icon: "×", category: "Arithmetic"},
+{id: "divid", name: "Division", icon: "÷", category: "Arithmetic"},
+{id: "root", name: "Roots", icon: "√", category: "Algebra"},
+{id: "deri", name: "Differentiation", icon: "∂", category: "Calculus"},
+{id: "inte", name: "Integration", icon: "∫", category: "Calculus"},
+{id: "mtrx", name: "Matrix Operations", icon: "[ ]", category: "Linear Algebra"},
+{id: "vctr", name: "Vector Operations", icon: "→", category: "Linear Algebra"},
+{id: "sin", name: "Sine", icon: "sin", category: "Trigonometry"},
+{id: "cos", name: "Cosine", icon: "cos", category: "Trigonometry"},
+{id: "tan", name: "Tangent", icon: "tan", category: "Trigonometry"},
+{id: "cosec", name: "Cosecant", icon: "csc", category: "Trigonometry"},
+{id: "sec", name: "Secant", icon: "sec", category: "Trigonometry"},
+{id: "cot", name: "Cotangent", icon: "cot", category: "Trigonometry"},
+{id: "log", name: "Logarithm", icon: "log", category: "Algebra"},
+{id: "exp", name: "Exponential", icon: "eˣ", category: "Algebra"},
+{id: "fact", name: "Factorial", icon: "!", category: "Algebra"},
+{id: "perm", name: "Permutation", icon: "P", category: "Discrete Math"},
+{id: "comb", name: "Combination", icon: "C", category: "Discrete Math"},
+{id: "prob", name: "Probability", icon: "%", category: "Discrete Math"},
+{id: "ser", name: "Series", icon: "Σ", category: "Algebra"},
+{id: "lim", name: "Limits", icon: "lim", category: "Calculus"},
+{id: "relRates", name: "Related Rates", icon: "dx/dt", category: "Calculus"}
 ];
-
-// Initialize the app
-function initApp() {
+function initApp(){
     renderTopicGrid();
     setupEventListeners();
     updateUIState();
 }
-
-// Render the topic grid
-function renderTopicGrid() {
-    topicGrid.innerHTML = '';
-    
-    // Group topics by category
-    const categories = {};
-    topics.forEach(topic => {
-        if (!categories[topic.category]) {
-            categories[topic.category] = [];
+function renderTopicGrid(){
+    topicGrid.innerHTML="";
+    let categories={};
+    topics.forEach(topic=>{
+        if (!categories[topic.category]){
+            categories[topic.category]=[];
         }
         categories[topic.category].push(topic);
     });
-    
-    // Render each category
-    Object.entries(categories).forEach(([categoryName, categoryTopics]) => {
-        const categorySection = document.createElement('div');
-        categorySection.className = 'category-section';
-        
-        const categoryTitle = document.createElement('div');
-        categoryTitle.className = 'category-title';
-        categoryTitle.textContent = categoryName;
+    Object.entries(categories).forEach(([categoryName, categoryTopics])=>{
+        let categorySection=document.createElement("div");
+        categorySection.className="category-section";
+        let categoryTitle=document.createElement("div");
+        categoryTitle.className="category-title";
+        categoryTitle.textContent=categoryName;
         categorySection.appendChild(categoryTitle);
-        
-        categoryTopics.forEach(topic => {
-            const topicElement = document.createElement('button');
-            topicElement.className = 'category-item';
-            topicElement.dataset.topicId = topic.id;
-            
-            topicElement.innerHTML = `
+        categoryTopics.forEach(topic=>{
+            let topicElement=document.createElement("button");
+            topicElement.className="category-item";
+            topicElement.dataset.topicId=topic.id;
+            topicElement.innerHTML=`
                 <span class="category-icon">${topic.icon}</span>
                 <span class="category-name">${topic.name}</span>
             `;
-            
-            topicElement.addEventListener('click', () => selectTopic(topic.id));
+            topicElement.addEventListener("click", ()=>selectTopic(topic.id));
             categorySection.appendChild(topicElement);
         });
-        
         topicGrid.appendChild(categorySection);
     });
 }
-
-// Select a topic
-function selectTopic(topicId) {
-    // Remove active class from all topics
-    document.querySelectorAll('.category-item').forEach(item => {
-        item.classList.remove('active');
+function selectTopic(topicId){
+    document.querySelectorAll(".category-item").forEach(item=>{
+        item.classList.remove("active");
     });
-    
-    // Add active class to selected topic
-    const selectedElement = document.querySelector(`[data-topic-id="${topicId}"]`);
-    if (selectedElement) {
-        selectedElement.classList.add('active');
+    let selectedElement=document.querySelector(`[data-topic-id="${topicId}"]`);
+    if (selectedElement){
+        selectedElement.classList.add("active");
     }
-    
-    selectedTopic = topicId;
-    const topic = topics.find(t => t.id === topicId);
-    currentTopicDisplay.textContent = topic ? topic.name : "Select a topic to begin";
-    
-    // Enable generate button
-    generateQuestionButton.disabled = false;
+    selectedTopic=topicId;
+    let topic=topics.find(t=>t.id==topicId);
+    currentTopicDisplay.textContent=topic?topic.name:"Select a topic to begin";
+    generateQuestionButton.disabled=false;
     updateUIState();
 }
-
-// Generate question based on selected topic
-function generateQuestion() {
-    if (!selectedTopic) {
+function generateQuestion(){
+    if (!selectedTopic){
         showNotification("Please select a topic first", "warning");
         return;
     }
-    
-    // Clear previous results
-    answerResults.innerHTML = `
+    answerResults.innerHTML=`
         <div class="empty-state">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
@@ -134,22 +104,16 @@ function generateQuestion() {
             <p>Your results will appear here after checking your answer</p>
         </div>
     `;
-    answerResults.className = "results-display";
-    
-    // Clear answer box
-    userAnswer.value = "";
-    
-    // Show loading state
-    questionArea.innerHTML = `
+    answerResults.className="results-display";
+    userAnswer.value="";
+    questionArea.innerHTML=`
         <div class="loading-state">
             <div class="spinner"></div>
             <p>Generating question...</p>
         </div>
     `;
-    
-    // Generate question based on topic
-    setTimeout(() => {
-        switch (selectedTopic) {
+    setTimeout(()=>{
+        switch (selectedTopic){
             case "add":
                 Arithmetic.generateAddition();
                 break;
@@ -223,91 +187,79 @@ function generateQuestion() {
                 Calculus.generateRelatedRates();
                 break;
             default:
-                questionArea.innerHTML = `<div class="empty-state"><p>Please select a topic to generate a question</p></div>`;
+                questionArea.innerHTML=`<div class="empty-state"><p>Please select a topic to generate a question</p></div>`;
                 return;
         }
-        
-        // Enable answer input and check button
-        userAnswer.disabled = false;
-        checkAnswerButton.disabled = false;
+        userAnswer.disabled=false;
+        checkAnswerButton.disabled=false;
         userAnswer.focus();
-        
-        // Update UI state
         updateUIState();
-        
-        // Render MathJax
-        if (window.MathJax) {
-            MathJax.typesetPromise([questionArea]).catch(err => console.log('MathJax typeset error:', err));
+        if (window.MathJax){
+            MathJax.typesetPromise([questionArea]).catch(err=>console.log("MathJax typeset error:", err));
         }
-    }, 500); // Simulate loading delay for better UX
+    }, 500);
 }
-
-// Check user's answer
-function checkAnswer() {
-    if (!selectedTopic) {
+function checkAnswer(){
+    if (!selectedTopic){
         showNotification("Please select a topic and generate a question first", "warning");
         return;
     }
-    
-    let userInput = userAnswer.value.trim();
-    if (!userInput) {
+    let userInput=userAnswer.value.trim();
+    if (!userInput){
         showNotification("Please enter an answer before checking", "warning");
         return;
     }
-    
-    let isCorrect = false;
-    
-    // Normalize answer function
-    let normalizeAnswer = (input) => {
-        try {
-            let simplified = math.simplify(input);
-            if (simplified.isConstantNode && simplified.value !== null) {
+    let isCorrect=false;
+    let normalizeAnswer=(input)=>{
+        try{
+            let simplified=math.simplify(input);
+            if (simplified.isConstantNode&&simplified.value!=null){
                 return parseFloat(simplified.value);
             }
             return simplified.toString();
-        } catch (e) {
+        }
+        catch (e){
             return input.replace(/\s+/g, "").toLowerCase();
         }
     };
-    
-    // Numeric comparison with tolerance
-    let numericEquals = (a, b, tol = 1e-8) => Math.abs(a - b) < tol;
-    
-    // Check answer based on topic type
-    if (selectedTopic == "ser") {
-        let cleanCorrect = correctAnswer.correct.replace(/[^a-z]/gi, "").toLowerCase();
-        if (cleanCorrect == "converges" || cleanCorrect == "diverges") {
-            let cleanUserInput = userInput.replace(/[^a-z]/gi, "").toLowerCase();
-            if (cleanCorrect == "converges") {
-                isCorrect = cleanUserInput == "converge" || cleanUserInput == "converges";
-            } else {
-                isCorrect = cleanUserInput == "diverge" || cleanUserInput == "diverges";
+    let numericEquals=(a, b, tol=1e-8)=>Math.abs(a-b)<tol;
+    if (selectedTopic=="ser"){
+        let cleanCorrect=correctAnswer.correct.replace(/[^a-z]/gi, "").toLowerCase();
+        if (cleanCorrect=="converges"||cleanCorrect=="diverges"){
+            let cleanUserInput=userInput.replace(/[^a-z]/gi, "").toLowerCase();
+            if (cleanCorrect=="converges"){
+                isCorrect=cleanUserInput=="converge"||cleanUserInput=="converges";
             }
-        } else {
-            let userNum = parseFloat(userInput);
-            let correctNum = parseFloat(correctAnswer.correct);
-            if (!isNaN(userNum) && !isNaN(correctNum)) {
-                isCorrect = numericEquals(userNum, correctNum);
-            } else {
-                let userNorm = normalizeAnswer(userInput);
-                isCorrect = [correctAnswer.correct, correctAnswer.alternate].filter(ans => ans != undefined).some(ans => normalizeAnswer(ans) == userNorm);
+            else{
+                isCorrect=cleanUserInput=="diverge"||cleanUserInput=="diverges";
             }
         }
-    } else {
-        let formattedTypes = ["deri", "mtrx", "vctr", "root", "inte", "sin", "cos", "tan", "cosec", "sec", "cot", "log"];
-        if (formattedTypes.includes(selectedTopic)) {
-            let userNorm = normalizeAnswer(userInput);
-            isCorrect = [correctAnswer.correct, correctAnswer.alternate].filter(ans => ans != undefined).some(ans => normalizeAnswer(ans) == userNorm);
-        } else {
-            let userNum = parseFloat(userInput);
-            let correctNum = parseFloat(correctAnswer.correct);
-            isCorrect = !isNaN(userNum) && !isNaN(correctNum) && numericEquals(userNum, correctNum);
+        else{
+            let userNum=parseFloat(userInput);
+            let correctNum=parseFloat(correctAnswer.correct);
+            if (!isNaN(userNum)&&!isNaN(correctNum)){
+                isCorrect=numericEquals(userNum, correctNum);
+            }
+            else{
+                let userNorm=normalizeAnswer(userInput);
+                isCorrect=[correctAnswer.correct, correctAnswer.alternate].filter(ans=>ans != undefined).some(ans=>normalizeAnswer(ans)==userNorm);
+            }
         }
     }
-    
-    // Display results
-    if (isCorrect) {
-        answerResults.innerHTML = `
+    else{
+        let formattedTypes=["deri", "mtrx", "vctr", "root", "inte", "sin", "cos", "tan", "cosec", "sec", "cot", "log"];
+        if (formattedTypes.includes(selectedTopic)){
+            let userNorm=normalizeAnswer(userInput);
+            isCorrect=[correctAnswer.correct, correctAnswer.alternate].filter(ans=>ans != undefined).some(ans=>normalizeAnswer(ans)==userNorm);
+        }
+        else{
+            let userNum=parseFloat(userInput);
+            let correctNum=parseFloat(correctAnswer.correct);
+            isCorrect=!isNaN(userNum)&&!isNaN(correctNum)&&numericEquals(userNum, correctNum);
+        }
+    }
+    if (isCorrect){
+        answerResults.innerHTML=`
             <div class="result-success">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
@@ -318,9 +270,10 @@ function checkAnswer() {
                 </div>
             </div>
         `;
-        answerResults.className = "results-display correct";
-    } else {
-        answerResults.innerHTML = `
+        answerResults.className="results-display correct";
+    }
+    else{
+        answerResults.innerHTML=`
             <div class="result-error">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
@@ -331,33 +284,26 @@ function checkAnswer() {
                 </div>
             </div>
         `;
-        answerResults.className = "results-display incorrect";
+        answerResults.className="results-display incorrect";
     }
-    
-    // Clear answer box for next question
-    userAnswer.value = "";
+    userAnswer.value="";
     userAnswer.focus();
 }
-
-// Update UI state based on current state
-function updateUIState() {
-    const hasTopic = selectedTopic !== null;
-    const hasQuestion = questionArea.innerHTML.includes("mjx-container") || 
-                       !questionArea.innerHTML.includes("empty-state");
-    
-    generateQuestionButton.disabled = !hasTopic;
-    checkAnswerButton.disabled = !hasTopic || !hasQuestion;
-    
-    // Update button states
-    if (hasTopic && hasQuestion) {
-        generateQuestionButton.innerHTML = `
+function updateUIState(){
+    let hasTopic=selectedTopic!=null;
+    let hasQuestion=questionArea.innerHTML.includes("mjx-container")||!questionArea.innerHTML.includes("empty-state");
+    generateQuestionButton.disabled=!hasTopic;
+    checkAnswerButton.disabled=!hasTopic||!hasQuestion;
+    if (hasTopic&&hasQuestion){
+        generateQuestionButton.innerHTML=`
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
                 <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
             </svg>
             New Question
         `;
-    } else {
-        generateQuestionButton.innerHTML = `
+    }
+    else{
+        generateQuestionButton.innerHTML=`
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
                 <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
             </svg>
@@ -365,73 +311,52 @@ function updateUIState() {
         `;
     }
 }
-
-// Show notification
-function showNotification(message, type = "info") {
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.textContent = message;
-    
-    // Add to document
+function showNotification(message, type="info"){
+    let notification=document.createElement("div");
+    notification.className=`notification notification-${type}`;
+    notification.textContent=message;
     document.body.appendChild(notification);
-    
-    // Remove after delay
-    setTimeout(() => {
-        notification.classList.add('fade-out');
-        setTimeout(() => {
-            if (notification.parentNode) {
+    setTimeout(()=>{
+        notification.classList.add("fade-out");
+        setTimeout(()=>{
+            if (notification.parentNode){
                 notification.parentNode.removeChild(notification);
             }
         }, 300);
     }, 3000);
 }
-
-// Setup event listeners
-function setupEventListeners() {
-    // Generate question button
+function setupEventListeners(){
     generateQuestionButton.addEventListener("click", generateQuestion);
-    
-    // Check answer button
     checkAnswerButton.addEventListener("click", checkAnswer);
-    
-    // Answer box keyboard shortcut
-    userAnswer.addEventListener("keyup", function (e) {
-        if (e.shiftKey && e.key == "Enter") {
+    userAnswer.addEventListener("keyup", function (e){
+        if (e.shiftKey&&e.key=="Enter"){
             checkAnswer();
         }
     });
-    
-    // Theme toggle
-    themeToggle.addEventListener("click", function() {
-        const isDark = document.documentElement.classList.contains("dark");
-        if (isDark) {
+    themeToggle.addEventListener("click", function(){
+        let isDark=document.documentElement.classList.contains("dark");
+        if (isDark){
             document.documentElement.classList.remove("dark");
             localStorage.setItem("theme", "light");
             showNotification("Switched to light theme", "info");
-        } else {
+        }
+        else{
             document.documentElement.classList.add("dark");
             localStorage.setItem("theme", "dark");
             showNotification("Switched to dark theme", "info");
         }
     });
-    
-    // Help button
-    helpButton.addEventListener("click", function() {
+    helpButton.addEventListener("click", function(){
         showNotification("Select a topic, generate a question, enter your answer, and check it!", "info");
     });
-    
-    // Load saved theme
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark" || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+    let savedTheme=localStorage.getItem("theme");
+    if (savedTheme=="dark"||(!savedTheme&&window.matchMedia("(prefers-color-scheme: dark)").matches)){
         document.documentElement.classList.add("dark");
     }
 }
-
-// Add CSS for notifications and loading states
-const additionalStyles = document.createElement('style');
-additionalStyles.textContent = `
-    .category-title {
+let additionalStyles=document.createElement("style");
+additionalStyles.textContent=`
+    .category-title{
         font-size: 0.75rem;
         font-weight: 600;
         color: var(--text-tertiary);
@@ -440,16 +365,14 @@ additionalStyles.textContent = `
         margin: var(--spacing-md) 0 var(--spacing-sm) 0;
         padding-left: var(--spacing-sm);
     }
-    
-    .loading-state {
+    .loading-state{
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: var(--spacing-md);
         color: var(--text-tertiary);
     }
-    
-    .spinner {
+    .spinner{
         width: 40px;
         height: 40px;
         border: 3px solid var(--border);
@@ -457,38 +380,33 @@ additionalStyles.textContent = `
         border-radius: 50%;
         animation: spin 1s linear infinite;
     }
-    
-    @keyframes spin {
-        to { transform: rotate(360deg); }
+    @keyframes spin{
+        to{
+            transform: rotate(360deg);
+        }
     }
-    
-    .result-success, .result-error {
+    .result-success, .result-error{
         display: flex;
         align-items: center;
         gap: var(--spacing-md);
         text-align: left;
     }
-    
-    .result-success svg {
+    .result-success svg{
         color: var(--success);
     }
-    
-    .result-error svg {
+    .result-error svg{
         color: var(--error);
     }
-    
-    .result-success h3, .result-error h3 {
+    .result-success h3, .result-error h3{
         margin: 0 0 4px 0;
         font-size: 1rem;
     }
-    
-    .result-success p, .result-error p {
+    .result-success p, .result-error p{
         margin: 0;
         font-size: 0.9375rem;
         opacity: 0.9;
     }
-    
-    .notification {
+    .notification{
         position: fixed;
         top: 20px;
         right: 20px;
@@ -502,39 +420,32 @@ additionalStyles.textContent = `
         animation: slideIn 0.3s ease;
         font-size: 0.9375rem;
     }
-    
-    .notification-info {
+    .notification-info{
         border-left: 4px solid var(--primary);
-    }
-    
-    .notification-warning {
+    } 
+    .notification-warning{
         border-left: 4px solid var(--warning);
     }
-    
-    .notification.fade-out {
+    .notification.fade-out{
         opacity: 0;
         transform: translateX(100%);
         transition: opacity 0.3s ease, transform 0.3s ease;
     }
-    
-    @keyframes slideIn {
-        from {
+    @keyframes slideIn{
+        from{
             opacity: 0;
             transform: translateX(100%);
         }
-        to {
+        to{
             opacity: 1;
             transform: translateX(0);
         }
     }
 `;
-
-// Add styles to document
 document.head.appendChild(additionalStyles);
-
-// Initialize the app when DOM is loaded
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initApp);
-} else {
+if (document.readyState=="loading"){
+    document.addEventListener("DOMContentLoaded", initApp);
+}
+else{
     initApp();
 }

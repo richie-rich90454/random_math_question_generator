@@ -1,4 +1,3 @@
-//use "terser ./modules/calculus.full.js -o ./modules/calculus.js --compress --mangle --module" to package it as a min file
 import {questionArea} from "../script.js";
 export function generateDerivative(){
     questionArea.innerHTML="";

@@ -1,4 +1,3 @@
-//use "terser ./modules/trigonometry.full.js -o ./modules/trigonometry.js --compress --mangle --module" to package it as a min file
 import {questionArea} from "../script.js";
 export function generateSin(){
     questionArea.innerHTML="";

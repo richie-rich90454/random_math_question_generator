@@ -1,4 +1,3 @@
-//use "terser ./modules/discreteMathematics.full.js -o ./modules/discreteMathematics.js --compress --mangle --module" to package it as a min file
 import {questionArea} from "../script.js";
 export function nPr(n, r){
     return r>n?0:factorial(n)/factorial(n-r);

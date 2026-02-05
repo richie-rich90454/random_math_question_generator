@@ -1,4 +1,3 @@
-//use "terser ./modules/algebra.full.js -o ./modules/algebra.js --compress --mangle --module" to package it as a min file
 import {questionArea} from "../script.js";
 export function generateLogarithm(){
     questionArea.innerHTML="";

@@ -1,4 +1,3 @@
-//use "terser ./modules/linearAlgebra.full.js -o ./modules/linearAlgebra.js --compress --mangle --module" to package it as a min file
 import {questionArea} from "../script.js";
 export function generateMatrix(){
     questionArea.innerHTML="";

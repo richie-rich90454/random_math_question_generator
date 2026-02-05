@@ -1,4 +1,3 @@
-//use "terser ./modules/arithmetic.full.js -o ./modules/arithmetic.js --compress --mangle --module" to package it as a min file
 import {questionArea} from "../script.js";
 export function generateAddition(){
     let num1=parseFloat(((Math.random()*1500)-1000).toFixed(3));
