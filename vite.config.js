@@ -1,6 +1,10 @@
 import {defineConfig} from "vite";
 import {createHtmlPlugin} from "vite-plugin-html";
-import {viteStaticCopy} from "vite-plugin-static-copy";
+import {readFileSync} from "fs";
+import {join} from "path";
+
+let packageJson=JSON.parse(readFileSync(join(__dirname, "package.json"), "utf-8"));
+let version=packageJson.version;
 export default defineConfig({
     root: "src",
     publicDir: "../public",
@@ -20,6 +24,11 @@ export default defineConfig({
     plugins: [
         createHtmlPlugin({
             minify: true,
+            inject: {
+                data: {
+                    version: version,
+                },
+            },
         }),
     ],
     server: {

@@ -130,12 +130,16 @@ body{
     z-index: 100;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    background: rgba(255, 255, 255, .92);
+    background: rgba(255, 255, 255, 0.92);
+}
+.dark .app-bar{
+    background: rgba(30, 41, 59, 0.92);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 @media (prefers-color-scheme: dark){
-    .app-bar{
-        background: rgba(30, 41, 59, .92);
-        border-bottom: 1px solid rgba(255, 255, 255, .1);
+    :root:not(.light) .app-bar{
+        background: rgba(30, 41, 59, 0.92);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 }
 .app-bar-content{

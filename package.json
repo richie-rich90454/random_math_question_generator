@@ -21,8 +21,10 @@
   "license": "Apache-2.0",
   "dependencies": {
     "cssnano": "^7.1.2",
+    "fs": "^0.0.1-security",
     "mathjax": "^3.2.2",
     "mathjs": "^15.1.0",
+    "path": "^0.12.7",
     "terser": "^5.39.0"
   },
   "description": "Random math question generator made with HTML, CSS, and JS.",
