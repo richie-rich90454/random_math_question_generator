@@ -16,7 +16,7 @@ let themeToggle=document.getElementById("theme-toggle");
 let helpButton=document.getElementById("help-button");
 window.correctAnswer={};
 let selectedTopic=null;
-let topics=[{id: "add", name: "Addition", icon: "+", category: "Arithmetic"}, {id: "subtrt", name: "Subtraction", icon: "-", category: "Arithmetic"}, {id: "mult", name: "Multiplication", icon: "×", category: "Arithmetic"}, {id: "divid", name: "Division", icon: "÷", category: "Arithmetic"}, {id: "root", name: "Roots", icon: "√", category: "Algebra"}, {id: "deri", name: "Differentiation", icon: "∂", category: "Calculus"}, {id: "inte", name: "Integration", icon: "∫", category: "Calculus"}, {id: "mtrx", name: "Matrix Operations", icon: "[ ]", category: "Linear Algebra"}, {id: "vctr", name: "Vector Operations", icon: "→", category: "Linear Algebra"}, {id: "sin", name: "Sine", icon: "sin", category: "Trigonometry"}, {id: "cos", name: "Cosine", icon: "cos", category: "Trigonometry"}, {id: "tan", name: "Tangent", icon: "tan", category: "Trigonometry"}, {id: "cosec", name: "Cosecant", icon: "csc", category: "Trigonometry"}, {id: "sec", name: "Secant", icon: "sec", category: "Trigonometry"}, {id: "cot", name: "Cotangent", icon: "cot", category: "Trigonometry"}, {id: "log", name: "Logarithm", icon: "log", category: "Algebra"}, {id: "exp", name: "Exponential", icon: "eˣ", category: "Algebra"}, {id: "fact", name: "Factorial", icon: "!", category: "Algebra"}, {id: "perm", name: "Permutation", icon: "P", category: "Discrete Math"}, {id: "comb", name: "Combination", icon: "C", category: "Discrete Math"}, {id: "prob", name: "Probability", icon: "%", category: "Discrete Math"}, {id: "ser", name: "Series", icon: "Σ", category: "Algebra"}, {id: "lim", name: "Limits", icon: "lim", category: "Calculus"}, {id: "relRates", name: "Related Rates", icon: "dx/dt", category: "Calculus"}];
+let topics=[{id: "add", name: "Addition", icon: "+", category: "Arithmetic"},{id: "subtrt", name: "Subtraction", icon: "-", category: "Arithmetic"},{id: "mult", name: "Multiplication", icon: "×", category: "Arithmetic"},{id: "divid", name: "Division", icon: "÷", category: "Arithmetic"},{id: "root", name: "Roots", icon: "√", category: "Algebra"},{id: "deri", name: "Differentiation", icon: "∂", category: "Calculus"},{id: "inte", name: "Integration", icon: "∫", category: "Calculus"},{id: "mtrx", name: "Matrix Operations", icon: "[ ]", category: "Linear Algebra"},{id: "vctr", name: "Vector Operations", icon: "→", category: "Linear Algebra"},{id: "sin", name: "Sine", icon: "sin", category: "Trigonometry"},{id: "cos", name: "Cosine", icon: "cos", category: "Trigonometry"},{id: "tan", name: "Tangent", icon: "tan", category: "Trigonometry"},{id: "cosec", name: "Cosecant", icon: "csc", category: "Trigonometry"},{id: "sec", name: "Secant", icon: "sec", category: "Trigonometry"},{id: "cot", name: "Cotangent", icon: "cot", category: "Trigonometry"},{id: "log", name: "Logarithm", icon: "log", category: "Algebra"},{id: "exp", name: "Exponential", icon: "eˣ", category: "Algebra"},{id: "fact", name: "Factorial", icon: "!", category: "Algebra"},{id: "perm", name: "Permutation", icon: "P", category: "Discrete Math"},{id: "comb", name: "Combination", icon: "C", category: "Discrete Math"},{id: "prob", name: "Probability", icon: "%", category: "Discrete Math"},{id: "ser", name: "Series", icon: "Σ", category: "Algebra"},{id: "lim", name: "Limits", icon: "lim", category: "Calculus"},{id: "relRates", name: "Related Rates", icon: "dx/dt", category: "Calculus"}];
 function initApp(){
     renderTopicGrid();
     setupEventListeners();
@@ -287,7 +287,7 @@ function showNotification(message, type="info"){
 function setupEventListeners(){
     generateQuestionButton.addEventListener("click", generateQuestion);
     checkAnswerButton.addEventListener("click", checkAnswer);
-    userAnswer.addEventListener("keyup", function (e){
+    userAnswer.addEventListener("keyup", function(e){
         if (e.shiftKey&&e.key=="Enter"){
             checkAnswer();
         }
@@ -296,21 +296,37 @@ function setupEventListeners(){
         let isDark=document.documentElement.classList.contains("dark");
         if (isDark){
             document.documentElement.classList.remove("dark");
+            document.documentElement.classList.add("light");
             localStorage.setItem("theme", "light");
-            showNotification("Switched to light theme", "info");
         }
         else{
+            document.documentElement.classList.remove("light");
             document.documentElement.classList.add("dark");
             localStorage.setItem("theme", "dark");
-            showNotification("Switched to dark theme", "info");
         }
+        updateMathJaxColors();
     });
     helpButton.addEventListener("click", function(){
         showNotification("Select a topic, generate a question, enter your answer, and check it!", "info");
     });
+    initializeTheme();
+}
+function initializeTheme(){
     let savedTheme=localStorage.getItem("theme");
-    if (savedTheme=="dark"||(!savedTheme&&window.matchMedia("(prefers-color-scheme: dark)").matches)){
+    let prefersDark=window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (savedTheme=="dark"||(!savedTheme&&prefersDark)){
         document.documentElement.classList.add("dark");
+        document.documentElement.classList.remove("light");
+    }
+    else{
+        document.documentElement.classList.add("light");
+        document.documentElement.classList.remove("dark");
+    }
+    updateMathJaxColors();
+}
+function updateMathJaxColors(){
+    if (window.MathJax&&MathJax.typesetPromise){
+        MathJax.typesetPromise().catch(err => console.log("MathJax re-render error:", err));
     }
 }
 let additionalStyles=document.createElement("style");
@@ -370,14 +386,14 @@ additionalStyles.textContent=`
         top: 20px;
         right: 20px;
         padding: var(--spacing-md) var(--spacing-lg);
-        background: var(--surface);
-        border: 1px solid var(--border);
         border-radius: var(--radius-md);
         box-shadow: var(--shadow-lg);
         z-index: 1000;
         max-width: 300px;
         animation: slideIn 0.3s ease;
         font-size: 0.9375rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
     }
     .notification-info{
         border-left: 4px solid var(--primary);
@@ -399,6 +415,10 @@ additionalStyles.textContent=`
             opacity: 1;
             transform: translateX(0);
         }
+    }
+    .spinner{
+        border: 3px solid var(--border);
+        border-top-color: var(--primary);
     }
 `;
 document.head.appendChild(additionalStyles);

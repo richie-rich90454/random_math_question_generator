@@ -40,6 +40,32 @@
     --app-bar-height: 44px;
     --footer-height: 36px;
 }
+.light{
+    --primary: #2B579A;
+    --primary-dark: #1E4A8F;
+    --primary-light: #3D6BC5;
+    --secondary: #605E5C;
+    --accent: #107C10;
+    --accent-alt: #0078D4;
+    --success: #0DBC79;
+    --warning: #FF9D00;
+    --error: #DC3545;
+    --app-bg: #F8FAFC;
+    --surface: #FFFFFF;
+    --surface-alt: #F1F5F9;
+    --surface-elevated: #FFFFFF;
+    --text-primary: #1E293B;
+    --text-secondary: #64748B;
+    --text-tertiary: #94A3B8;
+    --text-on-primary: #FFFFFF;
+    --border: #E2E8F0;
+    --border-strong: #CBD5E1;
+    --divider: #E2E8F0;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.12);
+    --shadow-xl: 0 8px 16px rgba(0, 0, 0, 0.16);
+}
 .dark{
     --primary: #4F9BFF;
     --primary-dark: #3B78D8;
@@ -448,7 +474,7 @@ body{
     font-size: 0.9375rem;
     line-height: 1.5;
     color: var(--text-primary);
-    background: white;
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     resize: vertical;
@@ -650,4 +676,42 @@ body{
         opacity: 1;
         transform: translateX(0);
     }
+}
+.mjx-math, .mjx-mathit, .mjx-mtext{
+    color: var(--text-primary) !important;
+    fill: var(--text-primary) !important;
+}
+.mjx-munderover, .mjx-munder, .mjx-mover{
+    background-color: transparent !important;
+}
+.MathJax{
+    color: var(--text-primary) !important;
+}
+.icon-button svg, .result-success svg, .result-error svg, .empty-state svg{
+    color: inherit;
+}
+::-webkit-scrollbar-track{
+    background: var(--surface-alt);
+}
+::-webkit-scrollbar-thumb{
+    background: var(--border);
+}
+::-webkit-scrollbar-thumb:hover{
+    background: var(--border-strong);
+}
+.spinner{
+    border: 3px solid var(--surface-alt);
+    border-top-color: var(--primary);
+}
+.notification{
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    color: var(--text-primary);
+}
+:root{
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+*{
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
