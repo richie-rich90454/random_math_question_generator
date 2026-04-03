@@ -1,5 +1,5 @@
 {
-  "name": "randmatquge",
+  "name": "random_math_question_generator",
   "version": "3.0.0",
   "type": "module",
   "scripts": {
@@ -24,33 +24,19 @@
   "author": "richie-rich90454",
   "license": "Apache-2.0",
   "dependencies": {
-    "@tauri-apps/api": "^2.10.1",
-    "@tauri-apps/plugin-global-shortcut": "^2.3.1",
-    "@tauri-apps/plugin-process": "^2.3.1",
-    "@tauri-apps/plugin-sql": "^2.3.2",
-    "@tauri-apps/plugin-updater": "^2.10.0",
-    "cssnano": "^7.1.2",
-    "fs": "^0.0.1-security",
     "mathjax": "^4.1.1",
     "mathjs": "^15.1.1",
     "path": "^0.12.7",
-    "semver": "^7.7.4",
-    "terser": "^5.39.0",
     "three": "^0.183.2"
   },
-  "description": "Random math question generator made with HTML, CSS, and JS.",
+  "description": "Random math question generator made with HTML, CSS, and TS.",
   "devDependencies": {
-    "@tauri-apps/cli": "^2.10.1",
     "@types/mathjs": "^9.4.2",
     "@types/node": "^25.5.0",
-    "@types/semver": "^7.7.1",
     "@types/three": "^0.183.1",
     "jsdom": "^29.0.1",
     "typescript": "^6.0.2",
     "vite": "^8.0.3",
-    "vite-plugin-compression": "^0.5.1",
-    "vite-plugin-copy": "^0.1.6",
-    "vite-plugin-static-copy": "^3.3.0",
     "vitest": "^4.1.0"
   }
 }
