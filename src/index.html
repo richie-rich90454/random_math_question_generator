@@ -3,13 +3,31 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Random Math Question Generator</title>
+        <title>Random Math Question Generator | Practice Algebra, Calculus & More</title>
+        <meta name="description" content="Generate unlimited random math questions with instant feedback. Master 125+ topics: algebra, calculus, trigonometry, linear algebra, geometry, and discrete math. Perfect for students and educators.">
+        <meta name="keywords" content="math question generator, random math problems, algebra practice, calculus problems, trigonometry quiz, linear algebra exercises, geometry questions, discrete math, math practice, educational tool">
+        <meta name="author" content="Richard's Blogs">
+        <meta name="robots" content="index, follow">
         <meta name="application-name" content="Random Math Question Generator">
         <meta name="theme-color" content="#28465C">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="canonical" href="https://math.richardsblogs.com/">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://math.richardsblogs.com/">
+        <meta property="og:title" content="Random Math Question Generator | Practice Algebra, Calculus & More">
+        <meta property="og:description" content="Generate unlimited random math questions with instant feedback. Master 125+ topics: algebra, calculus, trigonometry, linear algebra, geometry, and discrete math.">
+        <meta property="og:image" content="https://math.richardsblogs.com/og-image.png">
+        <meta property="og:image:alt" content="Random Math Question Generator interface showing a calculus question">
+        <meta property="og:site_name" content="Random Math Question Generator">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:url" content="https://math.richardsblogs.com/">
+        <meta name="twitter:title" content="Random Math Question Generator | Practice Algebra, Calculus & More">
+        <meta name="twitter:description" content="Generate unlimited random math questions with instant feedback. Master 125+ topics: algebra, calculus, trigonometry, linear algebra, geometry, and discrete math.">
+        <meta name="twitter:image" content="https://math.richardsblogs.com/og-image.png">
         <link rel="icon" href="/favicon.png" type="image/png">
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
         <link rel="stylesheet" href="/katex.min.css">
-        <script src="/katex.min.js"></script>
         <link rel="stylesheet" href="style.css">
         <script>
             window.MathJax={
@@ -27,6 +45,38 @@
             };
         </script>
         <script id="MathJax-script" async src="/mathjax/tex-chtml.js"></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "Random Math Question Generator",
+            "url": "https://math.richardsblogs.com/",
+            "description": "Generate unlimited random math questions with instant feedback. Master 125+ topics: algebra, calculus, trigonometry, linear algebra, geometry, and discrete math.",
+            "applicationCategory": "EducationalApplication",
+            "operatingSystem": "Any",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            },
+            "author": {
+                "@type": "Person",
+                "name": "Richard's Blogs"
+            },
+            "creator": {
+                "@type": "Person",
+                "name": "Richard"
+            },
+            "educationalUse": "practice and assessment",
+            "audience": {
+                "@type": "EducationalAudience",
+                "educationalRole": "student"
+            },
+            "featureList": "125+ math topics, instant answer checking, multiple difficulty levels, mental mode with timer, LaTeX rendering, offline support",
+            "keywords": "math practice, algebra, calculus, trigonometry, geometry, linear algebra, discrete math",
+            "softwareVersion": "3.0.0"
+        }
+        </script>
     </head>
     <body>
         <div id="onboarding-overlay" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
@@ -219,7 +269,6 @@
                                 </div>
                                 <div class="card-content answer-content">
                                     <div class="math-toolbar" id="math-toolbar">
-                                        <!-- Primary Row (always visible) -->
                                         <div class="math-toolbar-row primary-row">
                                             <div class="math-toolbar-section" title="Basic">
                                                 <button class="math-toolbar-btn" data-symbol="+" title="Plus">+</button>
@@ -295,13 +344,10 @@
                                                 <button class="math-toolbar-btn" data-symbol="\approx" title="Approximately">≈</button>
                                                 <button class="math-toolbar-btn" data-symbol="\pm" title="Plus minus">±</button>
                                             </div>
-                                            <!-- Dropdown trigger -->
                                             <div class="math-toolbar-section dropdown-trigger">
                                                 <button class="math-toolbar-btn dropdown-btn" id="math-dropdown-btn" title="More symbols">⋯</button>
                                             </div>
                                         </div>
-
-                                        <!-- Dropdown Menu (hidden by default) -->
                                         <div class="math-dropdown" id="math-dropdown">
                                             <div class="math-dropdown-content">
                                                 <div class="math-toolbar-section" title="Advanced Vectors & Matrices">
@@ -562,12 +608,12 @@
                 </div>
                 <div class="modal-body">
                     <table class="shortcuts-table">
-                         <tr><td><kbd>Ctrl+G</kbd></td><td>Generate new question</td></tr>
-                         <tr><td><kbd>Shift+Enter</kbd></td><td>Check answer</td></tr>
-                         <tr><td><kbd>Ctrl+1</kbd></td><td>Switch to Single mode</td></tr>
-                         <tr><td><kbd>Ctrl+2</kbd></td><td>Switch to Mental mode</td></tr>
-                         <tr><td><kbd>Ctrl+,</kbd></td><td>Open settings</td></tr>
-                         <tr><td><kbd>Ctrl+Shift+T</kbd></td><td>Toggle theme</td></tr>
+                         <tr><td><kbd>Ctrl+G</kbd></kbd></td><td>Generate new question</kbd></kbd></td></tr>
+                         <tr><td><kbd>Shift+Enter</kbd></kbd></td><td>Check answer</kbd></kbd></td></tr>
+                         <tr><td><kbd>Ctrl+1</kbd></kbd></td><td>Switch to Single mode</kbd></kbd></td></tr>
+                         <tr><td><kbd>Ctrl+2</kbd></kbd></td><td>Switch to Mental mode</kbd></kbd></td></tr>
+                         <tr><td><kbd>Ctrl+,</kbd></kbd></td><td>Open settings</kbd></kbd></td></tr>
+                         <tr><td><kbd>Ctrl+Shift+T</kbd></kbd></td><td>Toggle theme</kbd></kbd></td></tr>
                     </table>
                 </div>
                 <div class="modal-footer">
