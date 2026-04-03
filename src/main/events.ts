@@ -6,15 +6,6 @@ import * as topics from "./topics";
 import * as generation from "./generation";
 import * as answer from "./answer";
 import * as session from "./session";
-import {check} from "@tauri-apps/plugin-updater";
-import {relaunch} from "@tauri-apps/plugin-process";
-import packageJson from "../../package.json";
-import semver from "semver";
-function isVersionGreater(v1: string, v2: string): boolean{
-    const cleanV1=v1.replace(/^v/, "");
-    const cleanV2=v2.replace(/^v/, "");
-    return semver.gt(cleanV1, cleanV2);
-}
 export function switchToSingle(): void{
 	if (dom.modeSingleBtn?.classList.contains("disabled")) return;
 	ui.clearAllTimeouts();
@@ -233,44 +224,6 @@ export function setupEventListeners(): void{
 	}
 	if (dom.settingsVibration){
 		dom.settingsVibration.addEventListener("change",(e)=>settings.previewSetting("vibration",(e.target as HTMLInputElement).checked));
-	}
-	if (dom.checkUpdatesBtn){
-		dom.checkUpdatesBtn.addEventListener("click", async ()=>{
-			dom.checkUpdatesBtn!.disabled=true;
-			const originalText=dom.checkUpdatesBtn!.textContent;
-			dom.checkUpdatesBtn!.textContent="Checking...";
-			try{
-				const update=await check();
-				if (update){
-					const currentVer=packageJson.version;
-					const updateVer=update.version.replace(/^v/, "");
-					if (!isVersionGreater(updateVer, currentVer)) {
-						alert("You are already using the latest version.");
-						return;
-					}
-					if (confirm(`Version ${update.version} is available!\n\nRelease notes:\n${update.body || "No release notes available"}\n\nDownload and install now?`)) {
-						dom.checkUpdatesBtn!.textContent="Downloading...";
-						await update.downloadAndInstall((progress)=>{
-							if (progress.event==="Progress") {
-								const data=progress.data as { chunkLength: number; contentLength: number };
-								const percent=Math.round((data.chunkLength / data.contentLength) * 100);
-								console.log(`Download progress: ${percent}%`);
-							}
-						});
-						alert("Update installed. The app will now restart.");
-						await relaunch();
-					}
-				} else {
-					alert("You are already using the latest version.");
-				}
-			} catch (err) {
-				console.error("Update check failed:", err);
-				alert("Failed to check for updates. Please ensure you are connected to the internet and try again.");
-			} finally {
-				dom.checkUpdatesBtn!.disabled=false;
-				dom.checkUpdatesBtn!.textContent=originalText;
-			}
-		});
 	}
 	dom.modeSingleBtn.addEventListener("click",switchToSingle);
 	dom.modeMentalBtn.addEventListener("click",switchToMental);

@@ -1,6 +1,5 @@
 import * as dom from "./dom";
 import * as state from "./state";
-import {invoke} from "@tauri-apps/api/core";
 import {evaluate} from "mathjs";
 import {generateChoicesForCurrentQuestion} from "./mcq";
 export let settings={
@@ -257,9 +256,6 @@ export function applyTheme(theme:"light"|"dark"):void{
 	}
 	localStorage.setItem("theme",theme);
 	updateMathJaxColors();
-	if (dom.appWindow){
-		dom.appWindow.setTheme(theme).catch(err=>console.log("Failed to set window theme:",err));
-	}
 }
 export function applyFont(font:string):void{
 	document.body.classList.remove("font-opendyslexic");
@@ -378,15 +374,4 @@ export function isAnswerCorrect(userInput:string,correct:string,alternate?:strin
 		if (userSimple===altSimple) return true;
 	}
 	return false;
-}
-export async function checkAnswerFast(userInput:string,correct:string,alternate?:string):Promise<boolean>{
-	if (window.__TAURI__){
-		try{
-			return await invoke("check_math",{userExpr:userInput,correctExpr:correct});
-		}
-		catch(e){
-			console.warn("Rust check failed, falling back to JS",e);
-		}
-	}
-	return isAnswerCorrect(userInput,correct,alternate);
 }

@@ -26,7 +26,6 @@ function initApp(): void{
 	ui.updateUIState();
 	session.restoreSessionSnapshot();
 	topicsModule.renderTopicGrid();
-	session.updateLeaderboard();
 	ui.showOnboarding();
 }
 

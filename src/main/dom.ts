@@ -1,4 +1,3 @@
-import {getCurrentWindow,type Window} from "@tauri-apps/api/window";
 export let questionArea: HTMLElement|null=document.getElementById("question-area");
 export let topicGrid: HTMLElement|null=document.getElementById("topic-grid");
 export let currentTopicDisplay: HTMLElement|null=document.getElementById("current-topic");
@@ -80,9 +79,3 @@ export let avgTimeStat: HTMLElement|null=document.getElementById("avg-time-stat"
 export let mcqToggle: HTMLInputElement|null=document.getElementById("mcq-toggle") as HTMLInputElement|null;
 export let mcqChoicesContainer: HTMLElement|null=document.getElementById("mcq-choices-container");
 export let settingsMcqChoices: HTMLInputElement|null=document.getElementById("settings-mcq-choices") as HTMLInputElement|null;
-try{
-	appWindow=getCurrentWindow();
-}
-catch(e){
-	console.log("Not running in Tauri environment, theme sync disabled.");
-}

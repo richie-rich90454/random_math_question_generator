@@ -27,7 +27,6 @@ declare global{
 		correctAnswer: CorrectAnswer;
 		expectedFormat: string;
 		hasQuestion: boolean;
-		__TAURI__?: any;
 		katex: any;
 	}
 }
