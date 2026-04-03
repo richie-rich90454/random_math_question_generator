@@ -17,35 +17,35 @@
         <meta property="og:url" content="https://math.richardsblogs.com/">
         <meta property="og:title" content="Random Math Question Generator | Practice Algebra, Calculus & More">
         <meta property="og:description" content="Generate unlimited random math questions with instant feedback. Master 125+ topics: algebra, calculus, trigonometry, linear algebra, geometry, and discrete math.">
-        <meta property="og:image" content="https://math.richardsblogs.com/og-image.png">
+        <meta property="og:image" content="favicon.png">
         <meta property="og:image:alt" content="Random Math Question Generator interface showing a calculus question">
         <meta property="og:site_name" content="Random Math Question Generator">
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:url" content="https://math.richardsblogs.com/">
         <meta name="twitter:title" content="Random Math Question Generator | Practice Algebra, Calculus & More">
         <meta name="twitter:description" content="Generate unlimited random math questions with instant feedback. Master 125+ topics: algebra, calculus, trigonometry, linear algebra, geometry, and discrete math.">
-        <meta name="twitter:image" content="https://math.richardsblogs.com/og-image.png">
-        <link rel="icon" href="/favicon.png" type="image/png">
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-        <link rel="stylesheet" href="/katex.min.css">
+        <meta name="twitter:image" content="favicon.png">
+        <link rel="icon" href="favicon.png" type="image/png">
+        <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nU14brUcp6StFntEOOEBvcJm4huWjB0OcIeQ3fltAfSmuZFrkAif0T+UtNGlKKQv" crossorigin="anonymous">
         <link rel="stylesheet" href="style.css">
         <script>
             window.MathJax={
                 tex: {
                     inlineMath: [["$", "$"], ["\\(", "\\)"]],
-                    displayMath: [["$$", "$$"], ["\\[", "\\]"]]
+                    displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+                    processEscapes: true,
+                    processEnvironments: true
                 },
-                svg: {
-                    fontCache: "global"
-                },
+                svg: { fontCache: "global" },
                 options: {
                     ignoreHtmlClass: "tex2jax_ignore",
                     processHtmlClass: "tex2jax_process"
                 }
             };
         </script>
-        <script id="MathJax-script" async src="/mathjax/tex-chtml.js"></script>
-        <script id="KaTeX-script" async src="/katex.min.js"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-nU14brUcp6StFntEOOEBvcJm4huWjB0OcIeQ3fltAfSmuZFrkAif0T+UtNGlKKQv" crossorigin="anonymous"></script>
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -60,19 +60,10 @@
                 "price": "0",
                 "priceCurrency": "USD"
             },
-            "author": {
-                "@type": "Person",
-                "name": "Richard's Blogs"
-            },
-            "creator": {
-                "@type": "Person",
-                "name": "Richard"
-            },
+            "author": { "@type": "Person", "name": "Richard's Blogs" },
+            "creator": { "@type": "Person", "name": "Richard" },
             "educationalUse": "practice and assessment",
-            "audience": {
-                "@type": "EducationalAudience",
-                "educationalRole": "student"
-            },
+            "audience": { "@type": "EducationalAudience", "educationalRole": "student" },
             "featureList": "125+ math topics, instant answer checking, multiple difficulty levels, mental mode with timer, LaTeX rendering, offline support",
             "keywords": "math practice, algebra, calculus, trigonometry, geometry, linear algebra, discrete math",
             "softwareVersion": "3.0.0"
@@ -443,6 +434,7 @@
                 <div class="footer-content">
                     <span class="footer-text">Random Math Question Generator v__APP_VERSION__</span>
                     <span class="footer-text">© 2026 Richard's Blogs</span>
+                    <span class="footer-text">Main Site: <a href="https://www.richardsblogs.com" target="_blank">www.richardsblogs.com</a></span>
                 </div>
             </div>
         </div>
@@ -609,12 +601,12 @@
                 </div>
                 <div class="modal-body">
                     <table class="shortcuts-table">
-                         <tr><td><kbd>Ctrl+G</kbd></kbd></td><td>Generate new question</kbd></kbd></td></tr>
-                         <tr><td><kbd>Shift+Enter</kbd></kbd></td><td>Check answer</kbd></kbd></td></tr>
-                         <tr><td><kbd>Ctrl+1</kbd></kbd></td><td>Switch to Single mode</kbd></kbd></td></tr>
-                         <tr><td><kbd>Ctrl+2</kbd></kbd></td><td>Switch to Mental mode</kbd></kbd></td></tr>
-                         <tr><td><kbd>Ctrl+,</kbd></kbd></td><td>Open settings</kbd></kbd></td></tr>
-                         <tr><td><kbd>Ctrl+Shift+T</kbd></kbd></td><td>Toggle theme</kbd></kbd></td></tr>
+                         <tr><td><kbd>Ctrl+G</kbd></td><td>Generate new question</td></tr>
+                         <tr><td><kbd>Shift+Enter</kbd></td><td>Check answer</td></tr>
+                         <tr><td><kbd>Ctrl+1</kbd></td><td>Switch to Single mode</td></tr>
+                         <tr><td><kbd>Ctrl+2</kbd></td><td>Switch to Mental mode</td></tr>
+                         <tr><td><kbd>Ctrl+,</kbd></td><td>Open settings</td></tr>
+                         <tr><td><kbd>Ctrl+Shift+T</kbd></td><td>Toggle theme</td></tr>
                     </table>
                 </div>
                 <div class="modal-footer">
