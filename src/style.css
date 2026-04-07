@@ -1685,3 +1685,6 @@ input[type="checkbox"]:hover{
 		justify-content: space-between;
 	}
 }
+#link-to-main-site{
+	color: var(--text-secondary);
+}
