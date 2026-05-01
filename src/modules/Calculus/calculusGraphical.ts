@@ -1,3 +1,15 @@
+import {questionArea} from "../../script.js";
+import {getMaxCoeff} from "./calculusUtils.js";
+function getAppropriateStep(range: number, targetTicks: number=6): number{
+	if(range<=0) return 1;
+	let rawStep=range/targetTicks;
+	let magnitude=Math.pow(10, Math.floor(Math.log10(rawStep)));
+	let normalized=rawStep/magnitude;
+	if(normalized<1.5) return magnitude*1;
+	else if(normalized<3) return magnitude*2;
+	else if(normalized<7) return magnitude*5;
+	else return magnitude*10;
+}
 /**
  * Generates a random "graphical calculus" question involving visual or tabular data.
  * Includes custom multiple‑choice options for MCQ mode.
@@ -16,27 +28,14 @@
  *                     generated expressions. If omitted, a default moderate value
  *                     is used (via `getMaxCoeff`).
  * @returns void
- * @date 2026-04-02
+ * @date 2026-04-18
  *
  * @example
  * generateGraphicalCalculus();
  * generateGraphicalCalculus("hard");
  */
-import {questionArea} from "../../script.js";
-import {getMaxCoeff} from "./calculusUtils.js";
-
-function getAppropriateStep(range: number, targetTicks: number=6): number{
-	if (range<=0) return 1;
-	let rawStep=range/targetTicks;
-	let magnitude=Math.pow(10, Math.floor(Math.log10(rawStep)));
-	let normalized=rawStep/magnitude;
-	if (normalized < 1.5) return magnitude*1;
-	else if (normalized < 3) return magnitude*2;
-	else if (normalized < 7) return magnitude*5;
-	else return magnitude*10;
-}
 export function generateGraphicalCalculus(difficulty?: string): void{
-	if (!questionArea) return;
+	if(!questionArea) return;
 	questionArea.innerHTML="";
 	let questionTypes=["limitFromGraph","multipleReps","estimateDerivTable","diffContinuity","inverseFunc","invTrigDeriv","selectProcedure","derivContext","riemannSum","riemannNotation","accumFTC","accumBehavior","definiteProps","longDivision","flowAccum","instantChange","derivativeLimit","sketchSlopeField","matchSlopeField","reasonSlopeField","equilibriumSolutions","phaseLine"];
 	let questionType=questionTypes[Math.floor(Math.random()*questionTypes.length)];
@@ -47,7 +46,7 @@ export function generateGraphicalCalculus(difficulty?: string): void{
 	let maxCoeff=getMaxCoeff(difficulty);
 	let canvas: HTMLCanvasElement|null=null;
 	let choices: string[]=[];
-	switch (questionType){
+	switch(questionType){
 		case "limitFromGraph":{
 			let coeff=Math.floor(Math.random()*maxCoeff)+1;
 			let holeX=Math.floor(Math.random()*3);
@@ -69,7 +68,7 @@ export function generateGraphicalCalculus(difficulty?: string): void{
 			let b=Math.floor(Math.random()*maxCoeff)+1;
 			let c=Math.floor(Math.random()*4)+1;
 			canvas=drawQuadraticGraph(a, b, -2, 4);
-			let table=`\\begin{array}{c|c} x & f(x) \\\\ ${c-0.1} & ${a*(c-0.1)**2+b} \\\\ ${c+0.1} & ${a*(c+0.1)**2+b} \\end{array}`;
+			let table=`\\begin{array}{c|c} x & f(x) \\\\ ${c-0.1} & ${a*Math.pow(c-0.1,2)+b} \\\\ ${c+0.1} & ${a*Math.pow(c+0.1,2)+b} \\end{array}`;
 			mathExpression=`\\[ \\text{Graph and table given, find } \\lim_{x\\to ${c}} f(x). \\] ${table}`;
 			let correctVal=a*c*c+b;
 			plainCorrectAnswer=correctVal.toString();
@@ -78,19 +77,19 @@ export function generateGraphicalCalculus(difficulty?: string): void{
 			choices=[plainCorrectAnswer];
 			choices.push((correctVal+1).toString());
 			choices.push((correctVal-1).toString());
-			choices.push((a*(c+0.1)*(c+0.1)+b).toString());
-			choices.push((a*(c-0.1)*(c-0.1)+b).toString());
+			choices.push((a*Math.pow(c+0.1,2)+b).toString());
+			choices.push((a*Math.pow(c-0.1,2)+b).toString());
 			break;
 		}
 		case "estimateDerivTable":{
 			let x0=Math.floor(Math.random()*3)+2;
 			let h=0.1;
 			let vals=[];
-			for (let i=-2; i<=2; i++){
+			for(let i=-2;i<=2;i++){
 				vals.push(Math.exp(x0+i*h));
 			}
 			let tableStr="";
-			for (let i=0; i<5; i++){
+			for(let i=0;i<5;i++){
 				tableStr+=`${(x0+(i-2)*h).toFixed(1)} & ${vals[i].toFixed(4)}\\\\`;
 			}
 			mathExpression=`\\[ \\text{Table:} \\begin{array}{c|c} x & f(x) \\\\ ${tableStr} \\end{array} \\text{ Estimate } f'(${x0}). \\]`;
@@ -113,7 +112,7 @@ export function generateGraphicalCalculus(difficulty?: string): void{
 			plainCorrectAnswer="no";
 			latexAnswer="\\text{no}";
 			expectedFormat="Enter yes or no";
-			choices=["no", "yes", "maybe", "only if continuous"];
+			choices=["no","yes","maybe","only if continuous"];
 			break;
 		}
 		case "inverseFunc":{
@@ -148,14 +147,12 @@ export function generateGraphicalCalculus(difficulty?: string): void{
 		case "selectProcedure":{
 			let options=["Product and chain","Chain only","Quotient","Product only"];
 			let correctIdx=Math.floor(Math.random()*options.length);
-			plainCorrectAnswer=options[correctIdx];
+			let correctLetter=String.fromCharCode(65+correctIdx);
+			plainCorrectAnswer=correctLetter;
 			latexAnswer=`\\text{${options[correctIdx]}}`;
 			mathExpression=`\\[ f(x)=x^2 e^{${maxCoeff}x} \\cos x \\] Which rule(s)? A) ${options[0]} B) ${options[1]} C) ${options[2]} D) ${options[3]}`;
-			expectedFormat="Enter letter";
-			choices=[options[correctIdx]];
-			for (let i=0;i<options.length;i++){
-				if (i!==correctIdx) choices.push(options[i]);
-			}
+			expectedFormat="Enter letter (A, B, C, or D)";
+			choices=["A","B","C","D"];
 			break;
 		}
 		case "derivContext":{
@@ -179,7 +176,7 @@ export function generateGraphicalCalculus(difficulty?: string): void{
 			mathExpression=`\\[ \\text{Left Riemann sum for } \\int_{${a}}^{${b}} x^2 \\,dx \\text{ with } n=${n}. \\]`;
 			let delta=(b-a)/n;
 			let sum=0;
-			for (let i=0; i<n; i++){
+			for(let i=0;i<n;i++){
 				let x=a+i*delta;
 				sum+=x*x*delta;
 			}
@@ -226,8 +223,10 @@ export function generateGraphicalCalculus(difficulty?: string): void{
 			break;
 		}
 		case "accumBehavior":{
-			let a=Math.floor(Math.random()*3)+1;
-			canvas=drawAccumGraph2(a);
+			let a=Math.floor(Math.random()*2)+1;
+			let xMin=-2;
+			let xMax=a+3;
+			canvas=drawAccumGraph2(a, xMin, xMax);
 			mathExpression=`\\[ g(x)=\\int_0^x f(t)\\,dt, \\text{ where increasing?} \\]`;
 			plainCorrectAnswer=`(${a}, ${a+2})`;
 			latexAnswer=`(${a},${a+2})`;
@@ -260,14 +259,14 @@ export function generateGraphicalCalculus(difficulty?: string): void{
 		case "longDivision":{
 			let a=Math.floor(Math.random()*maxCoeff)+1;
 			mathExpression=`\\[ \\int \\frac{x^3}{x^2+${a}} \\,dx \\]`;
-			plainCorrectAnswer=`(1/2)x^2 - ${a}ln|x^2+${a}| + C`;
-			latexAnswer=`\\frac{1}{2}x^{2} - ${a}\\ln|x^{2}+${a}| + C`;
+			plainCorrectAnswer=`(1/2)x^2 - ${a/2}ln|x^2+${a}| + C`;
+			latexAnswer=`\\frac{1}{2}x^{2} - \\frac{${a}}{2}\\ln|x^{2}+${a}| + C`;
 			expectedFormat="Enter expression";
 			choices=[plainCorrectAnswer];
-			choices.push(`(1/2)x^2 + ${a}ln|x^2+${a}| + C`);
+			choices.push(`(1/2)x^2 + ${a/2}ln|x^2+${a}| + C`);
 			choices.push(`x - ${a}ln|x^2+${a}| + C`);
 			choices.push(`(1/2)x^2 - ${a}ln|x^2| + C`);
-			choices.push(`x^2 - ${a}ln|x^2+${a}| + C`);
+			choices.push(`x^2 - ${a/2}ln|x^2+${a}| + C`);
 			break;
 		}
 		case "flowAccum":{
@@ -327,12 +326,12 @@ export function generateGraphicalCalculus(difficulty?: string): void{
 		case "matchSlopeField":{
 			let eqs=["dy/dx = y(2-y)", "dy/dx = y", "dy/dx = x", "dy/dx = -y"];
 			let correctIdx=Math.floor(Math.random()*eqs.length);
-			plainCorrectAnswer=eqs[correctIdx];
+			let correctLetter=String.fromCharCode(65+correctIdx);
+			plainCorrectAnswer=correctLetter;
 			latexAnswer=`\\text{${eqs[correctIdx]}}`;
 			mathExpression=`\\[ \\text{Which DE matches slope field with horizontal lines at y=0 and y=2?} \\] A) ${eqs[0]} B) ${eqs[1]} C) ${eqs[2]} D) ${eqs[3]}`;
-			expectedFormat="Enter letter";
-			choices=[plainCorrectAnswer];
-			for (let i=0;i<eqs.length;i++) if (i!==correctIdx) choices.push(eqs[i]);
+			expectedFormat="Enter letter (A, B, C, or D)";
+			choices=["A","B","C","D"];
 			break;
 		}
 		case "reasonSlopeField":{
@@ -341,7 +340,7 @@ export function generateGraphicalCalculus(difficulty?: string): void{
 			plainCorrectAnswer="y grows like quadratic";
 			latexAnswer="\\text{y grows like quadratic}";
 			expectedFormat="Describe behavior";
-			choices=["y→∞", "y→0", "y→constant", "oscillates"];
+			choices=["y→∞","y→0","y→constant","oscillates"];
 			break;
 		}
 		case "equilibriumSolutions":{
@@ -359,31 +358,31 @@ export function generateGraphicalCalculus(difficulty?: string): void{
 		case "phaseLine":{
 			let a=Math.floor(Math.random()*maxCoeff)+2;
 			mathExpression=`\\[ \\frac{dy}{dt}=y^2-${a}y \\] Draw phase line.`;
-			plainCorrectAnswer=`equilibria at y=0 and y=${a}; 0 unstable, ${a} stable`;
-			latexAnswer=`y=0\\text{ unstable}, y=${a}\\text{ stable}`;
+			plainCorrectAnswer=`equilibria at y=0 and y=${a}; 0 stable, ${a} unstable`;
+			latexAnswer=`y=0\\text{ stable}, y=${a}\\text{ unstable}`;
 			expectedFormat="Describe phase line";
 			choices=[plainCorrectAnswer];
-			choices.push(`0 stable, ${a} unstable`);
+			choices.push(`0 unstable, ${a} stable`);
 			choices.push(`0 semi-stable, ${a} stable`);
 			choices.push(`both unstable`);
 			break;
 		}
 	}
-	if (canvas){
+	if(canvas){
 		questionArea.appendChild(canvas);
 	}
 	let mathContainer=document.createElement("div");
 	mathContainer.innerHTML=mathExpression;
 	questionArea.appendChild(mathContainer);
-	if (window.MathJax&&window.MathJax.typesetPromise){
+	if(window.MathJax&&window.MathJax.typesetPromise){
 		window.MathJax.typesetPromise([mathContainer]).catch((err: any)=>
 			console.log("MathJax typeset error:", err)
 		);
 	}
 	let uniqueChoices=[...new Set(choices)];
-	if (uniqueChoices.length>4) uniqueChoices=uniqueChoices.slice(0,4);
-	if (!uniqueChoices.includes(plainCorrectAnswer)){
-		if (uniqueChoices.length>0) uniqueChoices[Math.floor(Math.random()*uniqueChoices.length)]=plainCorrectAnswer;
+	if(uniqueChoices.length>4) uniqueChoices=uniqueChoices.slice(0,4);
+	if(!uniqueChoices.includes(plainCorrectAnswer)){
+		if(uniqueChoices.length>0) uniqueChoices[Math.floor(Math.random()*uniqueChoices.length)]=plainCorrectAnswer;
 		else uniqueChoices=[plainCorrectAnswer];
 	}
 	window.correctAnswer={
@@ -399,7 +398,7 @@ function drawLimitGraph(coeff: number, holeX: number, holeY: number): HTMLCanvas
 	canvas.width=300;
 	canvas.height=200;
 	let ctx=canvas.getContext("2d");
-	if (!ctx) return canvas;
+	if(!ctx) return canvas;
 	ctx.clearRect(0,0,300,200);
 	let xMin=-2, xMax=2;
 	let yMax=coeff*Math.max(xMin*xMin, xMax*xMax);
@@ -416,11 +415,11 @@ function drawLimitGraph(coeff: number, holeX: number, holeY: number): HTMLCanvas
 	ctx.font="10px sans-serif";
 	ctx.textAlign="center";
 	ctx.textBaseline="top";
-	for (let x=-2; x<=2; x+=1){
+	for(let x=-2;x<=2;x+=1){
 		let screenX=150+50*x;
 		ctx.beginPath();
-		ctx.moveTo(screenX, 145);
-		ctx.lineTo(screenX, 155);
+		ctx.moveTo(screenX,145);
+		ctx.lineTo(screenX,155);
 		ctx.strokeStyle="#888";
 		ctx.lineWidth=1;
 		ctx.stroke();
@@ -428,28 +427,28 @@ function drawLimitGraph(coeff: number, holeX: number, holeY: number): HTMLCanvas
 	}
 	ctx.textAlign="right";
 	ctx.textBaseline="middle";
-	let yStep=getAppropriateStep(yMax, 6);
-	for (let y=0; y<=yMax; y+=yStep){
+	let yStep=getAppropriateStep(yMax,6);
+	for(let y=0;y<=yMax;y+=yStep){
 		let screenY=150 - scaleY*y;
-		if (screenY < 50 || screenY > 150) continue;
+		if(screenY<50||screenY>150) continue;
 		ctx.beginPath();
-		ctx.moveTo(145, screenY);
-		ctx.lineTo(155, screenY);
+		ctx.moveTo(145,screenY);
+		ctx.lineTo(155,screenY);
 		ctx.stroke();
 		ctx.fillText(y.toFixed(yStep>=1?0:1), 140, screenY);
 	}
 	ctx.fillStyle="#000";
 	ctx.font="12px sans-serif";
-	ctx.fillText("x", 240, 140);
-	ctx.fillText("y", 160, 60);
+	ctx.fillText("x",240,140);
+	ctx.fillText("y",160,60);
 	ctx.beginPath();
 	ctx.strokeStyle="blue";
 	ctx.lineWidth=2;
-	for (let x=-2; x<=2; x+=0.1){
+	for(let x=-2;x<=2;x+=0.1){
 		let screenX=150+50*x;
 		let y=coeff*x*x;
 		let screenY=150 - scaleY*y;
-		if (x===-2) ctx.moveTo(screenX, screenY);
+		if(x===-2) ctx.moveTo(screenX, screenY);
 		else ctx.lineTo(screenX, screenY);
 	}
 	ctx.stroke();
@@ -468,22 +467,22 @@ function drawAbsoluteGraph(cornerX: number): HTMLCanvasElement{
 	canvas.width=300;
 	canvas.height=200;
 	let ctx=canvas.getContext("2d");
-	if (!ctx) return canvas;
+	if(!ctx) return canvas;
 	ctx.clearRect(0,0,300,200);
-	let xMin=cornerX - 2;
-	let xMax=cornerX + 2;
-	let scaleX=200/(xMax - xMin);
-	let yMax=Math.max(Math.abs(xMin - cornerX), Math.abs(xMax - cornerX));
+	let xMin=cornerX-2;
+	let xMax=cornerX+2;
+	let scaleX=200/(xMax-xMin);
+	let yMax=Math.max(Math.abs(xMin-cornerX), Math.abs(xMax-cornerX));
 	let scaleY=150/yMax;
-	let xAxisScreen=50 + (0 - xMin)*scaleX;
+	let xAxisScreen=50+(0-xMin)*scaleX;
 	ctx.beginPath();
 	ctx.strokeStyle="#000";
 	ctx.lineWidth=1;
 	ctx.moveTo(50,150);
 	ctx.lineTo(250,150);
-	if (xAxisScreen >= 50&&xAxisScreen<=250){
-		ctx.moveTo(xAxisScreen, 50);
-		ctx.lineTo(xAxisScreen, 150);
+	if(xAxisScreen>=50&&xAxisScreen<=250){
+		ctx.moveTo(xAxisScreen,50);
+		ctx.lineTo(xAxisScreen,150);
 	}
 	ctx.stroke();
 	ctx.fillStyle="#000";
@@ -491,43 +490,43 @@ function drawAbsoluteGraph(cornerX: number): HTMLCanvasElement{
 	ctx.textAlign="center";
 	ctx.textBaseline="top";
 	let xStep=1;
-	for (let x=Math.ceil(xMin); x<=Math.floor(xMax); x+=xStep){
-		let screenX=50 + (x - xMin)*scaleX;
-		if (screenX < 50 || screenX > 250) continue;
+	for(let x=Math.ceil(xMin);x<=Math.floor(xMax);x+=xStep){
+		let screenX=50+(x-xMin)*scaleX;
+		if(screenX<50||screenX>250) continue;
 		ctx.beginPath();
-		ctx.moveTo(screenX, 145);
-		ctx.lineTo(screenX, 155);
+		ctx.moveTo(screenX,145);
+		ctx.lineTo(screenX,155);
 		ctx.strokeStyle="#888";
 		ctx.lineWidth=1;
 		ctx.stroke();
 		ctx.fillText(x.toString(), screenX, 160);
 	}
-	if (xAxisScreen >= 50&&xAxisScreen<=250){
+	if(xAxisScreen>=50&&xAxisScreen<=250){
 		ctx.textAlign="right";
 		ctx.textBaseline="middle";
-		let yStep=getAppropriateStep(yMax, 6);
-		for (let y=0; y<=yMax; y+=yStep){
+		let yStep=getAppropriateStep(yMax,6);
+		for(let y=0;y<=yMax;y+=yStep){
 			let screenY=150 - scaleY*y;
-			if (screenY < 50 || screenY > 150) continue;
+			if(screenY<50||screenY>150) continue;
 			ctx.beginPath();
-			ctx.moveTo(xAxisScreen - 5, screenY);
-			ctx.lineTo(xAxisScreen + 5, screenY);
+			ctx.moveTo(xAxisScreen-5, screenY);
+			ctx.lineTo(xAxisScreen+5, screenY);
 			ctx.stroke();
-			ctx.fillText(y.toFixed(yStep>=1?0:1), xAxisScreen - 8, screenY);
+			ctx.fillText(y.toFixed(yStep>=1?0:1), xAxisScreen-8, screenY);
 		}
 	}
 	ctx.fillStyle="#000";
 	ctx.font="12px sans-serif";
-	ctx.fillText("x", 240, 140);
-	ctx.fillText("y", 160, 60);
+	ctx.fillText("x",240,140);
+	ctx.fillText("y",160,60);
 	ctx.beginPath();
 	ctx.strokeStyle="blue";
 	ctx.lineWidth=2;
-	for (let x=xMin; x<=xMax; x+=0.05){
-		let screenX=50 + (x - xMin)*scaleX;
-		let y=Math.abs(x - cornerX);
+	for(let x=xMin;x<=xMax;x+=0.05){
+		let screenX=50+(x-xMin)*scaleX;
+		let y=Math.abs(x-cornerX);
 		let screenY=150 - scaleY*y;
-		if (x===xMin) ctx.moveTo(screenX, screenY);
+		if(x===xMin) ctx.moveTo(screenX, screenY);
 		else ctx.lineTo(screenX, screenY);
 	}
 	ctx.stroke();
@@ -538,73 +537,73 @@ function drawQuadraticGraph(a: number, b: number, xMin: number, xMax: number): H
 	canvas.width=300;
 	canvas.height=200;
 	let ctx=canvas.getContext("2d");
-	if (!ctx) return canvas;
+	if(!ctx) return canvas;
 	ctx.clearRect(0,0,300,200);
 	let yMin=Infinity, yMax=-Infinity;
-	for (let x=xMin; x<=xMax; x+=0.1){
-		let y=a*x*x + b;
-		if (y < yMin) yMin=y;
-		if (y > yMax) yMax=y;
+	for(let x=xMin;x<=xMax;x+=0.1){
+		let y=a*x*x+b;
+		if(y<yMin) yMin=y;
+		if(y>yMax) yMax=y;
 	}
 	let k=Infinity;
-	if (yMax > 0) k=Math.min(k, 150/yMax);
-	if (yMin < 0) k=Math.min(k, 50/Math.abs(yMin));
-	if (k === Infinity) k=1;
-	let scaleX=200/(xMax - xMin);
-	let xAxisScreen=50 + (0 - xMin)*scaleX;
+	if(yMax>0) k=Math.min(k,150/yMax);
+	if(yMin<0) k=Math.min(k,50/Math.abs(yMin));
+	if(k===Infinity) k=1;
+	let scaleX=200/(xMax-xMin);
+	let xAxisScreen=50+(0-xMin)*scaleX;
 	ctx.beginPath();
 	ctx.strokeStyle="#000";
 	ctx.lineWidth=1;
 	ctx.moveTo(50,150);
 	ctx.lineTo(250,150);
-	if (xAxisScreen >= 50&&xAxisScreen<=250){
-		ctx.moveTo(xAxisScreen, 50);
-		ctx.lineTo(xAxisScreen, 150);
+	if(xAxisScreen>=50&&xAxisScreen<=250){
+		ctx.moveTo(xAxisScreen,50);
+		ctx.lineTo(xAxisScreen,150);
 	}
 	ctx.stroke();
 	ctx.fillStyle="#000";
 	ctx.font="10px sans-serif";
 	ctx.textAlign="center";
 	ctx.textBaseline="top";
-	let xStep=(xMax - xMin)<=4 ? 1 : 2;
-	for (let x=Math.ceil(xMin); x<=Math.floor(xMax); x+=xStep){
-		let screenX=50 + (x - xMin)*scaleX;
-		if (screenX < 50 || screenX > 250) continue;
+	let xStep=(xMax-xMin)<=4?1:2;
+	for(let x=Math.ceil(xMin);x<=Math.floor(xMax);x+=xStep){
+		let screenX=50+(x-xMin)*scaleX;
+		if(screenX<50||screenX>250) continue;
 		ctx.beginPath();
-		ctx.moveTo(screenX, 145);
-		ctx.lineTo(screenX, 155);
+		ctx.moveTo(screenX,145);
+		ctx.lineTo(screenX,155);
 		ctx.strokeStyle="#888";
 		ctx.lineWidth=1;
 		ctx.stroke();
 		ctx.fillText(x.toString(), screenX, 160);
 	}
-	if (xAxisScreen >= 50&&xAxisScreen<=250){
+	if(xAxisScreen>=50&&xAxisScreen<=250){
 		ctx.textAlign="right";
 		ctx.textBaseline="middle";
-		let yRange=yMax - yMin;
-		let yStep=getAppropriateStep(yRange, 6);
-		for (let y=Math.ceil(yMin/yStep)*yStep; y<=yMax; y+=yStep){
+		let yRange=yMax-yMin;
+		let yStep=getAppropriateStep(yRange,6);
+		for(let y=Math.ceil(yMin/yStep)*yStep;y<=yMax;y+=yStep){
 			let screenY=150 - k*y;
-			if (screenY < 50 || screenY > 200) continue;
+			if(screenY<50||screenY>200) continue;
 			ctx.beginPath();
-			ctx.moveTo(xAxisScreen - 5, screenY);
-			ctx.lineTo(xAxisScreen + 5, screenY);
+			ctx.moveTo(xAxisScreen-5, screenY);
+			ctx.lineTo(xAxisScreen+5, screenY);
 			ctx.stroke();
-			ctx.fillText(y.toFixed(yStep>=1?0:1), xAxisScreen - 8, screenY);
+			ctx.fillText(y.toFixed(yStep>=1?0:1), xAxisScreen-8, screenY);
 		}
 	}
 	ctx.fillStyle="#000";
 	ctx.font="12px sans-serif";
-	ctx.fillText("x", 240, 140);
-	ctx.fillText("y", 160, 60);
+	ctx.fillText("x",240,140);
+	ctx.fillText("y",160,60);
 	ctx.beginPath();
 	ctx.strokeStyle="blue";
 	ctx.lineWidth=2;
-	for (let x=xMin; x<=xMax; x+=0.05){
-		let screenX=50 + (x - xMin)*scaleX;
-		let y=a*x*x + b;
+	for(let x=xMin;x<=xMax;x+=0.05){
+		let screenX=50+(x-xMin)*scaleX;
+		let y=a*x*x+b;
 		let screenY=150 - k*y;
-		if (x===xMin) ctx.moveTo(screenX, screenY);
+		if(x===xMin) ctx.moveTo(screenX, screenY);
 		else ctx.lineTo(screenX, screenY);
 	}
 	ctx.stroke();
@@ -615,75 +614,75 @@ function drawRiemannSum(a: number, b: number, n: number): HTMLCanvasElement{
 	canvas.width=300;
 	canvas.height=200;
 	let ctx=canvas.getContext("2d");
-	if (!ctx) return canvas;
+	if(!ctx) return canvas;
 	ctx.clearRect(0,0,300,200);
 	let yMax=Math.max(a*a, b*b);
 	let scaleY=150/yMax;
-	let scaleX=200/(b - a);
-	let xAxisScreen=50 + (0 - a)*scaleX;
+	let scaleX=200/(b-a);
+	let xAxisScreen=50+(0-a)*scaleX;
 	ctx.beginPath();
 	ctx.strokeStyle="#000";
 	ctx.lineWidth=1;
 	ctx.moveTo(50,150);
 	ctx.lineTo(250,150);
-	if (xAxisScreen >= 50&&xAxisScreen<=250){
-		ctx.moveTo(xAxisScreen, 50);
-		ctx.lineTo(xAxisScreen, 150);
+	if(xAxisScreen>=50&&xAxisScreen<=250){
+		ctx.moveTo(xAxisScreen,50);
+		ctx.lineTo(xAxisScreen,150);
 	}
 	ctx.stroke();
 	ctx.fillStyle="#000";
 	ctx.font="10px sans-serif";
 	ctx.textAlign="center";
 	ctx.textBaseline="top";
-	let xStep=(b - a)<=4 ? 1 : 2;
-	for (let x=Math.ceil(a); x<=Math.floor(b); x+=xStep){
-		let screenX=50 + (x - a)*scaleX;
-		if (screenX < 50 || screenX > 250) continue;
+	let xStep=(b-a)<=4?1:2;
+	for(let x=Math.ceil(a);x<=Math.floor(b);x+=xStep){
+		let screenX=50+(x-a)*scaleX;
+		if(screenX<50||screenX>250) continue;
 		ctx.beginPath();
-		ctx.moveTo(screenX, 145);
-		ctx.lineTo(screenX, 155);
+		ctx.moveTo(screenX,145);
+		ctx.lineTo(screenX,155);
 		ctx.strokeStyle="#888";
 		ctx.lineWidth=1;
 		ctx.stroke();
 		ctx.fillText(x.toString(), screenX, 160);
 	}
-	if (xAxisScreen >= 50&&xAxisScreen<=250){
+	if(xAxisScreen>=50&&xAxisScreen<=250){
 		ctx.textAlign="right";
 		ctx.textBaseline="middle";
-		let yStep=getAppropriateStep(yMax, 6);
-		for (let y=0; y<=yMax; y+=yStep){
+		let yStep=getAppropriateStep(yMax,6);
+		for(let y=0;y<=yMax;y+=yStep){
 			let screenY=150 - scaleY*y;
-			if (screenY < 50 || screenY > 150) continue;
+			if(screenY<50||screenY>150) continue;
 			ctx.beginPath();
-			ctx.moveTo(xAxisScreen - 5, screenY);
-			ctx.lineTo(xAxisScreen + 5, screenY);
+			ctx.moveTo(xAxisScreen-5, screenY);
+			ctx.lineTo(xAxisScreen+5, screenY);
 			ctx.stroke();
-			ctx.fillText(y.toFixed(yStep>=1?0:1), xAxisScreen - 8, screenY);
+			ctx.fillText(y.toFixed(yStep>=1?0:1), xAxisScreen-8, screenY);
 		}
 	}
 	ctx.fillStyle="#000";
 	ctx.font="12px sans-serif";
-	ctx.fillText("x", 240, 140);
-	ctx.fillText("y", 160, 60);
-	let delta=(b - a)/n;
-	for (let i=0; i<n; i++){
-		let xLeft=a + i*delta;
-		let xRight=xLeft + delta;
+	ctx.fillText("x",240,140);
+	ctx.fillText("y",160,60);
+	let delta=(b-a)/n;
+	for(let i=0;i<n;i++){
+		let xLeft=a+i*delta;
+		let xRight=xLeft+delta;
 		let y=xLeft*xLeft;
-		let screenX1=50 + (xLeft - a)*scaleX;
-		let screenX2=50 + (xRight - a)*scaleX;
+		let screenX1=50+(xLeft-a)*scaleX;
+		let screenX2=50+(xRight-a)*scaleX;
 		let screenY=150 - scaleY*y;
 		ctx.fillStyle="rgba(0,0,255,0.2)";
-		ctx.fillRect(screenX1, screenY, screenX2 - screenX1, 150 - screenY);
+		ctx.fillRect(screenX1, screenY, screenX2-screenX1, 150-screenY);
 	}
 	ctx.beginPath();
 	ctx.strokeStyle="blue";
 	ctx.lineWidth=2;
-	for (let x=a; x<=b; x+=0.05){
-		let screenX=50 + (x - a)*scaleX;
+	for(let x=a;x<=b;x+=0.05){
+		let screenX=50+(x-a)*scaleX;
 		let y=x*x;
 		let screenY=150 - scaleY*y;
-		if (x===a) ctx.moveTo(screenX, screenY);
+		if(x===a) ctx.moveTo(screenX, screenY);
 		else ctx.lineTo(screenX, screenY);
 	}
 	ctx.stroke();
@@ -694,24 +693,24 @@ function drawAccumGraph(a: number, x0: number): HTMLCanvasElement{
 	canvas.width=300;
 	canvas.height=200;
 	let ctx=canvas.getContext("2d");
-	if (!ctx) return canvas;
+	if(!ctx) return canvas;
 	ctx.clearRect(0,0,300,200);
 	let xMin=-1, xMax=4;
-	let scaleX=200/(xMax - xMin);
+	let scaleX=200/(xMax-xMin);
 	let yMin=xMin, yMax=xMax;
 	let k=Infinity;
-	if (yMax > 0) k=Math.min(k, 150/yMax);
-	if (yMin < 0) k=Math.min(k, 50/Math.abs(yMin));
-	if (k === Infinity) k=1;
-	let xAxisScreen=50 + (0 - xMin)*scaleX;
+	if(yMax>0) k=Math.min(k,150/yMax);
+	if(yMin<0) k=Math.min(k,50/Math.abs(yMin));
+	if(k===Infinity) k=1;
+	let xAxisScreen=50+(0-xMin)*scaleX;
 	ctx.beginPath();
 	ctx.strokeStyle="#000";
 	ctx.lineWidth=1;
 	ctx.moveTo(50,150);
 	ctx.lineTo(250,150);
-	if (xAxisScreen >= 50&&xAxisScreen<=250){
-		ctx.moveTo(xAxisScreen, 50);
-		ctx.lineTo(xAxisScreen, 150);
+	if(xAxisScreen>=50&&xAxisScreen<=250){
+		ctx.moveTo(xAxisScreen,50);
+		ctx.lineTo(xAxisScreen,150);
 	}
 	ctx.stroke();
 	ctx.fillStyle="#000";
@@ -719,84 +718,83 @@ function drawAccumGraph(a: number, x0: number): HTMLCanvasElement{
 	ctx.textAlign="center";
 	ctx.textBaseline="top";
 	let xStep=1;
-	for (let x=Math.ceil(xMin); x<=Math.floor(xMax); x+=xStep){
-		let screenX=50 + (x - xMin)*scaleX;
-		if (screenX < 50 || screenX > 250) continue;
+	for(let x=Math.ceil(xMin);x<=Math.floor(xMax);x+=xStep){
+		let screenX=50+(x-xMin)*scaleX;
+		if(screenX<50||screenX>250) continue;
 		ctx.beginPath();
-		ctx.moveTo(screenX, 145);
-		ctx.lineTo(screenX, 155);
+		ctx.moveTo(screenX,145);
+		ctx.lineTo(screenX,155);
 		ctx.strokeStyle="#888";
 		ctx.lineWidth=1;
 		ctx.stroke();
 		ctx.fillText(x.toString(), screenX, 160);
 	}
-	if (xAxisScreen >= 50&&xAxisScreen<=250){
+	if(xAxisScreen>=50&&xAxisScreen<=250){
 		ctx.textAlign="right";
 		ctx.textBaseline="middle";
-		let yRange=yMax - yMin;
-		let yStep=getAppropriateStep(yRange, 6);
-		for (let y=Math.ceil(yMin/yStep)*yStep; y<=yMax; y+=yStep){
+		let yRange=yMax-yMin;
+		let yStep=getAppropriateStep(yRange,6);
+		for(let y=Math.ceil(yMin/yStep)*yStep;y<=yMax;y+=yStep){
 			let screenY=150 - k*y;
-			if (screenY < 50 || screenY > 200) continue;
+			if(screenY<50||screenY>200) continue;
 			ctx.beginPath();
-			ctx.moveTo(xAxisScreen - 5, screenY);
-			ctx.lineTo(xAxisScreen + 5, screenY);
+			ctx.moveTo(xAxisScreen-5, screenY);
+			ctx.lineTo(xAxisScreen+5, screenY);
 			ctx.stroke();
-			ctx.fillText(y.toFixed(yStep>=1?0:1), xAxisScreen - 8, screenY);
+			ctx.fillText(y.toFixed(yStep>=1?0:1), xAxisScreen-8, screenY);
 		}
 	}
 	ctx.fillStyle="#000";
 	ctx.font="12px sans-serif";
-	ctx.fillText("x", 240, 140);
-	ctx.fillText("y", 160, 60);
+	ctx.fillText("x",240,140);
+	ctx.fillText("y",160,60);
 	ctx.beginPath();
 	ctx.strokeStyle="blue";
 	ctx.lineWidth=2;
-	for (let x=xMin; x<=xMax; x+=0.05){
-		let screenX=50 + (x - xMin)*scaleX;
+	for(let x=xMin;x<=xMax;x+=0.05){
+		let screenX=50+(x-xMin)*scaleX;
 		let y=x;
 		let screenY=150 - k*y;
-		if (x===xMin) ctx.moveTo(screenX, screenY);
+		if(x===xMin) ctx.moveTo(screenX, screenY);
 		else ctx.lineTo(screenX, screenY);
 	}
 	ctx.stroke();
 	ctx.beginPath();
 	ctx.strokeStyle="green";
 	ctx.setLineDash([5,3]);
-	let aScreenX=50 + (a - xMin)*scaleX;
-	ctx.moveTo(aScreenX, 50);
-	ctx.lineTo(aScreenX, 150);
+	let aScreenX=50+(a-xMin)*scaleX;
+	ctx.moveTo(aScreenX,50);
+	ctx.lineTo(aScreenX,150);
 	ctx.stroke();
 	ctx.setLineDash([]);
 	ctx.fillStyle="red";
 	ctx.beginPath();
-	let pointX=50 + (x0 - xMin)*scaleX;
+	let pointX=50+(x0-xMin)*scaleX;
 	let pointY=150 - k*x0;
 	ctx.arc(pointX, pointY, 4, 0, 2*Math.PI);
 	ctx.fill();
 	ctx.stroke();
 	return canvas;
 }
-function drawAccumGraph2(a: number): HTMLCanvasElement{
+function drawAccumGraph2(a: number, xMin: number, xMax: number): HTMLCanvasElement{
 	let canvas=document.createElement("canvas");
 	canvas.width=300;
 	canvas.height=200;
 	let ctx=canvas.getContext("2d");
-	if (!ctx) return canvas;
+	if(!ctx) return canvas;
 	ctx.clearRect(0,0,300,200);
-	let xMin=-2, xMax=4;
-	let scaleX=200/(xMax - xMin);
+	let scaleX=200/(xMax-xMin);
 	let yMin=-1, yMax=1;
 	let k=Math.min(150/yMax, 50/Math.abs(yMin));
-	let xAxisScreen=50 + (0 - xMin)*scaleX;
+	let xAxisScreen=50+(0-xMin)*scaleX;
 	ctx.beginPath();
 	ctx.strokeStyle="#000";
 	ctx.lineWidth=1;
 	ctx.moveTo(50,150);
 	ctx.lineTo(250,150);
-	if (xAxisScreen >= 50&&xAxisScreen<=250){
-		ctx.moveTo(xAxisScreen, 50);
-		ctx.lineTo(xAxisScreen, 150);
+	if(xAxisScreen>=50&&xAxisScreen<=250){
+		ctx.moveTo(xAxisScreen,50);
+		ctx.lineTo(xAxisScreen,150);
 	}
 	ctx.stroke();
 	ctx.fillStyle="#000";
@@ -804,35 +802,35 @@ function drawAccumGraph2(a: number): HTMLCanvasElement{
 	ctx.textAlign="center";
 	ctx.textBaseline="top";
 	let xStep=1;
-	for (let x=Math.ceil(xMin); x<=Math.floor(xMax); x+=xStep){
-		let screenX=50 + (x - xMin)*scaleX;
-		if (screenX < 50 || screenX > 250) continue;
+	for(let x=Math.ceil(xMin);x<=Math.floor(xMax);x+=xStep){
+		let screenX=50+(x-xMin)*scaleX;
+		if(screenX<50||screenX>250) continue;
 		ctx.beginPath();
-		ctx.moveTo(screenX, 145);
-		ctx.lineTo(screenX, 155);
+		ctx.moveTo(screenX,145);
+		ctx.lineTo(screenX,155);
 		ctx.strokeStyle="#888";
 		ctx.lineWidth=1;
 		ctx.stroke();
 		ctx.fillText(x.toString(), screenX, 160);
 	}
-	if (xAxisScreen >= 50&&xAxisScreen<=250){
+	if(xAxisScreen>=50&&xAxisScreen<=250){
 		ctx.textAlign="right";
 		ctx.textBaseline="middle";
 		let yStep=1;
-		for (let y=yMin; y<=yMax; y+=yStep){
+		for(let y=yMin;y<=yMax;y+=yStep){
 			let screenY=150 - k*y;
-			if (screenY < 50 || screenY > 200) continue;
+			if(screenY<50||screenY>200) continue;
 			ctx.beginPath();
-			ctx.moveTo(xAxisScreen - 5, screenY);
-			ctx.lineTo(xAxisScreen + 5, screenY);
+			ctx.moveTo(xAxisScreen-5, screenY);
+			ctx.lineTo(xAxisScreen+5, screenY);
 			ctx.stroke();
-			ctx.fillText(y.toString(), xAxisScreen - 8, screenY);
+			ctx.fillText(y.toString(), xAxisScreen-8, screenY);
 		}
 	}
 	ctx.fillStyle="#000";
 	ctx.font="12px sans-serif";
-	ctx.fillText("x", 240, 140);
-	ctx.fillText("y", 160, 60);
+	ctx.fillText("x",240,140);
+	ctx.fillText("y",160,60);
 	ctx.beginPath();
 	ctx.strokeStyle="blue";
 	ctx.lineWidth=2;
@@ -841,12 +839,12 @@ function drawAccumGraph2(a: number): HTMLCanvasElement{
 		{ start: a, end: a+2, value: 1 },
 		{ start: a+2, end: xMax, value: -1 }
 	];
-	for (let seg of segments){
+	for(let seg of segments){
 		let xStart=Math.max(seg.start, xMin);
 		let xEnd=Math.min(seg.end, xMax);
-		if (xStart >= xEnd) continue;
-		let screenX1=50 + (xStart - xMin)*scaleX;
-		let screenX2=50 + (xEnd - xMin)*scaleX;
+		if(xStart>=xEnd) continue;
+		let screenX1=50+(xStart-xMin)*scaleX;
+		let screenX2=50+(xEnd-xMin)*scaleX;
 		let screenY=150 - k*seg.value;
 		ctx.beginPath();
 		ctx.moveTo(screenX1, screenY);
