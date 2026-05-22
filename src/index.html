@@ -27,7 +27,10 @@
         <meta name="twitter:image" content="favicon.png">
         <link rel="icon" href="favicon.png" type="image/png">
         <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+        <link rel="preconnect" href="https://cdn.jsdelivr.net">
+        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+        <link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"></noscript>
         <link rel="stylesheet" href="style.css">
         <script>
             window.MathJax={
@@ -44,8 +47,8 @@
                 }
             };
         </script>
-        <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+        <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" defer></script>
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
