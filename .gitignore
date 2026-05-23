@@ -156,3 +156,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 random_math.docx
+AGENTS.md
+main.exe
+docs
