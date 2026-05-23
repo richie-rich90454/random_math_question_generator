@@ -14,7 +14,7 @@ vi.mock('./ui', () => ({
 import * as dom from './dom';
 import * as state from './state';
 import * as ui from './ui';
-import {topics, scopeTopics} from "./constants";
+import {scopeTopics} from "./constants";
 import {renderTopicGrid, selectTopic, pickRandomTopic} from "./topics";
 describe('renderTopicGrid', () => {
     beforeEach(() => {

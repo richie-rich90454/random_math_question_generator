@@ -35,7 +35,7 @@ describe("Calculus generators", ()=>{
         (questionArea as any)=mockDiv;
         delete (window as any).correctAnswer;
         delete (window as any).expectedFormat;
-        vi.mocked(window.MathJax.typesetPromise).mockClear();
+        vi.mocked(window.MathJax!.typesetPromise!).mockClear();
     });
     it("returns early if questionArea is null for generateDerivative", ()=>{
         (questionArea as any)=null;
