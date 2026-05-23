@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import {defineConfig} from "vite";
 import {readFileSync} from "fs";
 import {join} from "path";
@@ -57,5 +58,8 @@ export default defineConfig({
 		host: "::",
 		port: 1331,
 		open: false
+	},
+	test: {
+		setupFiles: ['./vitest.setup.ts'],
 	}
 });

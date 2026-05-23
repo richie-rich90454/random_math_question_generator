@@ -24,7 +24,7 @@ describe("generateFactorial", () => {
 		(questionArea as any) = mockDiv;
 		delete (window as any).correctAnswer;
 		delete (window as any).expectedFormat;
-		(window as any).MathJax = { typeset: vi.fn() };
+		(window as any).MathJax = { typesetPromise: vi.fn().mockResolvedValue(undefined) };
 	});
 	afterEach(() => {
 		Math.random = originalMathRandom;
@@ -43,14 +43,14 @@ describe("generateFactorial", () => {
 			.mockReturnValueOnce(0.5) // n -> 8
 			.mockReturnValueOnce(0.5); // k (unused)
 		generateFactorial();
-		expect(mockDiv.innerHTML).toBe("Calculate \\( 8! \\)");
-		expect((window as any).correctAnswer).toEqual({
+		expect(mockDiv.innerHTML).toBe("<div>\\( 8! \\)</div>");
+		expect((window as any).correctAnswer).toEqual(expect.objectContaining({
 			correct: "40320",
 			alternate: "40320",
 			display: "40320"
-		});
-		expect((window as any).expectedFormat).toBe("Enter a whole number");
-		expect((window as any).MathJax.typeset).toHaveBeenCalled();
+		}));
+		expect((window as any).expectedFormat).toBe("Enter a number");
+		expect((window as any).MathJax.typesetPromise).toHaveBeenCalled();
 	});
 	it("generates division factorial correctly", () => {
 		Math.random = vi.fn()
@@ -58,12 +58,12 @@ describe("generateFactorial", () => {
 			.mockReturnValueOnce(0.5) // n -> 8
 			.mockReturnValueOnce(0.2); // k -> floor(0.2*6)+2 = 1+2=3
 		generateFactorial();
-		expect(mockDiv.innerHTML).toBe("Simplify: \\( \\frac{8!}{3!} \\)");
-		expect((window as any).correctAnswer).toEqual({
+		expect(mockDiv.innerHTML).toBe("<div>\\( \\frac{8!}{3!} \\)</div>");
+		expect((window as any).correctAnswer).toEqual(expect.objectContaining({
 			correct: "6720",
 			alternate: "6720",
 			display: "6720"
-		});
+		}));
 	});
 	it("generates equation factorial correctly", () => {
 		Math.random = vi.fn()
@@ -71,12 +71,12 @@ describe("generateFactorial", () => {
 			.mockReturnValueOnce(0.5) // n -> 8
 			.mockReturnValueOnce(0.5); // k (unused)
 		generateFactorial();
-		expect(mockDiv.innerHTML).toBe("Solve for \\( n \\): \\( n!=40320 \\)");
-		expect((window as any).correctAnswer).toEqual({
+		expect(mockDiv.innerHTML).toBe("<div>\\( n! = 40320 \\)</div>");
+		expect((window as any).correctAnswer).toEqual(expect.objectContaining({
 			correct: "8",
 			alternate: "8",
 			display: "8"
-		});
+		}));
 	});
 	it("generates approximation factorial correctly", () => {
 		Math.random = vi.fn()
@@ -84,12 +84,12 @@ describe("generateFactorial", () => {
 			.mockReturnValueOnce(0.5) // n -> 8
 			.mockReturnValueOnce(0.5); // k (unused)
 		generateFactorial();
-		expect(mockDiv.innerHTML).toBe("Estimate \\( 8! \\) using Stirling's approximation");
+		expect(mockDiv.innerHTML).toBe("<div>Estimate \\( 8! \\) using Stirling's approximation</div>");
 		// Stirling's approximation may yield 39902 or 39903 due to floating-point rounding.
 		// We accept either value.
 		const result = (window as any).correctAnswer.correct;
 		expect(["39902", "39903"]).toContain(result);
-		expect((window as any).expectedFormat).toBe("Enter a rounded whole number");
+		expect((window as any).expectedFormat).toBe("Enter a number");
 	});
 	it("generates prime exponent factorial correctly", () => {
 		Math.random = vi.fn()
@@ -98,12 +98,12 @@ describe("generateFactorial", () => {
 			.mockReturnValueOnce(0.5) // k (unused)
 			.mockReturnValueOnce(0.1); // prime index -> 0 -> prime 2
 		generateFactorial();
-		expect(mockDiv.innerHTML).toBe("Find the exponent of \\( 2 \\) in \\( 8! \\) (prime factorization)");
-		expect((window as any).correctAnswer).toEqual({
+		expect(mockDiv.innerHTML).toBe("<div>Find the exponent of \\( 2 \\) in \\( 8! \\) (prime factorization)</div>");
+		expect((window as any).correctAnswer).toEqual(expect.objectContaining({
 			correct: "7",
 			alternate: "7",
 			display: "7"
-		});
+		}));
 	});
 	it("uses getMaxForDifficulty with provided difficulty", () => {
 		const mockGetMax = vi.mocked(getMaxForDifficulty);

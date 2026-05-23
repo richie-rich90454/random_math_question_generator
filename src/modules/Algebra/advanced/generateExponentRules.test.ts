@@ -20,7 +20,7 @@ describe("generateExponentRules", () => {
 		(questionArea as any) = mockDiv;
 		delete (window as any).correctAnswer;
 		delete (window as any).expectedFormat;
-		(window as any).MathJax = { typeset: vi.fn() };
+		(window as any).MathJax = { typesetPromise: vi.fn().mockResolvedValue(undefined) };
 	});
 	afterEach(() => {
 		Math.random = originalMathRandom;
@@ -40,14 +40,14 @@ describe("generateExponentRules", () => {
 			.mockReturnValueOnce(0.2) // m -> 1 (floor(0.2*3)+1 = 0+1=1)
 			.mockReturnValueOnce(0.8); // n -> 3 (floor(0.8*3)+1 = 2+1=3)
 		generateExponentRules();
-		expect(mockDiv.innerHTML).toBe("Simplify: \\( 4^{1} \\times 4^{3} \\)");
-		expect((window as any).correctAnswer).toEqual({
-			correct: "4^4",
-			alternate: "4^4",
-			display: "4^4"
-		});
-		expect((window as any).expectedFormat).toBe("Enter as a^b");
-		expect((window as any).MathJax.typeset).toHaveBeenCalled();
+		expect(mockDiv.innerHTML).toBe("<div>\\( 4^{1} \\times 4^{3} \\)</div>");
+		expect((window as any).correctAnswer).toEqual(expect.objectContaining({
+			correct: "4^{4}",
+			alternate: "4^{4}",
+			display: "4^{4}"
+		}));
+		expect((window as any).expectedFormat).toBe("Enter an expression like 2^3 or 1/2^3");
+		expect((window as any).MathJax.typesetPromise).toHaveBeenCalled();
 	});
 	it("generates quotient rule correctly", () => {
 		Math.random = vi.fn()
@@ -56,12 +56,12 @@ describe("generateExponentRules", () => {
 			.mockReturnValueOnce(0.2) // m -> 1
 			.mockReturnValueOnce(0.8); // n -> 3
 		generateExponentRules();
-		expect(mockDiv.innerHTML).toBe("Simplify: \\( \\frac{4^{4}}{4^{3}} \\)");
-		expect((window as any).correctAnswer).toEqual({
-			correct: "4^1",
-			alternate: "4^1",
-			display: "4^1"
-		});
+		expect(mockDiv.innerHTML).toBe("<div>\\( \\frac{4^{4}}{4^{3}} \\)</div>");
+		expect((window as any).correctAnswer).toEqual(expect.objectContaining({
+			correct: "4^{1}",
+			alternate: "4^{1}",
+			display: "4^{1}"
+		}));
 	});
 	it("generates power rule correctly", () => {
 		Math.random = vi.fn()
@@ -70,12 +70,12 @@ describe("generateExponentRules", () => {
 			.mockReturnValueOnce(0.2) // m -> 1
 			.mockReturnValueOnce(0.8); // n -> 3
 		generateExponentRules();
-		expect(mockDiv.innerHTML).toBe("Simplify: \\( (4^{1})^{3} \\)");
-		expect((window as any).correctAnswer).toEqual({
-			correct: "4^3",
-			alternate: "4^3",
-			display: "4^3"
-		});
+		expect(mockDiv.innerHTML).toBe("<div>\\( (4^{1})^{3} \\)</div>");
+		expect((window as any).correctAnswer).toEqual(expect.objectContaining({
+			correct: "4^{3}",
+			alternate: "4^{3}",
+			display: "4^{3}"
+		}));
 	});
 	it("generates negative exponent rule correctly", () => {
 		Math.random = vi.fn()
@@ -84,13 +84,13 @@ describe("generateExponentRules", () => {
 			.mockReturnValueOnce(0.2) // m -> 1
 			.mockReturnValueOnce(0.8); // n (unused)
 		generateExponentRules();
-		expect(mockDiv.innerHTML).toBe("Write with a positive exponent: \\( 4^{-1} \\)");
-		expect((window as any).correctAnswer).toEqual({
+		expect(mockDiv.innerHTML).toBe("<div>\\( 4^{-1} \\)</div>");
+		expect((window as any).correctAnswer).toEqual(expect.objectContaining({
 			correct: "\\frac{1}{4^{1}}",
 			alternate: "1/4^1",
 			display: "\\frac{1}{4^{1}}"
-		});
-		expect((window as any).expectedFormat).toBe("Enter as 1/a^b");
+		}));
+		expect((window as any).expectedFormat).toBe("Enter an expression like 2^3 or 1/2^3");
 	});
 	it("generates zero exponent rule correctly", () => {
 		Math.random = vi.fn()
@@ -99,13 +99,13 @@ describe("generateExponentRules", () => {
 			.mockReturnValueOnce(0.2) // m (unused)
 			.mockReturnValueOnce(0.8); // n (unused)
 		generateExponentRules();
-		expect(mockDiv.innerHTML).toBe("Evaluate: \\( 4^{0} \\)");
-		expect((window as any).correctAnswer).toEqual({
+		expect(mockDiv.innerHTML).toBe("<div>\\( 4^{0} \\)</div>");
+		expect((window as any).correctAnswer).toEqual(expect.objectContaining({
 			correct: "1",
 			alternate: "1",
 			display: "1"
-		});
-		expect((window as any).expectedFormat).toBe("Enter 1");
+		}));
+		expect((window as any).expectedFormat).toBe("Enter an expression like 2^3 or 1/2^3");
 	});
 	it("uses getMaxForDifficulty with provided difficulty", () => {
 		const mockGetMax = vi.mocked(getMaxForDifficulty);

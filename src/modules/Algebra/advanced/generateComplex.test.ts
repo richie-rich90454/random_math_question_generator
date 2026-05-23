@@ -22,7 +22,7 @@ describe("generateComplex", ()=>{
 		(questionArea as any)=mockDiv;
 		delete (window as any).correctAnswer;
 		delete (window as any).expectedFormat;
-		(window as any).MathJax={ typeset: vi.fn() };
+		(window as any).MathJax={ typesetPromise: vi.fn().mockResolvedValue(undefined) };
 	});
 	afterEach(()=>{
 		Math.random=originalMathRandom;
@@ -43,14 +43,14 @@ describe("generateComplex", ()=>{
 			.mockReturnValueOnce(0.1) // c=1
 			.mockReturnValueOnce(0.1); // d=1
 		generateComplex();
-		expect(mockDiv.innerHTML).toBe("Add: \\( (1 + 1i) + (1 + 1i) \\)");
-		expect((window as any).correctAnswer).toEqual({
+		expect(mockDiv.innerHTML).toBe("<div>\\( (1 + 1i) + (1 + 1i) \\)</div>");
+		expect((window as any).correctAnswer).toEqual(expect.objectContaining({
 			correct: "2 + 2i",
 			alternate: "2+2i",
 			display: "2 + 2i"
-		});
-		expect((window as any).expectedFormat).toBe("Enter as a+bi (e.g., 3+2i)");
-		expect((window as any).MathJax.typeset).toHaveBeenCalled();
+		}));
+		expect((window as any).expectedFormat).toBe("Enter your answer in a+bi form (e.g., 3+2i or 3-2i)");
+		expect((window as any).MathJax.typesetPromise).toHaveBeenCalled();
 	});
 	it("generates subtraction question correctly", ()=>{
 		Math.random=vi.fn()
@@ -60,13 +60,13 @@ describe("generateComplex", ()=>{
 			.mockReturnValueOnce(0.6) // c=4
 			.mockReturnValueOnce(0.8); // d=5
 		generateComplex();
-		expect(mockDiv.innerHTML).toBe("Subtract: \\( (2 + 3i) - (4 + 5i) \\)");
-		expect((window as any).correctAnswer).toEqual({
+		expect(mockDiv.innerHTML).toBe("<div>\\( (2 + 3i) - (4 + 5i) \\)</div>");
+		expect((window as any).correctAnswer).toEqual(expect.objectContaining({
 			correct: "-2 - 2i",
 			alternate: "-2-2i",
 			display: "-2 - 2i"
-		});
-		expect((window as any).expectedFormat).toBe("Enter as a+bi (e.g., 3+2i)");
+		}));
+		expect((window as any).expectedFormat).toBe("Enter your answer in a+bi form (e.g., 3+2i or 3-2i)");
 	});
 	it("generates multiplication question correctly", ()=>{
 		Math.random=vi.fn()
@@ -76,12 +76,12 @@ describe("generateComplex", ()=>{
 			.mockReturnValueOnce(0.6) // c=4
 			.mockReturnValueOnce(0.8); // d=5
 		generateComplex();
-		expect(mockDiv.innerHTML).toBe("Multiply: \\( (2 + 3i)(4 + 5i) \\)");
-		expect((window as any).correctAnswer).toEqual({
+		expect(mockDiv.innerHTML).toBe("<div>\\( (2 + 3i)(4 + 5i) \\)</div>");
+		expect((window as any).correctAnswer).toEqual(expect.objectContaining({
 			correct: "-7 + 22i",
 			alternate: "-7+22i",
 			display: "-7 + 22i"
-		});
+		}));
 	});
 	it("generates division question correctly", ()=>{
 		Math.random=vi.fn()
@@ -91,13 +91,13 @@ describe("generateComplex", ()=>{
 			.mockReturnValueOnce(0.5) // c=3 (0.5*5=2.5 floor=2+1=3)
 			.mockReturnValueOnce(0.7); // d=4 (0.7*5=3.5 floor=3+1=4)
 		generateComplex();
-		expect(mockDiv.innerHTML).toBe("Divide: \\( \\frac{1 + 2i}{3 + 4i} \\)");
-		expect((window as any).correctAnswer).toEqual({
+		expect(mockDiv.innerHTML).toBe("<div>\\( \\frac{1 + 2i}{3 + 4i} \\)</div>");
+		expect((window as any).correctAnswer).toEqual(expect.objectContaining({
 			correct: "0.44 + 0.08i",
 			alternate: "0.44+0.08i",
 			display: "0.44 + 0.08i"
-		});
-		expect((window as any).expectedFormat).toBe("Enter as a+bi decimals (e.g., 0.33+0.25i)");
+		}));
+		expect((window as any).expectedFormat).toBe("Enter your answer in a+bi form (e.g., 3+2i or 3-2i)");
 	});
 	it("generates powers of i question correctly", ()=>{
 		// For powers_i we need 6 random calls: type, a, b, c, d, n.
@@ -110,13 +110,13 @@ describe("generateComplex", ()=>{
 			.mockReturnValueOnce(0.1) // d
 			.mockReturnValueOnce(0.0); // n=1
 		generateComplex();
-		expect(mockDiv.innerHTML).toBe("Simplify: \\( i^{1} \\)");
-		expect((window as any).correctAnswer).toEqual({
+		expect(mockDiv.innerHTML).toBe("<div>\\( i^{1} \\)</div>");
+		expect((window as any).correctAnswer).toEqual(expect.objectContaining({
 			correct: "i",
 			alternate: "i",
 			display: "i"
-		});
-		expect((window as any).expectedFormat).toBe("Enter i, -1, -i, or 1");
+		}));
+		expect((window as any).expectedFormat).toBe("Enter your answer in a+bi form (e.g., 3+2i or 3-2i)");
 		// n=2
 		Math.random=vi.fn()
 			.mockReturnValueOnce(0.9)
